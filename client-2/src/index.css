@@ -1,0 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Abel|Viaoda+Libre&display=swap");
+
+@font-face {
+  font-family: "ONEDAY";
+  src: local("ONEDAY"), url(./assets/fonts/ONEDAY.ttf) format("truetype");
+}
+
+body {
+  font-family: "ONEDAY";
+}
+
+.link {
+  color: #373737;
+  text-decoration: none;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.itemAdded {
+  visibility: visible;
+}
