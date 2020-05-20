@@ -1,0 +1,318 @@
+[
+    {
+      "title": "Brown Brim",
+      "imageUrl": "https://i.ibb.co/ZYW3VTp/brown-brim.png",
+      "price": 25,
+      "size": ["medium"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Blue Beanie",
+      "imageUrl": "https://i.ibb.co/ypkgK0X/blue-beanie.png",
+      "price": 18,
+      "size": ["medium", "large"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Brown Cowboy",
+      "imageUrl": "https://i.ibb.co/QdJwgmp/brown-cowboy.png",
+      "price": 35,
+      "size": ["medium", "large"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Grey Brim",
+      "imageUrl": "https://i.ibb.co/RjBLWxB/grey-brim.png",
+      "price": 25,
+      "size": ["medium", "large"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Green Beanie",
+      "imageUrl": "https://i.ibb.co/YTjW3vF/green-beanie.png",
+      "price": 18,
+      "size": ["small", "medium", "large"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Palm Tree Cap",
+      "imageUrl": "https://i.ibb.co/rKBDvJX/palm-tree-cap.png",
+      "price": 14,
+      "size": ["medium", "large", "xlarge"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Red Beanie",
+      "imageUrl": "https://i.ibb.co/bLB646Z/red-beanie.png",
+      "price": 18,
+      "size": ["small", "medium", "large"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Wolf Cap",
+      "imageUrl": "https://i.ibb.co/1f2nWMM/wolf-cap.png",
+      "price": 14,
+      "size": ["medium", "large", "xlarge"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Blue Snapback",
+      "imageUrl": "https://i.ibb.co/X2VJP2W/blue-snapback.png",
+      "price": 16,
+      "size": ["medium", "large", "xlarge"],
+      "category": "hats",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Adidas NMD",
+      "imageUrl": "https://i.ibb.co/0s3pdnc/adidas-nmd.png",
+      "price": 220,
+      "size": ["medium", "large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Adidas Yeezy",
+      "imageUrl": "https://i.ibb.co/dJbG1cT/yeezy.png",
+      "price": 280,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Black Converse",
+      "imageUrl": "https://i.ibb.co/bPmVXyP/black-converse.png",
+      "price": 110,
+      "size": ["small", "large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Nike White AirForce",
+      "imageUrl": "https://i.ibb.co/1RcFPk0/white-nike-high-tops.png",
+      "price": 160,
+      "size": ["large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Nike Red High Tops",
+      "imageUrl": "https://i.ibb.co/QcvzydB/nikes-red.png",
+      "price": 160,
+      "size": ["medium", "large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Nike Brown High Tops",
+      "imageUrl": "https://i.ibb.co/fMTV342/nike-brown.png",
+      "price": 160,
+      "size": ["large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Air Jordan Limited",
+      "imageUrl": "https://i.ibb.co/w4k6Ws9/nike-funky.png",
+      "price": 190,
+      "size": ["large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Timberlands",
+      "imageUrl": "https://i.ibb.co/Mhh6wBg/timberlands.png",
+      "price": 200,
+      "size": ["large", "xlarge"],
+      "category": "shoes",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Black Jean Shearling",
+      "imageUrl": "https://i.ibb.co/XzcwL5s/black-shearling.png",
+      "price": 125,
+      "size": ["large", "xlarge"],
+      "category": "jackets",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Blue Jean Jacket",
+      "imageUrl": "https://i.ibb.co/mJS6vz0/blue-jean-jacket.png",
+      "price": 90,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "jackets",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Grey Jean Jacket",
+      "imageUrl": "https://i.ibb.co/N71k1ML/grey-jean-jacket.png",
+      "price": 90,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "jackets",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Brown Shearling",
+      "imageUrl": "https://i.ibb.co/s96FpdP/brown-shearling.png",
+      "price": 165,
+      "size": ["small", "xlarge"],
+      "category": "jackets",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Tan Trench",
+      "imageUrl": "https://i.ibb.co/M6hHc3F/brown-trench.png",
+      "price": 185,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "jackets",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Blue Tanktop",
+      "imageUrl": "https://i.ibb.co/7CQVJNm/blue-tank.png",
+      "price": 25,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Floral Blouse",
+      "imageUrl": "https://i.ibb.co/4W2DGKm/floral-blouse.png",
+      "price": 20,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Floral Dress",
+      "imageUrl": "https://i.ibb.co/KV18Ysr/floral-skirt.png",
+      "price": 80,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Red Dots Dress",
+      "imageUrl": "https://i.ibb.co/N3BN1bh/red-polka-dot-dress.png",
+      "price": 80,
+      "size": ["small", "medium"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Striped Sweater",
+      "imageUrl": "https://i.ibb.co/KmSkMbH/striped-sweater.png",
+      "price": 45,
+      "size": ["small", "medium", "large"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Yellow Track Suit",
+      "imageUrl": "https://i.ibb.co/v1cvwNf/yellow-track-suit.png",
+      "price": 135,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "White Blouse",
+      "imageUrl": "https://i.ibb.co/qBcrsJg/white-vest.png",
+      "price": 20,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "womens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Camo Down Vest",
+      "imageUrl": "https://i.ibb.co/xJS0T3Y/camo-vest.png",
+      "price": 325,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Floral T-shirt",
+      "imageUrl": "https://i.ibb.co/qMQ75QZ/floral-shirt.png",
+      "price": 20,
+      "size": ["small", "medium", "xlarge"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Black & White Longsleeve",
+      "imageUrl": "https://i.ibb.co/55z32tw/long-sleeve.png",
+      "price": 25,
+      "size": ["large", "xlarge"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Pink T-shirt",
+      "imageUrl": "https://i.ibb.co/RvwnBL8/pink-shirt.png",
+      "price": 25,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Jean Long Sleeve",
+      "imageUrl": "https://i.ibb.co/VpW4x5t/roll-up-jean-shirt.png",
+      "price": 40,
+      "size": ["small", "medium", "large"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    },
+    {
+      "title": "Burgundy T-shirt",
+      "imageUrl": "https://i.ibb.co/mh3VM1f/polka-dot-shirt.png",
+      "price": 25,
+      "size": ["small", "medium", "large", "xlarge"],
+      "category": "mens",
+      "stock": 50,
+      "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur."
+    }
+  ]
+  
