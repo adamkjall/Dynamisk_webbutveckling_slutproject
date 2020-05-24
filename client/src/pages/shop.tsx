@@ -38,6 +38,7 @@ const Shop: FC<IProps> = ({ query }) => {
   return (
     <Box
       key="0"
+      pad={{ top: "medium", bottom: "medium" }}
       style={{
         gridArea: "main",
         display: "flex",

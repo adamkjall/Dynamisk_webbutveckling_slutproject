@@ -8,11 +8,8 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  useEffect(() => {
-    login();
-  }, []);
-  const login = () => {
-    console.log("login");
+  const login = (email: string, password: string) => {
+    // TODO login API call to server
     const user = {
       firstName: "Adam",
       lastName: "Kjäll",
@@ -30,17 +27,20 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
   };
 
   const logout = () => {
-    console.log("logout");
+    // TODO logout api call to server
     setUser(null);
     setIsAuthenticated(false);
   };
 
   const updateUser = (key: string, value: string) => {
+    // TODO update api call
     setUser((prev) => ({
       ...prev,
       [key]: value,
     }));
   };
+
+  const isAdmin = () => user && user.role === "admin";
 
   return (
     <AuthenticationContext.Provider
@@ -48,6 +48,7 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
       value={{
         user,
         isAuthenticated,
+        isAdmin,
         login,
         logout,
         updateUser,

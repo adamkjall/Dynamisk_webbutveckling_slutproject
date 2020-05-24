@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { Box, Heading, Layer, Stack, Text, ResponsiveContext } from "grommet";
 import { Cart } from "grommet-icons";
 
-import MyCart from "./my-cart";
+import MyCart from "./cart";
 import SearchBar from "./search-bar";
 
 import CartContext from "../contexts/cart-context/context";
@@ -28,7 +28,6 @@ const Header = () => {
       justify="between"
       background="brand"
       pad={{ left: "medium", right: "small", vertical: "small" }}
-      elevation="medium"
       style={{ zIndex: 1 }}
     >
       <Heading

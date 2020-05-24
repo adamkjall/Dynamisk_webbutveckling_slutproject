@@ -17,6 +17,7 @@ const myTheme = {
       mainText: "#FEFFFF",
       buttonBg: "#373737",
       copper: "#ffc29e",
+      focus: "none",
       layer: {
         background: "red",
       },
@@ -44,9 +45,9 @@ function App() {
   return (
     <ErrorBoundary>
       <Grommet theme={deepMerge(grommet, myTheme)} full>
-        <Header />
-        <Menu />
-        <Box height="87vh" margin="large">
+        <Header /> {/* height 8vh */}
+        <Menu /> {/* height 5vh */}
+        <Box height="87vh">
           <AppRouter />
         </Box>
       </Grommet>

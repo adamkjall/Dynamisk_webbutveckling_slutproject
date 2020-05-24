@@ -45,8 +45,13 @@ const MyCheckOut = () => {
   };
 
   return (
-    <Box gridArea="myCheckOut" background="light-6" round="small">
-      <Accordion activeIndex={activeIndex} gridArea="myCheckOut">
+    <Box
+      gridArea="checkout-form"
+      background="light-6"
+      round="small"
+      overflow={{ vertical: "scroll" }}
+    >
+      <Accordion activeIndex={activeIndex}>
         <AccordionPanel onClick={() => setActiveIndex(0)} label="Contacts">
           <Box pad="medium" background="light-2">
             <ContactFormField>

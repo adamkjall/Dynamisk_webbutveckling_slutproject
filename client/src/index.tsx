@@ -4,7 +4,6 @@ import { BrowserRouter } from "react-router-dom";
 
 import App from "./App";
 
-import "./assets/fonts/ONEDAY.ttf";
 import "./index.css";
 
 import ApplicationContextProvider from "./contexts";
@@ -17,4 +16,3 @@ ReactDOM.render(
   </BrowserRouter>,
   document.getElementById("root")
 );
-

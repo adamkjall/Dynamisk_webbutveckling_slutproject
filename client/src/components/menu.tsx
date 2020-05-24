@@ -1,11 +1,13 @@
-import React from "react";
-
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { Nav, Text, Box, ResponsiveContext, Menu } from "grommet";
 
+import AuthenticationContext from "../contexts/authentication-context/context";
+
 const MyMenu = () => {
   const history = useHistory();
+  const { isAdmin } = useContext(AuthenticationContext);
 
   return (
     <Box
@@ -13,7 +15,7 @@ const MyMenu = () => {
       direction="row"
       justify="between"
       align="center"
-      elevation="xsmall"
+      elevation="small"
       pad="small"
     >
       <ResponsiveContext.Consumer>
@@ -70,9 +72,15 @@ const MyMenu = () => {
         }
       </ResponsiveContext.Consumer>
       <Text size="medium">
-        <Link className="link" to="/admin">
-          Admin
-        </Link>
+        {isAdmin() ? (
+          <Link className="link" to="/admin">
+            Admin
+          </Link>
+        ) : (
+          <Link className="link" to="/login">
+            Login
+          </Link>
+        )}
       </Text>
     </Box>
   );

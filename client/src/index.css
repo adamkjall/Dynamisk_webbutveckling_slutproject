@@ -5,6 +5,10 @@
   src: local("ONEDAY"), url(./assets/fonts/ONEDAY.ttf) format("truetype");
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   font-family: "ONEDAY";
 }
@@ -20,4 +24,10 @@ body {
 
 .itemAdded {
   visibility: visible;
+}
+
+/* Removes ugly grommet styling */
+button {
+  outline: none !important;
+  box-shadow: none !important;
 }

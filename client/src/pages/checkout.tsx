@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Grid, Box, Image, ResponsiveContext, Main } from "grommet";
 
-import MyCheckOut from "../components/my-checkout";
+import CheckoutForm from "../components/checkout-form";
 import CartItems from "../components/cart-items";
 
 import clothesOnRackImg from "../assets/images/clothesonrack.jpg";
@@ -13,7 +13,6 @@ const Checkout = () => {
     | "medium"
     | "large"
     | "xlarge";
-  console.log(size);
 
   const columns = {
     small: ["auto"],
@@ -30,25 +29,26 @@ const Checkout = () => {
   };
 
   const areas = {
-    small: [{ name: "myCheckOut", start: [0, 0], end: [0, 0] }],
+    small: [{ name: "checkout-form", start: [0, 0], end: [0, 0] }],
     medium: [
-      { name: "myCheckOut", start: [0, 0], end: [0, 1] },
+      { name: "checkout-form", start: [0, 0], end: [0, 1] },
       { name: "cart", start: [1, 0], end: [1, 0] },
       { name: "image", start: [1, 1], end: [1, 1] },
     ],
     large: [
-      { name: "myCheckOut", start: [0, 0], end: [0, 1] },
+      { name: "checkout-form", start: [0, 0], end: [0, 1] },
       { name: "cart", start: [1, 0], end: [1, 0] },
       { name: "image", start: [1, 1], end: [1, 1] },
     ],
     xlarge: [
-      { name: "myCheckOut", start: [0, 0], end: [0, 1] },
+      { name: "checkout-form", start: [0, 0], end: [0, 1] },
       { name: "cart", start: [1, 0], end: [1, 0] },
       { name: "image", start: [1, 1], end: [1, 1] },
     ],
   };
 
-  const myCheckout = <MyCheckOut key="0" />;
+  const checkoutForm = <CheckoutForm key="0" />;
+
   const cart = (
     <Box
       gridArea="cart"
@@ -57,9 +57,10 @@ const Checkout = () => {
       key="1"
       style={{ overflowY: "scroll" }}
     >
-      <CartItems />
+      <CartItems locked />
     </Box>
   );
+
   const checkOutImage = (
     <Box gridArea="image" round="small" key="2">
       <Image
@@ -76,18 +77,20 @@ const Checkout = () => {
   );
 
   const components = {
-    small: [myCheckout],
-    medium: [myCheckout, cart, checkOutImage],
-    large: [myCheckout, cart, checkOutImage],
-    xlarge: [myCheckout, cart, checkOutImage],
+    small: [checkoutForm],
+    medium: [checkoutForm, cart, checkOutImage],
+    large: [checkoutForm, cart, checkOutImage],
+    xlarge: [checkoutForm, cart, checkOutImage],
   };
+
   return (
-    <Main>
+    <Main pad="medium">
       <Grid
         rows={rows[size]}
         columns={columns[size]}
         gap="small"
         areas={areas[size]}
+        fill="vertical"
       >
         {components[size]}
       </Grid>

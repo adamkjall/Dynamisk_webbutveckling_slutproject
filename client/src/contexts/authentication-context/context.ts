@@ -14,16 +14,18 @@ export interface User {
 
 interface IContext {
   isAuthenticated: boolean;
+  isAdmin: () => boolean;
   user: User | null;
-  login: () => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
   updateUser: (key: string, value: string) => void;
 }
 
 export default React.createContext<IContext>({
   isAuthenticated: false,
+  isAdmin: () => false,
   user: null,
-  login: () => {},
+  login: (email: string, password: string) => {},
   logout: () => {},
   updateUser: (key: string, value: string) => {},
 });
