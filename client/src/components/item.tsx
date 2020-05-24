@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
+
 import { withRouter, RouteComponentProps } from "react-router-dom";
+
 import { Box, Button, Layer } from "grommet";
-import CartContext from "../contexts/cart-context/context";
-import ItemDetails from "../components/item-detail";
 import { Close } from "grommet-icons";
 
+import CartContext from "../contexts/cart-context/context";
+import ItemDetails from "../components/item-detail";
+
+import { CollectionItem } from "../shop.data";
+
 interface Iprops extends RouteComponentProps {
-  item: any;
+  item: CollectionItem;
 }
 
 const Item = ({ item, history, match, location }: Iprops) => {
@@ -68,7 +73,7 @@ const Item = ({ item, history, match, location }: Iprops) => {
         <Box direction="column" align="center" fill justify="around">
           <Button
             primary
-            onClick={event => {
+            onClick={(event) => {
               addItemToCart(item);
               const itemComponent = event.target as HTMLButtonElement;
               itemComponent.innerText = "Item added";

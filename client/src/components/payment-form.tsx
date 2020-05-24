@@ -1,16 +1,17 @@
 import React, { useContext } from "react";
+
 import { Form, RadioButtonGroup } from "grommet";
 
 import FormFieldLabel from "./form-field-fabel";
 
-import UserContext from "../contexts/user-context/context";
+import AuthenticationContext from "../contexts/authentication-context/context";
 import CartContext from "../contexts/cart-context/context";
 import { PaymentMethod } from "../contexts/cart-context/context-provider";
 
 interface IProps {}
 
 const PaymentForm = (props: IProps) => {
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUser } = useContext(AuthenticationContext);
   const { paymentMethod, setPaymentMethod } = useContext(CartContext);
 
   return (
@@ -22,10 +23,10 @@ const PaymentForm = (props: IProps) => {
         options={[
           { label: "Card", value: "card" },
           { label: "Swish", value: "swish" },
-          { label: "Invoice", value: "invoice" }
+          { label: "Invoice", value: "invoice" },
         ]}
         value={paymentMethod}
-        onChange={event =>
+        onChange={(event) =>
           setPaymentMethod(event.target.value as PaymentMethod)
         }
         {...props}
@@ -56,7 +57,7 @@ const PaymentForm = (props: IProps) => {
           required
           type="number"
           value={user.card}
-          onChange={e => updateUser("card", e.target.value)}
+          onChange={(e) => updateUser("card", e.target.value)}
         />
       )}
     </Form>

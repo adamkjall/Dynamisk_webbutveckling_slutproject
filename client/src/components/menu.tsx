@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Link, useHistory } from "react-router-dom";
+
 import { Nav, Text, Box, ResponsiveContext, Menu } from "grommet";
 
 const MyMenu = () => {
@@ -15,7 +17,7 @@ const MyMenu = () => {
       pad="small"
     >
       <ResponsiveContext.Consumer>
-        {responsive =>
+        {(responsive) =>
           responsive === "small" ? (
             <Menu
               label="Menu"
@@ -23,17 +25,17 @@ const MyMenu = () => {
                 { label: "Mens", onClick: () => history.push("/shop/mens") },
                 {
                   label: "Womens",
-                  onClick: () => history.push("/shop/womens")
+                  onClick: () => history.push("/shop/womens"),
                 },
                 { label: "Hats", onClick: () => history.push("/shop/hats") },
                 {
                   label: "Jackets",
-                  onClick: () => history.push("/shop/jackets")
+                  onClick: () => history.push("/shop/jackets"),
                 },
                 {
                   label: "Sneakers",
-                  onClick: () => history.push("/shop/sneakers")
-                }
+                  onClick: () => history.push("/shop/sneakers"),
+                },
               ]}
             />
           ) : (

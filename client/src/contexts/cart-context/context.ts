@@ -3,7 +3,7 @@ import { ShippingMethod, PaymentMethod } from "./context-provider";
 
 import { CollectionItem } from "../../shop.data";
 
-interface IState {
+interface IContext {
   cart: CollectionItem[];
   shippingMethod: ShippingMethod;
   setShippingMethod: (method: ShippingMethod) => void;
@@ -16,7 +16,7 @@ interface IState {
   shippingCost: number;
 }
 
-export default createContext<IState>({
+export default createContext<IContext>({
   cart: [],
   shippingMethod: "postNord",
   setShippingMethod: () => {},
@@ -26,5 +26,5 @@ export default createContext<IState>({
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
   clearCart: () => {},
-  shippingCost: 0
+  shippingCost: 0,
 });

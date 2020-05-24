@@ -1,18 +1,20 @@
 import React, { useState, useContext } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+
 import {
   FormField,
   TextInput,
   Button,
   Form,
   Box,
-  ResponsiveContext
+  ResponsiveContext,
 } from "grommet";
 import { Search } from "grommet-icons";
 
-const SearchBar = ({ history, match }: RouteComponentProps) => {
+const SearchBar = () => {
   const [input, setInput] = useState("");
   const responsive = useContext(ResponsiveContext);
+  const history = useHistory();
 
   const handleSubmit = () => {
     history.push("/shop/search/" + input);
@@ -24,7 +26,7 @@ const SearchBar = ({ history, match }: RouteComponentProps) => {
       <Box direction="row">
         <FormField>
           <TextInput
-            onChange={e => setInput(e.target.value)}
+            onChange={(e) => setInput(e.target.value)}
             value={input}
             placeholder="Sök"
             size="medium"
@@ -40,4 +42,4 @@ const SearchBar = ({ history, match }: RouteComponentProps) => {
   );
 };
 
-export default withRouter(SearchBar);
+export default SearchBar;

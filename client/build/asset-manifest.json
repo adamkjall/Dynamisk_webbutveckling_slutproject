@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.52c6f55c.chunk.css",
+    "main.js": "/static/js/main.81aa9481.chunk.js",
+    "main.js.map": "/static/js/main.81aa9481.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.8d84ae65.js",
+    "runtime-main.js.map": "/static/js/runtime-main.8d84ae65.js.map",
+    "static/js/2.f0ed0660.chunk.js": "/static/js/2.f0ed0660.chunk.js",
+    "static/js/2.f0ed0660.chunk.js.map": "/static/js/2.f0ed0660.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.644adb095ba85c683c693ac26543450e.js": "/precache-manifest.644adb095ba85c683c693ac26543450e.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.52c6f55c.chunk.css.map": "/static/css/main.52c6f55c.chunk.css.map",
+    "static/js/2.f0ed0660.chunk.js.LICENSE.txt": "/static/js/2.f0ed0660.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/ONEDAY.8eb8c7e7.ttf",
+    "static/media/clothesonrack.jpg": "/static/media/clothesonrack.67b1fa4b.jpg",
+    "static/media/collection.jpg": "/static/media/collection.ec75005d.jpg",
+    "static/media/fallcollection.jpg": "/static/media/fallcollection.89c1945a.jpg",
+    "static/media/manwithshirtwide.jpg": "/static/media/manwithshirtwide.2acfaf9d.jpg",
+    "static/media/sale.jpg": "/static/media/sale.aada21b5.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.8d84ae65.js",
+    "static/js/2.f0ed0660.chunk.js",
+    "static/css/main.52c6f55c.chunk.css",
+    "static/js/main.81aa9481.chunk.js"
+  ]
+}

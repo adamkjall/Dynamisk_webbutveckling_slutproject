@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import {
   Button,
   Table,
@@ -8,10 +9,12 @@ import {
   TableBody,
   Image,
   Box,
-  ResponsiveContext
+  ResponsiveContext,
 } from "grommet";
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
+
 import CartContext from "../contexts/cart-context/context";
+
 import { CollectionItem } from "../shop.data";
 
 const CartItems = () => {
@@ -20,7 +23,7 @@ const CartItems = () => {
     removeItemFromCart,
     addItemToCart,
     clearItemFromCart,
-    shippingCost
+    shippingCost,
   } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -76,7 +79,7 @@ const CartItems = () => {
                   <Button
                     icon={<SubtractCircle />}
                     style={{
-                      padding: responsive === "small" ? "0.2rem" : "0.4rem"
+                      padding: responsive === "small" ? "0.2rem" : "0.4rem",
                     }}
                     onClick={() => removeItemFromCart(item.id)}
                   />
@@ -88,7 +91,7 @@ const CartItems = () => {
                 <Button
                   size="small"
                   style={{
-                    padding: responsive === "small" ? "0.2rem" : "0.4rem"
+                    padding: responsive === "small" ? "0.2rem" : "0.4rem",
                   }}
                   icon={<AddCircle />}
                   onClick={() => addItemToCart(item)}
@@ -98,7 +101,7 @@ const CartItems = () => {
                 <Button
                   size="small"
                   style={{
-                    padding: responsive === "small" ? "0.2rem" : "0.4rem"
+                    padding: responsive === "small" ? "0.2rem" : "0.4rem",
                   }}
                   onClick={() => clearItemFromCart(item.id)}
                   icon={<Close />}

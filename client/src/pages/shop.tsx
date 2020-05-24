@@ -1,19 +1,19 @@
-import React, { FC, useEffect, useState, useContext } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
-import { Grid, Box, ResponsiveContext } from "grommet";
+import { Box } from "grommet";
 
-import Directory from "../components/directory";
 import Item from "../components/item";
 
 import { Collection, CollectionItem } from "../shop.data";
 
-interface IProps {}
+interface IProps {
+  query: string;
+}
 
-const Shop: FC<IProps> = () => {
+const Shop: FC<IProps> = ({ query }) => {
   const [collections, setCollection] = useState<Collection[]>([]);
-
-  const { category, query = "" } = useParams();
+  const { category } = useParams();
 
   useEffect(() => {
     const localStorageCollections = localStorage.getItem("collection");
@@ -35,42 +35,7 @@ const Shop: FC<IProps> = () => {
   const matchWithQuery = (item: CollectionItem): boolean =>
     item.name.toLowerCase().includes(query.trim().toLowerCase());
 
-  const size = useContext(ResponsiveContext) as
-    | "small"
-    | "medium"
-    | "large"
-    | "xlarge";
-
-  const columns = {
-    small: ["auto"],
-    medium: ["auto", "auto"],
-    large: ["auto", "auto"],
-    xlarge: ["auto", "auto"]
-  };
-
-  const rows = {
-    small: ["auto"],
-    medium: ["auto", "auto"],
-    large: ["auto", "auto"],
-    xlarge: ["auto", "auto"]
-  };
-
-  const areas = {
-    small: [{ name: "main", start: [0, 0], end: [0, 0] }],
-    medium: [
-      { name: "directory", start: [0, 0], end: [0, 0] },
-      { name: "main", start: [1, 0], end: [1, 0] }
-    ],
-    large: [
-      { name: "directory", start: [0, 0], end: [0, 0] },
-      { name: "main", start: [1, 0], end: [1, 0] }
-    ],
-    xlarge: [
-      { name: "directory", start: [0, 0], end: [0, 0] },
-      { name: "main", start: [1, 0], end: [1, 0] }
-    ]
-  };
-  const main = (
+  return (
     <Box
       key="0"
       style={{
@@ -80,7 +45,7 @@ const Shop: FC<IProps> = () => {
         flexWrap: "wrap",
         margin: "small",
         justifyContent: "center",
-        overflowY: "scroll"
+        overflowY: "scroll",
       }}
     >
       {category === "search" && query
@@ -93,26 +58,6 @@ const Shop: FC<IProps> = () => {
             <Item key={item.id} item={item} />
           ))}
     </Box>
-  );
-  const directory = <Directory key="1" />;
-
-  const components = {
-    small: [main],
-    medium: [main, directory],
-    large: [main, directory],
-    xlarge: [main, directory]
-  };
-  return (
-    <Grid
-      fill
-      responsive={true}
-      areas={areas[size]}
-      columns={columns[size]}
-      rows={rows[size]}
-      gap="small"
-    >
-      {components[size]}
-    </Grid>
   );
 };
 

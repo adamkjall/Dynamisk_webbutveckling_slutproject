@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Main,
   Text,
@@ -9,11 +10,13 @@ import {
   Layer,
   Form,
   TextArea,
-  CheckBox
+  CheckBox,
 } from "grommet";
+import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
+
 import FormFieldLabel from "../components/form-field-fabel";
+
 import { Collection, CollectionItem } from "../shop.data";
-import { AddCircle, SubtractCircle, FormEdit, Split } from "grommet-icons";
 
 const initialInputs = {
   name: "",
@@ -21,7 +24,7 @@ const initialInputs = {
   price: "",
   size: [""],
   season: [""],
-  description: ""
+  description: "",
 };
 
 const Admin = () => {
@@ -51,14 +54,14 @@ const Admin = () => {
       price: Number(inputs.price),
       size: inputs.size,
       season: inputs.season,
-      description: inputs.description
+      description: inputs.description,
     };
 
-    const updatedCollections = collections.map(collection => {
+    const updatedCollections = collections.map((collection) => {
       if (collection.routeName === category) {
         return {
           ...collection,
-          items: [...collection.items, item]
+          items: [...collection.items, item],
         };
       } else {
         return { ...collection };
@@ -71,9 +74,9 @@ const Admin = () => {
   };
 
   const removeFromCollection = (itemId: number) => {
-    const updatedCollections = collections.map(collection => ({
+    const updatedCollections = collections.map((collection) => ({
       ...collection,
-      items: collection.items.filter(item => item.id !== itemId)
+      items: collection.items.filter((item) => item.id !== itemId),
     }));
 
     setCollections(updatedCollections);
@@ -81,10 +84,10 @@ const Admin = () => {
   };
 
   const editItem = () => {
-    const updatedCollections = collections.map(collection => {
+    const updatedCollections = collections.map((collection) => {
       if (itemToEdit !== undefined) {
         let itemIndex = collection.items.findIndex(
-          item => item.id === itemToEdit.id
+          (item) => item.id === itemToEdit.id
         );
 
         if (itemIndex !== -1) {
@@ -96,7 +99,7 @@ const Admin = () => {
             price: Number(inputs.price),
             size: inputs.size,
             season: inputs.season,
-            description: inputs.description
+            description: inputs.description,
           };
         }
       }
@@ -111,7 +114,7 @@ const Admin = () => {
   const calculateNextItemId = () => {
     let highestId =
       collections
-        .map(collection => collection.items.map(item => item.id))
+        .map((collection) => collection.items.map((item) => item.id))
         .flat()
         .sort((a, b) => a - b)
         .pop() || 0;
@@ -120,7 +123,7 @@ const Admin = () => {
   };
 
   const handleInputs = (name: string, value: string) => {
-    setInputs(prev => ({ ...prev, [name]: value }));
+    setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
   const setInputsToItemData = (item: CollectionItem) => {
@@ -130,7 +133,7 @@ const Admin = () => {
       price: item.price + "",
       size: item.size,
       season: item.season,
-      description: item.description
+      description: item.description,
     });
   };
 
@@ -204,7 +207,7 @@ const Admin = () => {
                   required
                   type="text"
                   value={inputs.name}
-                  onChange={e => handleInputs("name", e.target.value)}
+                  onChange={(e) => handleInputs("name", e.target.value)}
                 />
                 <FormFieldLabel
                   name="Price"
@@ -212,7 +215,7 @@ const Admin = () => {
                   required
                   type="text"
                   value={inputs.price}
-                  onChange={e => handleInputs("price", e.target.value)}
+                  onChange={(e) => handleInputs("price", e.target.value)}
                 />
                 <FormFieldLabel
                   name="ImageUrl"
@@ -220,7 +223,7 @@ const Admin = () => {
                   required
                   type="text"
                   value={inputs.imageUrl}
-                  onChange={e => handleInputs("imageUrl", e.target.value)}
+                  onChange={(e) => handleInputs("imageUrl", e.target.value)}
                 />
                 <Text>Sizes</Text>
                 <Box direction="row">
@@ -241,7 +244,7 @@ const Admin = () => {
                   value={inputs.description}
                   name="Description"
                   required
-                  onChange={e => handleInputs("description", e.target.value)}
+                  onChange={(e) => handleInputs("description", e.target.value)}
                 />
                 {editOrAdd === "add" ? (
                   <Button onClick={addToCollection} label="Add to collection" />
