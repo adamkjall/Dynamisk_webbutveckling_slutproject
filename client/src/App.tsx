@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 
+import { Grommet, Box, grommet } from "grommet";
+import { deepMerge } from "grommet/utils";
+
 import Header from "./components/header";
 import Menu from "./components/menu";
 import Home from "./pages/home";
 import Shop from "./pages/shop";
 import Checkout from "./pages/checkout";
-import { Grommet, Box, grommet } from "grommet";
-import { deepMerge } from "grommet/utils";
-import Admin from "./pages/adminPage";
+import Admin from "./pages/admin-page";
+
 
 import SHOP_DATA from "./shop.data";
 

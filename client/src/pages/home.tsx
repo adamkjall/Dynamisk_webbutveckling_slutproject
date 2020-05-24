@@ -1,9 +1,12 @@
 import React, { useContext } from "react";
+
+import { Grid, ResponsiveContext } from "grommet";
+
 import HomeHeader from "../components/home-boxes/home-header";
 import HomeCollection from "../components/home-boxes/home-collection";
 import HomeSale from "../components/home-boxes/home-sale";
 import FallCollection from "../components/home-boxes/home-fallcollection";
-import { Grid, ResponsiveContext } from "grommet";
+
 
 const Home = () => {
   const size = useContext(ResponsiveContext) as
