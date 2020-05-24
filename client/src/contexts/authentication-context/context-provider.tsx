@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 
 import AuthenticationContext, { User } from "./context";
 
@@ -8,6 +8,9 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
+  useEffect(() => {
+    login();
+  }, []);
   const login = () => {
     console.log("login");
     const user = {

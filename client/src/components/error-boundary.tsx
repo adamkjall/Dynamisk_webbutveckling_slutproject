@@ -38,8 +38,10 @@ export default class ErrorBoundary extends Component<Props, State> {
           {/* <span className="close">&times;</span> */}
           <h2>App Crashed</h2>
           <p>Something has went horribly wrong.</p>
-          {error}
-          <Link to="/">Back to home page</Link>
+          {console.log(error)}
+          <Link to="/">
+            <p>Back to home page</p>
+          </Link>
         </div>
       </StyledErrorBoundary>
     ) : (

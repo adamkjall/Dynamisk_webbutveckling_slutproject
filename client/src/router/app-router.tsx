@@ -7,6 +7,7 @@ import Home from "../pages/home";
 import Shop from "../pages/shop";
 import Checkout from "../pages/checkout";
 import Admin from "../pages/admin-page";
+import SignInSignUp from "../pages/sign-in-sign-up";
 
 /**
  * Main application router
@@ -21,8 +22,9 @@ const AppRouter = () => (
   <Switch>
     <Route exact path="/" component={Home} />
     <Route path="/shop/:category" component={Shop} />
+    <Route exact path="/login" component={SignInSignUp} />
     <ProtectedRoute exact path="/checkout" component={Checkout} />
-    <ProtectedRoute exact path="/admin" component={Admin} />
+    <ProtectedRoute exact admin path="/admin" component={Admin} />
   </Switch>
 );
 

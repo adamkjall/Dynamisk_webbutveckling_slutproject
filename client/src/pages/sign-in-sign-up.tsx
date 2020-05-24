@@ -1,5 +1,13 @@
 import React from "react";
 
-const SignInSignUp = () => <div></div>;
+import SignIn from "../components/sign-in";
+import SignUp from "../components/sign-up";
+
+const SignInSignUp = () => (
+  <div>
+    <SignIn />
+    <SignUp />
+  </div>
+);
 
 export default SignInSignUp;

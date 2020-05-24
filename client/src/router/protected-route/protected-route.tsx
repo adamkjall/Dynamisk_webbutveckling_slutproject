@@ -21,7 +21,8 @@ const ProtectedRoute: FC<Props> = ({
     <Route
       {...rest}
       render={(props) =>
-        isAuthenticated || (user && user.role === "admin") ? (
+        (admin && isAuthenticated && user && user.role === "admin") ||
+        (!admin && isAuthenticated) ? (
           <Component {...rest} {...props} />
         ) : (
           <Redirect to="/login" />
