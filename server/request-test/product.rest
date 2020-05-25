@@ -10,7 +10,7 @@ GET http://localhost:8080/api/products/productId
 ###
 
 // GET ALL PRODUCTS IN A CATEGORY
-GET http://localhost:8080/api/products/categoryName
+GET http://localhost:8080/api/products/category/categoryName
 
 ###
 
@@ -27,12 +27,12 @@ Content-Type: application/json
     "sizes" : [
         {"size" : "S", "stock" : 2},
         {"size" : "M", "stock" : 7}
-    ],
+    ]
 }
 
 ###
 
-// CREATE PRODUCT
+// UPDATE PRODUCT
 PUT http://localhost:8080/api/products/productId
 Content-Type: application/json
 
@@ -45,7 +45,7 @@ Content-Type: application/json
     "sizes" : [
         {"size" : "S", "stock" : 2},
         {"size" : "M", "stock" : 7}
-    ],
+    ]
 }
 
 ###
