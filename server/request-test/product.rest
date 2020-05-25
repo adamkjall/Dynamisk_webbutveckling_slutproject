@@ -1,0 +1,56 @@
+
+// GET ALL PRODUCTS
+GET http://localhost:8080/api/products
+
+###
+
+// GET ONE PRODUCT
+GET http://localhost:8080/api/products/productId
+
+###
+
+// GET ALL PRODUCTS IN A CATEGORY
+GET http://localhost:8080/api/products/category/categoryName
+
+###
+
+// CREATE PRODUCT
+POST http://localhost:8080/api/products/
+Content-Type: application/json
+
+{
+    "title" : "Produkt titel",
+    "desc" : "Detta är en superfin produkt",
+    "image" : "fin bild",
+    "price" : "5000",
+    "category" : "categoryName",
+    "sizes" : [
+        {"size" : "S", "stock" : 2},
+        {"size" : "M", "stock" : 7}
+    ]
+}
+
+###
+
+// UPDATE PRODUCT
+PUT http://localhost:8080/api/products/productId
+Content-Type: application/json
+
+{
+    "title" : "Ny produkt titel",
+    "desc" : "Detta är ny produktbeskrivning",
+    "image" : "fin bild",
+    "price" : "5000",
+    "category" : "categoryName",
+    "sizes" : [
+        {"size" : "S", "stock" : 2},
+        {"size" : "M", "stock" : 7}
+    ]
+}
+
+###
+
+// DELETE A PRODUCT
+DELETE http://localhost:8080/api/products/productId
+
+###

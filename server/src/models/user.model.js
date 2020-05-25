@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+mongoose.set('useCreateIndex', true);
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -22,7 +23,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required: true
 	},
-	streetAdress: { 
+	streetAddress: { 
         type: String,
         required: true
 	},

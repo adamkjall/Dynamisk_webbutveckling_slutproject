@@ -1,0 +1,37 @@
+
+//GET ALL ORDERS
+GET http://localhost:8080/api/orders
+
+###
+
+//GET ALL ORDERS FOR A USER
+GET http://localhost:8080/api/orders/user/id
+
+###
+
+//GET ORDER BY ID
+GET http://localhost:8080/api/orders/orderId
+
+###
+
+//POST ORDER
+POST http://localhost:8080/api/orders
+Content-Type: application/json
+
+{
+    "toAddress" : "Tillgatan 20",
+    "toZipCode" : "420 24",
+    "toCity" : "GOTHENBURG"
+}
+
+###
+
+//UPDATE ORDER
+PUT http://localhost:8080/api/orders/orderId
+Content-Type: application/json
+
+{
+    "toAddress" : "Nygatan 20",
+    "toZipCode" : "420 24",
+    "toCity" : "GOTHENBURG"
+}
