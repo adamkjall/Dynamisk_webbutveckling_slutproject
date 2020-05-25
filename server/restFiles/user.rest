@@ -1,0 +1,51 @@
+GET http://localhost:8080/api/users
+
+###
+GET http://localhost:8080/api/users/USERID
+
+###
+POST http://localhost:8080/api/users/
+Content-Type: application/json
+
+{
+    "email" : "hansonjansson@hotmail.com",
+    "password" : "hansonjansson",
+    "firstName" : "Hans",
+    "lastName" : "Jansson",
+    "phoneNumber" : 07007007070,
+    "streetAddress" : "Hansons gata 1",
+    "zipCode" : 12345,
+    "city" : "Hjo",
+    "isAdmin" : false
+}
+
+###
+PUT http://localhost:8080/api/users/USERID
+Content-Type: application/json
+
+{
+    "email" : "hansonjansson@hotmail.com",
+    "password" : "hansonjansson",
+    "firstName" : "Hans",
+    "lastName" : "Jansson",
+    "phoneNumber" : 07007007070,
+    "streetAddress" : "Hansons gata 1",
+    "zipCode" : 12345,
+    "city" : "Hjo",
+    "isAdmin" : false
+}
+
+###
+DELETE http://localhost:8080/api/users/USERID
+
+###
+POST http://localhost:8080/api/users/login/
+Content-Type: application/json
+
+{
+    "email" : "hansonjansson@hotmail.com",
+    "password" : "hansonjansson",
+}
+
+###
+DELETE http://localhost:8080/api/users/logout/

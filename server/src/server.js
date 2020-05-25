@@ -7,8 +7,10 @@ require("dotenv").config();
 const { connectToDb } = require("./mongo");
 
 /* Import routes */
-const productRouter = require("./routers/product.router");
 const orderRouter = require("./routers/order.router")
+const paymentRouter = require("./routers/payment.router")
+const productRouter = require("./routers/product.router");
+const shipmentRouter = require("./routers/shipment.router");
 const userRouter = require("./routers/user.router");
 
 // run the database
@@ -36,8 +38,11 @@ app.use(
   );
 
 /* Add API resourses */
-// app.use(userRouter);
-// app.use(postRouter);
+app.use('/api/orders', orderRouter);
+app.use('/api/payments', paymentRouter);
+app.use('/api/products', productRouter);
+app.use('/api/shipments', shipmentRouter);
+app.use('/api/users', userRouter);
 
 const PORT = process.env.PORT || 8080;
 
