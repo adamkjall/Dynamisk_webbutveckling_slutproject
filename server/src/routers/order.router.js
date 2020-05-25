@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 })
 
 //GET ALL ORDERS FOR A USER
-router.get('/:userId', (req, res) => {
+router.get('/user/:id', (req, res) => {
     res.status(200).json({ message: "endpoint: Get specific user's orders", params: req.params })
 })
 
@@ -18,8 +18,8 @@ router.get('/:id', (req, res) => {
 })
 
 //POST ORDER
-router.post('/', (res, req) => {
-    res.status(200).json({ message: "endpoint: Get specific order" })
+router.post('/', (req, res) => {
+    res.status(200).json({ message: "endpoint: Get specific order", body: req.body })
 })
 
 //UPDATE ORDER

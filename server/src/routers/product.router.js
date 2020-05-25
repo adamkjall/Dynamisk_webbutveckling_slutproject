@@ -13,7 +13,7 @@ router.get('/:id', (req, res) => {
 })
 
 //GET ALL PRODUCTS IN A CATEGORY
-router.get('/:category', (req, res) => {
+router.get('/category/:id', (req, res) => {
     res.status(200).json({ message: 'endpoint: Get product by category', params: req.params })
 })
 

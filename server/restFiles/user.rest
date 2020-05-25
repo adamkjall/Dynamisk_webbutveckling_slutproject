@@ -12,11 +12,11 @@ Content-Type: application/json
     "password" : "hansonjansson",
     "firstName" : "Hans",
     "lastName" : "Jansson",
-    "phoneNumber" : 07007007070,
+    "phoneNumber" : "07007007070",
     "streetAddress" : "Hansons gata 1",
-    "zipCode" : 12345,
+    "zipCode" : "12345",
     "city" : "Hjo",
-    "isAdmin" : false
+    "isAdmin" : "false"
 }
 
 ###
@@ -28,24 +28,24 @@ Content-Type: application/json
     "password" : "hansonjansson",
     "firstName" : "Hans",
     "lastName" : "Jansson",
-    "phoneNumber" : 07007007070,
+    "phoneNumber" : "07007007070",
     "streetAddress" : "Hansons gata 1",
-    "zipCode" : 12345,
+    "zipCode" : "12345",
     "city" : "Hjo",
-    "isAdmin" : false
+    "isAdmin" : "false"
 }
 
 ###
 DELETE http://localhost:8080/api/users/USERID
 
 ###
-POST http://localhost:8080/api/users/login/
+POST http://localhost:8080/api/users/session/login/
 Content-Type: application/json
 
 {
     "email" : "hansonjansson@hotmail.com",
-    "password" : "hansonjansson",
+    "password" : "hansonjansson"
 }
 
 ###
-DELETE http://localhost:8080/api/users/logout/
+DELETE http://localhost:8080/api/users/session/logout/

@@ -19,15 +19,8 @@ router.put('/:id', (req, res) => {
 })
 
 //DELETE USER
-router.delete('/:name', (req, res) => {
+router.delete('/:id', (req, res) => {
     res.status(200).json({ message: 'endpoint: Delete specific user by id', params: req.params })
-})
-
-// USER ACTIVITY ENDPOINTS
-
-//LOGIN USER
-router.post('/login', (req, res) => {
-    res.status(200).json({ message: 'endpoint: login user' })
 })
 
 //REGISTER USER
@@ -35,8 +28,15 @@ router.post('/', (req, res) => {
     res.status(200).json({ message: 'endpoint: Register user', body: req.body })
 })
 
+// USER SESSION ENDPOINTS
+
+//LOGIN USER
+router.post('/session/login', (req, res) => {
+    res.status(200).json({ message: 'endpoint: login user', body: req.body })
+})
+
 // LOGOUT USER
-router.delete('/logout', (req, res) => {
+router.delete('/session/logout', (req, res) => {
     res.status(200).json({ message: 'endpoint: logout user' })
 })
 

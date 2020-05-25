@@ -5,7 +5,7 @@ GET http://localhost:8080/api/orders
 ###
 
 //GET ALL ORDERS FOR A USER
-GET http://localhost:8080/api/orders/userId
+GET http://localhost:8080/api/orders/user/id
 
 ###
 
@@ -21,7 +21,7 @@ Content-Type: application/json
 {
     "toAddress" : "Tillgatan 20",
     "toZipCode" : "420 24",
-    "toCity" : "GOTHENBURG",
+    "toCity" : "GOTHENBURG"
 }
 
 ###
@@ -33,5 +33,5 @@ Content-Type: application/json
 {
     "toAddress" : "Nygatan 20",
     "toZipCode" : "420 24",
-    "toCity" : "GOTHENBURG",
+    "toCity" : "GOTHENBURG"
 }
