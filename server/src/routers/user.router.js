@@ -1,25 +1,28 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/user.model')
+const isAuthenticated = require('../middleware/isAuthenticated')
+const isAdmin = require('../middleware/isAdmin')
+const isValidUser = require('../middleware/isValidUser')
 
 //GET ALL USERS
-router.get('/', (req, res) => {
+router.get('/', isAuthenticated, isAdmin, (req, res) => {
     res.status(200).json({ message: 'endpoint: Get all users' })
 })
 
 //GET ONE USER
-router.get('/:id', (req, res) => {
+router.get('/:id', isAuthenticated, isValidUser, (req, res) => {
     res.status(200).json({ message: 'endpoint: Get specfic user by id', params: req.params })
 })
 
 
 //UPDATE USER
-router.put('/:id', (req, res) => {
+router.put('/:id', isAuthenticated, isValidUser, (req, res) => {
     res.status(200).json({ message: 'endpoint: Update specific user by id', params: req.params, body: req.body })
 })
 
 //DELETE USER
-router.delete('/:id', (req, res) => {
+router.delete('/:id', isAuthenticated, isValidUser, (req, res) => {
     res.status(200).json({ message: 'endpoint: Delete specific user by id', params: req.params })
 })
 
@@ -36,7 +39,7 @@ router.post('/session/login', (req, res) => {
 })
 
 // LOGOUT USER
-router.delete('/session/logout', (req, res) => {
+router.delete('/session/logout', isAuthenticated, (req, res) => {
     res.status(200).json({ message: 'endpoint: logout user' })
 })
 

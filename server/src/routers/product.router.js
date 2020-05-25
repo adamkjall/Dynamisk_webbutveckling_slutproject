@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 const Product = require('../models/product.model')
+const isAdmin = require('../middleware/isAdmin')
+const isAuthenticated = require('../middleware/isAuthenticated')
 
 //GET ALL PRODUCTS
 router.get('/', (req, res) => {
@@ -18,17 +20,17 @@ router.get('/category/:id', (req, res) => {
 })
 
 //CREATE PRODUCT
-router.post('/', (req, res) => {
+router.post('/', isAuthenticated, isAdmin, (req, res) => {
     res.status(200).json({ message: 'endpoint: create product', body: req.body })
 })
 
 //UPDATE PRODUCT
-router.put('/:id', (req, res) => {
+router.put('/:id', isAuthenticated, isAdmin, (req, res) => {
     res.status(200).json({ message: 'endpoint: Update specific product by id', params: req.params, body: req.body })
 })
 
 // DELETE PRODUCT
-router.delete('/:id', (req, res) => {
+router.delete('/:id', isAuthenticated, isAdmin, (req, res) => {
     res.status(200).json({ message: 'endpoint: delete product' })
 })
 
