@@ -10,14 +10,14 @@ import PaymentForm from "./payment-form";
 import ShippingForm from "./shipping-form";
 import OrderConfirmation from "./order-confirmation";
 
-import UserContext from "../contexts/user-context/context";
+import AuthenticationContext from "../contexts/authentication-context/context";
 import CartContext from "../contexts/cart-context/context";
 
 const MyCheckOut = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user } = useContext(AuthenticationContext);
   const { clearCart, paymentMethod } = useContext(CartContext);
   const history = useHistory();
 
@@ -45,8 +45,13 @@ const MyCheckOut = () => {
   };
 
   return (
-    <Box gridArea="myCheckOut" background="light-6" round="small">
-      <Accordion activeIndex={activeIndex} gridArea="myCheckOut">
+    <Box
+      gridArea="checkout-form"
+      background="light-6"
+      round="small"
+      overflow={{ vertical: "scroll" }}
+    >
+      <Accordion activeIndex={activeIndex}>
         <AccordionPanel onClick={() => setActiveIndex(0)} label="Contacts">
           <Box pad="medium" background="light-2">
             <ContactFormField>

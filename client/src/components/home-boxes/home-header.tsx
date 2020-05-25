@@ -1,5 +1,7 @@
 import React, { useContext } from "react";
+
 import { Box, Paragraph, ResponsiveContext } from "grommet";
+
 import WideImage from "../../assets/images/manwithshirtwide.jpg";
 
 const HomeHeader = () => {
@@ -13,7 +15,7 @@ const HomeHeader = () => {
           style={{
             objectFit: "cover",
             width: "100%",
-            height: "100%"
+            height: "100%",
           }}
         />
       </Box>
@@ -24,7 +26,7 @@ const HomeHeader = () => {
           position: "absolute",
           color: "#FEFFFF",
           left: "1rem",
-          bottom: "1rem"
+          bottom: "1rem",
         }}
       >
         <span style={{ color: "#ffc29e" }}>ADAM FREDICK COLLECTION</span>

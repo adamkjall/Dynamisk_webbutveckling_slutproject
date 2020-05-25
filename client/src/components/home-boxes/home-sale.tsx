@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Box, Paragraph } from "grommet";
+
 import SaleImage from "../../assets/images/sale.jpg";
 
 const HomeSale = () => {
@@ -12,7 +14,7 @@ const HomeSale = () => {
           style={{
             objectFit: "cover",
             width: "100%",
-            height: "100%"
+            height: "100%",
           }}
         />
       </Box>
@@ -26,7 +28,7 @@ const HomeSale = () => {
           right: "1rem",
           top: "1rem",
           backgroundColor: "rgba(0, 0, 0, 0.6)",
-          fontStyle: "italic"
+          fontStyle: "italic",
         }}
       >
         Up to <span style={{ color: "#ffc29e" }}>40%</span> sale

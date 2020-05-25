@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Box, Paragraph } from "grommet";
+
 import FallCollection from "../../assets/images/fallcollection.jpg";
 
 const HomeSale = () => {
@@ -12,7 +14,7 @@ const HomeSale = () => {
           style={{
             objectFit: "cover",
             width: "100%",
-            height: "100%"
+            height: "100%",
           }}
         />
       </Box>
@@ -26,7 +28,7 @@ const HomeSale = () => {
           left: "38%",
           bottom: "2rem",
           backgroundColor: "rgba(0, 0, 0, 0.6)",
-          fontStyle: "italic"
+          fontStyle: "italic",
         }}
       >
         <span style={{ color: "#ffc29e" }}>Fall Collection</span>

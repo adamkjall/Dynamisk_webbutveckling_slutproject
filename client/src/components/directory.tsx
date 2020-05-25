@@ -1,5 +1,6 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+
 import {
   Heading,
   Box,
@@ -8,7 +9,7 @@ import {
   Text,
   RangeSelector,
   TextInput,
-  Button
+  Button,
 } from "grommet";
 
 const Directory = () => {
@@ -33,7 +34,7 @@ const Directory = () => {
           placeholder="Size"
           onChange={({ option }) => setSize(option)}
         />
-        <Text style={{ color: "#c96d36" }} onClick={({}) => setSize("")}>
+        <Text style={{ color: "#c96d36" }} onClick={() => setSize("")}>
           Clear
         </Text>
       </Box>
@@ -50,7 +51,7 @@ const Directory = () => {
           placeholder="Season"
           onChange={({ option }) => setSeason(option)}
         />
-        <Text style={{ color: "#c96d36" }} onClick={({}) => setSeason("")}>
+        <Text style={{ color: "#c96d36" }} onClick={() => setSeason("")}>
           Clear
         </Text>
       </Box>
@@ -59,7 +60,7 @@ const Directory = () => {
       <Text style={{ fontWeight: "bold" }}>Price</Text>
       <Stack>
         <Box direction="row" justify="between">
-          {[0, 50, 100, 150, 200, 250].map(value => (
+          {[0, 50, 100, 150, 200, 250].map((value) => (
             <Box key={value} pad="small" border={false}>
               <Text style={{ fontFamily: "monospace" }}>{value}</Text>
             </Box>

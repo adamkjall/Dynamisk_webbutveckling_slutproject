@@ -1,14 +1,15 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+
 import { Box, Heading, Layer, Stack, Text, ResponsiveContext } from "grommet";
-import CartContext from "../contexts/cart-context/context";
 import { Cart } from "grommet-icons";
-import MyCart from "./my-cart";
+
+import MyCart from "./cart";
 import SearchBar from "./search-bar";
 
-interface Iprops {}
+import CartContext from "../contexts/cart-context/context";
 
-const Header = (props: Iprops) => {
+const Header = () => {
   const { cart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -16,7 +17,7 @@ const Header = (props: Iprops) => {
 
   const onOpen = () => setOpen(true);
 
-  const onClose = () => setOpen(undefined);
+  const onClose = () => setOpen(false);
 
   return (
     <Box
@@ -27,9 +28,7 @@ const Header = (props: Iprops) => {
       justify="between"
       background="brand"
       pad={{ left: "medium", right: "small", vertical: "small" }}
-      elevation="medium"
       style={{ zIndex: 1 }}
-      {...props}
     >
       <Heading
         level="3"

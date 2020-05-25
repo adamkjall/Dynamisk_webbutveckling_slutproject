@@ -1,5 +1,7 @@
 import React from "react";
-import { Box, Paragraph } from "grommet";
+
+import { Box } from "grommet";
+
 import Collection from "../../assets/images/collection.jpg";
 
 const HomeCollection = () => {
@@ -12,7 +14,7 @@ const HomeCollection = () => {
           style={{
             objectFit: "cover",
             width: "100%",
-            height: "100%"
+            height: "100%",
           }}
         />
       </Box>
