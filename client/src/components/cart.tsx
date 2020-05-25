@@ -1,18 +1,21 @@
 import React from "react";
+
+import { Link } from "react-router-dom";
+
 import { Box, Button, Heading } from "grommet";
 import { Close } from "grommet-icons";
-import { Link } from "react-router-dom";
+
 import CartItems from "./cart-items";
 
 interface Iprops {
-  closeCart: any;
+  closeCart: () => void;
 }
+
 const MyCart = (props: Iprops) => {
   return (
     <Box>
       <Box align="center" height="100vh" overflow="auto">
         <Button alignSelf="end" icon={<Close />} onClick={props.closeCart} />
-
         <Heading margin="small" size="3">
           Your Shopping Cart
         </Heading>
@@ -31,4 +34,5 @@ const MyCart = (props: Iprops) => {
     </Box>
   );
 };
+
 export default MyCart;

@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import CartContext from "../contexts/cart-context/context";
 
 import {
   Box,
@@ -10,8 +9,10 @@ import {
   TableCell,
   TableBody,
   TableRow,
-  ResponsiveContext
+  ResponsiveContext,
 } from "grommet";
+
+import CartContext from "../contexts/cart-context/context";
 
 interface IProps {}
 
@@ -42,7 +43,7 @@ const ShippingForm = (props: IProps) => {
       </Text>
       <Box align="center" pad="medium">
         <ResponsiveContext.Consumer>
-          {responsive =>
+          {(responsive) =>
             responsive === "small" ? (
               <RadioButtonGroup
                 direction="column"
@@ -50,10 +51,10 @@ const ShippingForm = (props: IProps) => {
                 options={[
                   { label: "PostNord (72h)", value: "postNord" },
                   { label: "Schenker (36h)", value: "schenker" },
-                  { label: "DHL Express (6h)", value: "dhl" }
+                  { label: "DHL Express (6h)", value: "dhl" },
                 ]}
                 value={shippingMethod}
-                onChange={event => {
+                onChange={(event) => {
                   const method: any = event.target.value;
                   setShippingMethod(method);
                 }}
@@ -66,10 +67,10 @@ const ShippingForm = (props: IProps) => {
                 options={[
                   { label: "PostNord (72h)", value: "postNord" },
                   { label: "Schenker (36h)", value: "schenker" },
-                  { label: "DHL Express (6h)", value: "dhl" }
+                  { label: "DHL Express (6h)", value: "dhl" },
                 ]}
                 value={shippingMethod}
-                onChange={event => {
+                onChange={(event) => {
                   const method: any = event.target.value;
                   setShippingMethod(method);
                 }}

@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+
 import {
   Button,
   Table,
@@ -8,19 +9,25 @@ import {
   TableBody,
   Image,
   Box,
-  ResponsiveContext
+  ResponsiveContext,
 } from "grommet";
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
+
 import CartContext from "../contexts/cart-context/context";
+
 import { CollectionItem } from "../shop.data";
 
-const CartItems = () => {
+interface Props {
+  locked?: boolean; // prohibit any change to the cart items
+}
+
+const CartItems = ({ locked = false }: Props) => {
   const {
     cart,
     removeItemFromCart,
     addItemToCart,
     clearItemFromCart,
-    shippingCost
+    shippingCost,
   } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -56,9 +63,14 @@ const CartItems = () => {
             <TableCell scope="col" border="bottom">
               Price
             </TableCell>
-            <TableCell scope="col" border="bottom">
-              Quantity
-            </TableCell>
+            {!locked && (
+              <>
+                <TableCell scope="col" border="bottom">
+                  Quantity
+                </TableCell>
+                <TableCell scope="col" border="bottom"></TableCell>
+              </>
+            )}
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -69,41 +81,47 @@ const CartItems = () => {
                   <Image src={item.imageUrl} style={{ width: "4rem" }}></Image>
                 </TableCell>
               ) : null}
-              <TableCell scope="row">{item.name}</TableCell>
+              <TableCell>{item.name}</TableCell>
               <TableCell>${item.price}</TableCell>
-              <TableCell flex direction="row" align="center" size="xxsmall">
-                {item.quantity && item.quantity > 1 ? (
-                  <Button
-                    icon={<SubtractCircle />}
-                    style={{
-                      padding: responsive === "small" ? "0.2rem" : "0.4rem"
-                    }}
-                    onClick={() => removeItemFromCart(item.id)}
-                  />
-                ) : (
-                  <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
-                  // "\u00a0\u00a0" // for empty space
-                )}
-                <span>{item.quantity}</span>
-                <Button
-                  size="small"
-                  style={{
-                    padding: responsive === "small" ? "0.2rem" : "0.4rem"
-                  }}
-                  icon={<AddCircle />}
-                  onClick={() => addItemToCart(item)}
-                />
-              </TableCell>
-              <TableCell>
-                <Button
-                  size="small"
-                  style={{
-                    padding: responsive === "small" ? "0.2rem" : "0.4rem"
-                  }}
-                  onClick={() => clearItemFromCart(item.id)}
-                  icon={<Close />}
-                />
-              </TableCell>
+              {!locked && (
+                <>
+                  <TableCell flex direction="row" align="center">
+                    {item.quantity > 1 ? (
+                      <Button
+                        icon={<SubtractCircle />}
+                        style={{
+                          padding:
+                            responsive === "small" ? "0 0.2rem" : "0 0.4rem",
+                        }}
+                        onClick={() => removeItemFromCart(item.id)}
+                      />
+                    ) : (
+                      <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
+                      // "\u00a0\u00a0" // for empty space
+                    )}
+                    <span>{item.quantity}</span>
+                    <Button
+                      size="small"
+                      style={{
+                        padding:
+                          responsive === "small" ? "0 0.2rem" : "0 0.4rem",
+                      }}
+                      icon={<AddCircle />}
+                      onClick={() => addItemToCart(item)}
+                    />
+                  </TableCell>
+                  <TableCell align="center">
+                    <Button
+                      size="small"
+                      style={{
+                        padding: responsive === "small" ? "0" : "0",
+                      }}
+                      onClick={() => clearItemFromCart(item.id)}
+                      icon={<Close />}
+                    />
+                  </TableCell>
+                </>
+              )}
             </TableRow>
           ))}
           <TableRow>

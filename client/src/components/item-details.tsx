@@ -3,8 +3,10 @@ import { Box, Button, Text, Heading, Image, ResponsiveContext } from "grommet";
 
 import CartContext from "../contexts/cart-context/context";
 
+import { CollectionItem } from "../shop.data";
+
 interface Iprops {
-  item: any;
+  item: CollectionItem;
 }
 
 const ItemDetails = (props: Iprops) => {
@@ -60,7 +62,7 @@ const ItemDetails = (props: Iprops) => {
                     padding: responsive === "small" ? "0.1rem" : "0.3rem",
                     border: "1px solid black",
                     color: "black",
-                    marginRight: "0.3rem"
+                    marginRight: "0.3rem",
                   }}
                 >
                   {sizeUnit}
@@ -79,7 +81,7 @@ const ItemDetails = (props: Iprops) => {
                     padding: responsive === "small" ? "0.1rem" : "0.3rem",
                     border: "1px solid black",
                     color: "black",
-                    marginRight: "0.3rem"
+                    marginRight: "0.3rem",
                   }}
                 >
                   {seasonUnit}

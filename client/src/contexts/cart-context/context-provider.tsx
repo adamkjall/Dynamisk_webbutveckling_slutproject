@@ -9,7 +9,7 @@ interface IProps {}
 export type ShippingMethod = "postNord" | "schenker" | "dhl";
 export type PaymentMethod = "card" | "invoice" | "swish";
 
-const CartContextProvider: FC<IProps> = props => {
+const CartContextProvider: FC<IProps> = (props) => {
   const [cart, setCart] = useState<CollectionItem[]>([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>(
@@ -33,14 +33,14 @@ const CartContextProvider: FC<IProps> = props => {
   }, [shippingMethod]);
 
   const addItemToCart = (item: CollectionItem) => {
-    const existing = cart.find(cartItem => cartItem.id === item.id);
+    const existing = cart.find((cartItem) => cartItem.id === item.id);
 
     if (existing) {
-      const newCart = cart.map(cartItem => {
+      const newCart = cart.map((cartItem) => {
         if (cartItem.id === item.id) {
           return {
             ...cartItem,
-            quantity: cartItem.quantity ? cartItem.quantity + 1 : 1
+            quantity: cartItem.quantity ? cartItem.quantity + 1 : 1,
           };
         } else return cartItem;
       });
@@ -48,34 +48,33 @@ const CartContextProvider: FC<IProps> = props => {
     } else {
       setCart([...cart, { ...item, quantity: 1 }]);
     }
-
-    console.log("add item to cart");
   };
 
   const removeItemFromCart = (itemId: number) => {
-    const existing = cart.find(cartItem => cartItem.id === itemId);
+    const existing = cart.find((cartItem) => cartItem.id === itemId);
 
     if (existing) {
       if (existing.quantity === 1) {
-        const newCart = cart.filter(item => item.id !== itemId);
+        const newCart = cart.filter((item) => item.id !== itemId);
         setCart(newCart);
       } else {
-        const newCart = cart.map(cartItem => {
+        const newCart = cart.map((cartItem) => {
           if (cartItem.id === itemId) {
             return {
               ...cartItem,
-              quantity: cartItem.quantity ? cartItem.quantity - 1 : 1
+              quantity: cartItem.quantity ? cartItem.quantity - 1 : 1,
             };
           } else return cartItem;
         });
         setCart(newCart);
       }
     }
-    console.log("remove item from cart");
   };
 
   const clearItemFromCart = (itemId: number) => {
-    setCart(prevCart => prevCart.filter(cartItem => cartItem.id !== itemId));
+    setCart((prevCart) =>
+      prevCart.filter((cartItem) => cartItem.id !== itemId)
+    );
   };
 
   const clearCart = () => setCart([]);
@@ -97,7 +96,7 @@ const CartContextProvider: FC<IProps> = props => {
         removeItemFromCart,
         clearItemFromCart,
         clearCart,
-        shippingCost: shippingCost
+        shippingCost: shippingCost,
       }}
     />
   );

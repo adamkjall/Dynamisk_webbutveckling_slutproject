@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, FormField, Text } from "grommet";
 
+import { Box, FormField, Text } from "grommet";
 interface Iprops {
   required: boolean;
   label: string;
@@ -32,10 +32,10 @@ const FormFieldLabel = (props: Iprops) => {
       {...rest}
       validate={[
         { regexp: /^[A-Z]/gi },
-        name => {
+        (name) => {
           if (name && name.length === 1) return "must be more than 1 character";
           return undefined;
-        }
+        },
       ]}
     />
   );

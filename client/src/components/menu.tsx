@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
+
 import { Nav, Text, Box, ResponsiveContext, Menu } from "grommet";
+
+import AuthenticationContext from "../contexts/authentication-context/context";
 
 const MyMenu = () => {
   const history = useHistory();
+  const { isAdmin } = useContext(AuthenticationContext);
 
   return (
     <Box
@@ -11,11 +15,11 @@ const MyMenu = () => {
       direction="row"
       justify="between"
       align="center"
-      elevation="xsmall"
+      elevation="small"
       pad="small"
     >
       <ResponsiveContext.Consumer>
-        {responsive =>
+        {(responsive) =>
           responsive === "small" ? (
             <Menu
               label="Menu"
@@ -23,17 +27,17 @@ const MyMenu = () => {
                 { label: "Mens", onClick: () => history.push("/shop/mens") },
                 {
                   label: "Womens",
-                  onClick: () => history.push("/shop/womens")
+                  onClick: () => history.push("/shop/womens"),
                 },
                 { label: "Hats", onClick: () => history.push("/shop/hats") },
                 {
                   label: "Jackets",
-                  onClick: () => history.push("/shop/jackets")
+                  onClick: () => history.push("/shop/jackets"),
                 },
                 {
                   label: "Sneakers",
-                  onClick: () => history.push("/shop/sneakers")
-                }
+                  onClick: () => history.push("/shop/sneakers"),
+                },
               ]}
             />
           ) : (
@@ -68,9 +72,15 @@ const MyMenu = () => {
         }
       </ResponsiveContext.Consumer>
       <Text size="medium">
-        <Link className="link" to="/admin">
-          Admin
-        </Link>
+        {isAdmin() ? (
+          <Link className="link" to="/admin">
+            Admin
+          </Link>
+        ) : (
+          <Link className="link" to="/login">
+            Login
+          </Link>
+        )}
       </Text>
     </Box>
   );
