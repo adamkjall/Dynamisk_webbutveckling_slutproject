@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const shipmentSchema = new Schema({
+const ShipmentSchema = new Schema({
   type: {
     type: String,
     required: true,
@@ -24,6 +24,6 @@ const shipmentSchema = new Schema({
   },
 });
 
-const Shipment = mongoose.model("Shipment", shipmentSchema);
+const Shipment = mongoose.model("Shipment", ShipmentSchema);
 
-module.exports = { Shipment, shipmentSchema };
+module.exports = { Shipment, ShipmentSchema };

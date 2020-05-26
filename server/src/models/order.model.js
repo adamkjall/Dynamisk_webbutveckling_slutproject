@@ -1,21 +1,21 @@
 const mongoose = require("mongoose");
 
-const { userSchema } = require("./user.model.js");
-const { productSchema } = require("./product.model.js");
-const { shipmentSchema } = require("./shipment.model.js");
-const { paymentSchema } = require("./payment.model.js");
+const { UserSchema } = require("./user.model.js");
+const { ProductSchema } = require("./product.model.js");
+const { ShipmentSchema } = require("./shipment.model.js");
+const { PaymentSchema } = require("./payment.model.js");
 
 const Schema = mongoose.Schema;
 
-const orderSchema = new Schema({
+const OrderSchema = new Schema({
   user: {
-    type: userSchema,
+    type: UserSchema,
     required: true,
   },
-  products: { type: [productSchema], required: true },
-  shippingMethod: { type: shipmentSchema, required: true },
+  products: { type: [ProductSchema], required: true },
+  shippingMethod: { type: ShipmentSchema, required: true },
 
-  paymentMethod: { type: paymentSchema, required: true },
+  paymentMethod: { type: PaymentSchema, required: true },
   toAddress: {
     type: String,
     required: true,
@@ -37,6 +37,6 @@ const orderSchema = new Schema({
     required: true,
   },
 });
-const Order = mongoose.model("Order", orderSchema);
+const Order = mongoose.model("Order", OrderSchema);
 
 module.exports = Order;
