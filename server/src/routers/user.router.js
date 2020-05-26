@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const { User } = require("../models/user.model");
+const { register, login, logout } = require("../handlers/user.handler");
 
 //GET ALL USERS
 router.get("/", (req, res) => {
@@ -33,19 +33,19 @@ router.delete("/:id", (req, res) => {
 });
 
 //REGISTER USER
-router.post("/", (req, res) => {
+router.post("/", register, (req, res) => {
   res.status(200).json({ message: "endpoint: Register user", body: req.body });
 });
 
 // USER SESSION ENDPOINTS
 
 //LOGIN USER
-router.post("/session/login", (req, res) => {
+router.post("/session/login", login, (req, res) => {
   res.status(200).json({ message: "endpoint: login user", body: req.body });
 });
 
 // LOGOUT USER
-router.delete("/session/logout", (req, res) => {
+router.delete("/session/logout", logout, (req, res) => {
   res.status(200).json({ message: "endpoint: logout user" });
 });
 
