@@ -8,9 +8,9 @@ POST http://localhost:8080/api/users/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson@hotmail.com",
+    "email" : "hansonjansson3@hotmail.com",
     "password" : "hansonjansson",
-    "firstName" : "Hans",
+    "firstName" : "Hans2",
     "lastName" : "Jansson",
     "phoneNumber" : "07007007070",
     "streetAddress" : "Hansons gata 1",
@@ -43,8 +43,8 @@ POST http://localhost:8080/api/users/session/login/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson@hotmail.com",
-    "password" : "hansonjansson"
+    "email" : "hansonjansson2@hotmail.com",
+    "password" : "hansonjansson2"
 }
 
 ###
