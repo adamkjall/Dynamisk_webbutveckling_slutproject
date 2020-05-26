@@ -1,14 +1,14 @@
 GET http://localhost:8080/api/users
 
 ###
-GET http://localhost:8080/api/users/USERID
+GET http://localhost:8080/api/users/5ecd027a396fac367ca014c0
 
 ###
 POST http://localhost:8080/api/users/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson3@hotmail.com",
+    "email" : "hansonjansson4@hotmail.com",
     "password" : "hansonjansson",
     "firstName" : "Hans2",
     "lastName" : "Jansson",
@@ -39,12 +39,12 @@ Content-Type: application/json
 DELETE http://localhost:8080/api/users/USERID
 
 ###
-POST http://localhost:8080/api/users/session/login/
+POST http://localhost:8080/api/users/login/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson2@hotmail.com",
-    "password" : "hansonjansson2"
+    "email" : "hansonjansson4@hotmail.com",
+    "password" : "hansonjansson"
 }
 
 ###

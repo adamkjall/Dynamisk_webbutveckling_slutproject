@@ -19,7 +19,7 @@ POST http://localhost:8080/api/products/
 Content-Type: application/json
 
 {
-    "title" : "Produkttitel",
+    "title" : "utloggad produkt",
     "desc" : "Detta är en superfin produkt",
     "image" : "fin bild",
     "price" : "5000",

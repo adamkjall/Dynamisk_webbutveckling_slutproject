@@ -1,7 +1,16 @@
+/* EXPRESS SETUP */
 const express = require("express");
 const router = express.Router();
 
+/* MODELS */
 const { Product } = require("../models/product.model");
+
+/* MIDDLEWARES */
+const isAuthenticated = require("../middlewares/isAuthenticated");
+
+/* HANDLERS */
+
+/* ENDPOINTS */
 
 //GET ALL PRODUCTS
 router.get("/", (req, res) => {
@@ -24,12 +33,12 @@ router.get("/category/:id", (req, res) => {
 });
 
 //CREATE PRODUCT
-router.post("/", (req, res) => {
+router.post("/", isAuthenticated, (req, res) => {
   res.status(200).json({ message: "endpoint: create product", body: req.body });
 });
 
 //UPDATE PRODUCT
-router.put("/:id", (req, res) => {
+router.put("/:id", isAuthenticated, (req, res) => {
   res.status(200).json({
     message: "endpoint: Update specific product by id",
     params: req.params,
@@ -38,7 +47,7 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE PRODUCT
-router.delete("/:id", (req, res) => {
+router.delete("/:id", isAuthenticated, (req, res) => {
   res.status(200).json({ message: "endpoint: delete product" });
 });
 

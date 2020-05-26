@@ -30,11 +30,6 @@ app.use(
     secret: "narwhals",
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      maxAge: 60 * 60 * 24,
-      secure: false,
-      sameSite: true,
-    },
     store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );

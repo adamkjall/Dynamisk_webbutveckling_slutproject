@@ -1,6 +1,6 @@
 const { User } = require("../models/user.model");
 
-const register = (req, res, next) => {
+const registerUser = (req, res, next) => {
   // or perhaps send user as a named object eg req.body.user
   const userData = {
     email: req.body.email,
@@ -27,34 +27,34 @@ const register = (req, res, next) => {
         } else {
           // store authentication session
           req.session.userId = user._id;
-          res.status(201).json({ status: "Authenticated" });
+          res.status(201).json({ message: "Authenticated" });
         }
       });
     } else {
-      res.status(401).json({ status: "Email address is already in use" });
+      res.status(401).json({ message: "Email address is already in use" });
     }
   });
 };
 
-const login = (req, res, next) => {
+const loginUser = (req, res, next) => {
   const { email, password } = req.body;
 
   if (email && password) {
     User.authenticate(email, password, (err, user) => {
       if (err) {
-        res.status(401).json({ status: "Wrong name" });
+        res.status(401).json({ message: "Wrong name" });
       } else if (user) {
         // store authentication session
         req.session.userId = user._id;
-        res.status(200).json({ status: "Authenticated" });
+        res.status(200).json({ message: "Authenticated" });
       } else {
-        res.status(401).json({ status: "Wrong password" });
+        res.status(401).json({ message: "Wrong password" });
       }
     });
   }
 };
 
-const logout = (req, res, next) => {
+const logoutUser = (req, res, next) => {
   if (req.session) {
     // delete session object
     req.session.destroy(function (err) {
@@ -67,4 +67,28 @@ const logout = (req, res, next) => {
   }
 };
 
-module.exports = { register, login, logout };
+const getUser = (req, res, next) => {
+  console.log("hellooooo", req.session);
+  
+  User.findById(req.session.userId, (err, user) => {
+    if(err) res.status(404).json({ message: "Couldn't find user" })
+    console.log("user", user);
+    
+    res.user = user
+    next()
+  })
+};
+
+const getAllUsers = () => {
+
+};
+
+const updateUser = () => {
+  
+};
+
+const deleteUser = () => {
+
+};
+
+module.exports = { registerUser, loginUser, logoutUser, getUser };
