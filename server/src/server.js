@@ -7,8 +7,8 @@ require("dotenv").config();
 const { connectToDb } = require("./mongo");
 
 /* Import routes */
-const orderRouter = require("./routers/order.router")
-const paymentRouter = require("./routers/payment.router")
+const orderRouter = require("./routers/order.router");
+const paymentRouter = require("./routers/payment.router");
 const productRouter = require("./routers/product.router");
 const shipmentRouter = require("./routers/shipment.router");
 const userRouter = require("./routers/user.router");
@@ -24,25 +24,25 @@ app.use(express.urlencoded({ extended: false }));
 
 //use sessions for tracking logins
 app.use(
-    session({
-      name: "everything is",
-      secret: "unique",
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-        maxAge: 60 * 60 * 24,
-        secure: false,
-        sameSite: true,
-      },
-    })
-  );
+  session({
+    name: "everything is",
+    secret: "unique",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 60 * 60 * 24,
+      secure: false,
+      sameSite: true,
+    },
+  })
+);
 
 /* Add API resourses */
-app.use('/api/orders', orderRouter);
-app.use('/api/payments', paymentRouter);
-app.use('/api/products', productRouter);
-app.use('/api/shipments', shipmentRouter);
-app.use('/api/users', userRouter);
+app.use("/api/orders", orderRouter);
+app.use("/api/payments", paymentRouter);
+app.use("/api/products", productRouter);
+app.use("/api/shipments", shipmentRouter);
+app.use("/api/users", userRouter);
 
 const PORT = process.env.PORT || 8080;
 
