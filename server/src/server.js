@@ -1,10 +1,11 @@
 const express = require("express");
 const app = express();
 const session = require("express-session");
+const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 require("dotenv").config();
 
-const { connectToDb } = require("./mongo");
+const { connectToDb, mongoose } = require("./mongo");
 
 /* Import routes */
 const orderRouter = require("./routers/order.router");
@@ -26,7 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
     name: "everything is",
-    secret: "unique",
+    secret: "narwhals",
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -34,6 +35,7 @@ app.use(
       secure: false,
       sameSite: true,
     },
+    store: new MongoStore({ mongooseConnection: mongoose.connection }),
   })
 );
 
