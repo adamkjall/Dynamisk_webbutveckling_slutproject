@@ -30,14 +30,11 @@ const createOrder = (req, res, next) => {
         ...req.body,
         orderStatus: false
     };
-    console.log(orderData);
+
     Order.create(
         orderData,
         (err, newOrder) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ message: "Couldn't create order" });
-            };
+            if (err) res.status(500).json({ message: "Couldn't create order" });
             res.newOrder = newOrder;
             next();
         }
