@@ -1,5 +1,6 @@
 const { Product } = require("../models/product.model");
 
+/* GET ALL PRODUCTS */
 const getAllProducts = (req, res, next) => {
     Product.find({}, (err, allProducts) => {
         if(err) {
@@ -13,7 +14,7 @@ const getAllProducts = (req, res, next) => {
     })
 }
 
-//getOneProduct
+/* GET ONE PRODUCT BY ID */
 const getProductsById = (req, res, next) => {
     Product.findById(req.params.id, (err, product) => {
         if(err) {
@@ -27,37 +28,38 @@ const getProductsById = (req, res, next) => {
     })
 }
 
-//GetProductsByCategory
+/* GET PRODUCT BY CATEGORY */
+const getProductsByCategory = (req, res, next) => {
+    Product.find({category: req.params.category}, (err, foundProducts) => {
+        if (err) res.status(500).json({ message: "Couldn't find any products in this category" });
+        res.foundProducts = foundProducts;
+        next();
+    });
+};
 
-
-//CreateProduct
+/* CREATE PRODUCT */
 const createProduct = (req, res, next) => {
-    const productData = req.body
-    Product.create(productData, (err, product) => {
-        if(err){
-            res.status(500).json(err)
-        }else{
-            res.status(201).json({message: product})
-        }
+    Product.create(req.body, (err, createdProduct) => {
+        if(err)res.status(500).json({message: "Couldn't create product"})
+        res.createdProduct = createdProduct;
+        next()
     })
 }
 
-//updateProduct
+/* UPDATE PRODUCT */
 const updateProduct = (req, res, next) => {
-    Product.findByIdAndUpdate(req.params.id,
-      req.body,
-      { new: true },
-      (err, updatedProduct) => {
-        if (err) {
-          res.status(500).json({ message: "Couldn't perform product update" });
-        } 
-        res.updatedProduct = updatedProduct;
-        next();
-      }
+    Product.findByIdAndUpdate(req.params.id, 
+        req.body,
+        { new: true },
+        (err, updatedProduct) => {
+            if (err) res.status(500).json({ message: "Couldn't perform product update" }); 
+            res.updatedProduct = updatedProduct;
+            next();
+        }
     );
-  };
+};
 
-//deleteProduct
+/* DELETE PRODUCT */
 const deleteProduct = (req, res, next) => {
     Product.findByIdAndDelete(req.params.id, (err, deletedProduct) => {
         if (err) {
@@ -71,4 +73,4 @@ const deleteProduct = (req, res, next) => {
     });
 }
 
-module.exports = {getAllProducts, getProductsById, createProduct, updateProduct, deleteProduct}
+module.exports = {getAllProducts, getProductsById, getProductsByCategory, createProduct, updateProduct, deleteProduct}

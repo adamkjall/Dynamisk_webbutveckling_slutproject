@@ -10,7 +10,7 @@ GET http://localhost:8080/api/products/5ec532922c855608f41ccd42
 ###
 
 // GET ALL PRODUCTS IN A CATEGORY
-GET http://localhost:8080/api/products/category/categoryName
+GET http://localhost:8080/api/products/category/shoes
 
 ###
 
@@ -19,22 +19,22 @@ POST http://localhost:8080/api/products/
 Content-Type: application/json
 
 {
-    "title" : "Min första produkt",
-    "desc" : "Den allra första",
+    "title" : "En till produkt",
+    "desc" : "Farväl grymma e-shop",
     "image" : "fin bild",
     "price" : "5000",
     "category" : "stor",
     "sizes" : [{
-            "size" : "s",
-            "stock" : "7"
+            "size" : "S",
+            "stock" : "0"
         },
         {
-            "size" : "m",
-            "stock" : "10"
+            "size" : "M",
+            "stock" : "0"
         },
         {
-            "size" : "l",
-            "stock" : "9"
+            "size" : "L",
+            "stock" : "100"
         }]
 }
 
@@ -67,6 +67,6 @@ Content-Type: application/json
 ###
 
 // DELETE A PRODUCT
-DELETE http://localhost:8080/api/products/5ec532922c855608f41ccd60
+DELETE http://localhost:8080/api/products/5eced0f7defe392ee0422c02
 
 ###

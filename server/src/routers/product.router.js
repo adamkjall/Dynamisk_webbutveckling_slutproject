@@ -10,10 +10,12 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
+const { getSessionUser } = require("../handlers/user.handler");
 const {
   getAllProducts,
-  createProduct,
   getProductsById,
+  getProductsByCategory,
+  createProduct,
   deleteProduct,
   updateProduct
 } = require("../handlers/product.handler");
@@ -31,24 +33,22 @@ router.get("/:id", getProductsById, (req, res) => {
 });
 
 //GET ALL PRODUCTS IN A CATEGORY
-router.get("/category/:id", (req, res) => {
-  res
-    .status(200)
-    .json({ message: "endpoint: Get product by category", params: req.params });
+router.get("/category/:category", getProductsByCategory, (req, res) => {
+  res.status(200).json(res.foundProducts);
 });
 
 //CREATE PRODUCT
-router.post("/", isAuthenticated, createProduct, (req, res) => {
-  res.status(200).json({ message: "endpoint: create product", body: req.body });
+router.post("/", isAuthenticated, getSessionUser, isAdmin, createProduct, (req, res) => {
+  res.status(200).json(res.createdProduct);
 });
 
 //UPDATE PRODUCT
-router.put("/:id", updateProduct, (req, res) => {
+router.put("/:id", isAuthenticated, getSessionUser, isAdmin, updateProduct, (req, res) => {
   res.status(200).json(res.updatedProduct);
 });
 
 // DELETE PRODUCT
-router.delete("/:id", isAuthenticated, isAdmin, deleteProduct, (req, res) => {
+router.delete("/:id", isAuthenticated, getSessionUser, isAdmin, deleteProduct, (req, res) => {
   res.status(200).json(res.deletedProduct);
 });
 
