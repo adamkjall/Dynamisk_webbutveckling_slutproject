@@ -9,7 +9,7 @@ const getAllOrders = (req, res, next) => {
 };
 
 const getAllOrdersFromAUser = (req, res, next) => {
-    Order.find({ User: { _id: req.params.id } }, (err, allUserOrders) => {
+    Order.find({ 'user._id': req.params.id }, (err, allUserOrders) => {
         if (err)
             res.status(500).json({ message: "Coundn't get all orders for a user" });
         res.allUserOrders = allUserOrders;
@@ -34,7 +34,10 @@ const createOrder = (req, res, next) => {
     Order.create(
         orderData,
         (err, newOrder) => {
-            if (err) res.status(500).json({ message: "Couldn't create order" });
+            if (err) {
+                console.log(err);
+                res.status(500).json({ message: "Couldn't create order" });
+            }
             res.newOrder = newOrder;
             next();
         }

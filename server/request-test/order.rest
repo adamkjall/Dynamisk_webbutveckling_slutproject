@@ -5,12 +5,12 @@ GET http://localhost:8080/api/orders
 ###
 
 //GET ALL ORDERS FOR A USER
-GET http://localhost:8080/api/orders/user/id
+GET http://localhost:8080/api/orders/user/5ece3997cfd4241588e1a861
 
 ###
 
 //GET ORDER BY ID
-GET http://localhost:8080/api/orders/orderId
+GET http://localhost:8080/api/orders/5ece4f164242374d7055567a
 
 ###
 
@@ -21,22 +21,19 @@ Content-Type: application/json
 {
     "user" : {
         "_id" : "5ece3997cfd4241588e1a861",
-        "email" : "nyuser@test.com",
-        "password" : "hansonjansson",
         "firstName" : "Hans2",
         "lastName" : "Jansson",
         "phoneNumber" : "07007007070",
         "streetAddress" : "Hansons gata 1",
         "zipCode" : "12345",
-        "city" : "Hjo",
-        "isAdmin" : "true"
+        "city" : "Hjo"
     },
     "products" : [{
         "_id" : "5ece411c56e2613c4c3b0d44",
         "title": "fina produkten",
         "desc": "fin produkt",
-        "image": "fin.jpg",
-        "price": "5000",
+        "image": "fun.jpg",
+        "price": "2",
         "category": "fina produkter",
         "sizes": [{
             "size": "small",
