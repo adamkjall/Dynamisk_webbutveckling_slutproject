@@ -7,6 +7,7 @@ const { Product } = require("../models/product.model");
 
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
 const {
@@ -50,7 +51,7 @@ router.put("/:id", isAuthenticated, (req, res) => {
 });
 
 // DELETE PRODUCT
-router.delete("/:id", deleteProduct, (req, res) => {
+router.delete("/:id", isAuthenticated, isAdmin, deleteProduct, (req, res) => {
   res.status(200).json(res.deletedProduct);
 });
 

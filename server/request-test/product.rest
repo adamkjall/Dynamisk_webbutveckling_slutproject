@@ -20,12 +20,22 @@ Content-Type: application/json
 
 {
     "title" : "Min första produkt",
-    "description" : "Den allra första",
-    "imageUrl" : "fin bild",
+    "desc" : "Den allra första",
+    "image" : "fin bild",
     "price" : "5000",
     "category" : "stor",
-    "sizes.[0].size" : "s",
-    "sizes.[0].stock" : 7
+    "sizes" : [{
+            "size" : "s",
+            "stock" : "7"
+        },
+        {
+            "size" : "m",
+            "stock" : "10"
+        },
+        {
+            "size" : "l",
+            "stock" : "9"
+        }]
 }
 
 ###
@@ -36,8 +46,8 @@ Content-Type: application/json
 
 {
     "title" : "Ny produkt titel",
-    "description" : "Detta är ny produktbeskrivning",
-    "imageUrl" : "fin bild",
+    "desc" : "Detta är ny produktbeskrivning",
+    "image" : "fin bild",
     "price" : "5000",
     "category" : "categoryName",
     "sizes" : [
@@ -49,6 +59,6 @@ Content-Type: application/json
 ###
 
 // DELETE A PRODUCT
-DELETE http://localhost:8080/api/products/5ec532922c855608f41ccd40
+DELETE http://localhost:8080/api/products/5ec532922c855608f41ccd60
 
 ###
