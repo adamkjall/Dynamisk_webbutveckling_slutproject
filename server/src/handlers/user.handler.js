@@ -67,28 +67,52 @@ const logoutUser = (req, res, next) => {
   }
 };
 
-const getUser = (req, res, next) => {
-  console.log("hellooooo", req.session);
-  
+const getSessionUser = (req, res, next) => {
   User.findById(req.session.userId, (err, user) => {
-    if(err) res.status(404).json({ message: "Couldn't find user" })
-    console.log("user", user);
-    
-    res.user = user
-    next()
-  })
+    if (err) res.status(404).json({ message: "Couldn't find user" });
+    res.user = user;
+    next();
+  });
 };
 
-const getAllUsers = () => {
-
+const getAllUsers = (req, res, next) => {
+  User.find({}, (err, allUsers) => {
+    if (err) res.status(500).json({ message: "Couldn't perform user get" });
+    res.allUsers = allUsers;
+    next();
+  });
 };
 
-const updateUser = () => {
-  
+const updateUser = (req, res, next) => {
+  User.findOneAndUpdate(
+    { _id: req.params.id },
+    req.body,
+    { new: true },
+    (err, updatedUser) => {
+      if (err) {
+        res.status(500).json({ message: "Couldn't perform user update" });
+      } 
+      res.updatedUser = updatedUser;
+      next();
+    }
+  );
 };
 
-const deleteUser = () => {
-
+const deleteUser = (req, res, next) => {
+  User.findByIdAndDelete(req.params.id, (err, deletedResult) => {
+    if (err)
+      res.status(500).json({ message: "Couldn't perform user deletion" });
+    res.deletedResult = deletedResult;
+    next();
+  });
 };
 
-module.exports = { registerUser, loginUser, logoutUser, getUser };
+module.exports = {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getSessionUser,
+  getAllUsers,
+  updateUser,
+  deleteUser,
+};

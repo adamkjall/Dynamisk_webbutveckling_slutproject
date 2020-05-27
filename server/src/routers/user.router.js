@@ -6,54 +6,56 @@ const router = express.Router();
 
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
-const { registerUser, loginUser, logoutUser, getUser } = require("../handlers/user.handler");
+const {
+  registerUser,
+  loginUser,
+  logoutUser,
+  getSessionUser,
+  getAllUsers,
+  updateUser,
+  deleteUser
+} = require("../handlers/user.handler");
 
 /* ENDPOINTS */
 
 //GET ALL USERS
-router.get("/all", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "endpoint: Get all users" });
+router.get("/all", isAuthenticated, getSessionUser, isAdmin, getAllUsers, (req, res) => {
+  res.status(200).json(res.allUsers);
 });
 
-//GET SESSION USER  
-router.get("/", isAuthenticated, getUser, (req, res) => {
+//GET SESSION USER
+router.get("/", isAuthenticated, getSessionUser, (req, res) => {
   res.status(200).json(res.user);
 });
 
 //UPDATE USER
-router.put("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Update specific user by id",
-    params: req.params,
-    body: req.body,
-  });
+router.put("/:id", isAuthenticated, getSessionUser, isAdmin, updateUser, (req, res) => {
+  res.status(200).json(res.updatedUser);
 });
 
 //DELETE USER
-router.delete("/delete/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Delete specific user by id",
-    params: req.params,
-  });
+router.delete("/:id", isAuthenticated, getSessionUser, isAdmin, deleteUser, (req, res) => {
+  res.status(200).json(res.deletedResult);
 });
 
 //REGISTER USER
 router.post("/", registerUser, (req, res) => {
-  res.status(200).json({ message: "endpoint: Register user", body: req.body });
+  // res.status(200).json({ message: "endpoint: Register user", body: req.body });
 });
 
 // USER SESSION ENDPOINTS
 
 //LOGIN USER
-router.post("/login", loginUser, (req, res) => {
-  res.status(200).json({ message: "endpoint: login user", body: req.body });
+router.post("/session/login", loginUser, (req, res) => {
+  // res.status(200).json({ message: "endpoint: login user", body: req.body });
 });
 
 // LOGOUT USER
-router.delete("/logout", isAuthenticated, logoutUser, (req, res) => {
-  res.status(200).json({ message: "endpoint: logout user" });
+router.delete("/session/logout", isAuthenticated, logoutUser, (req, res) => {
+  // res.status(200).json({ message: "endpoint: logout user" });
 });
 
 module.exports = router;
