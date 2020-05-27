@@ -1,8 +1,16 @@
+/* EXPRESS SETUP */
 const express = require("express");
 const router = express.Router();
 
-module.exports = router
+/* MODELS */
 const { Order } = require("../models/order.model");
+
+/* MIDDLEWARES */
+const isAuthenticated = require("../middlewares/isAuthenticated");
+
+/* HANDLERS */
+
+/* ENDPOINTS */
 
 //GET ALL ORDERS
 router.get("/", (req, res) => {
@@ -10,7 +18,7 @@ router.get("/", (req, res) => {
 });
 
 //GET ALL ORDERS FOR A USER
-router.get("/user/:id", (req, res) => {
+router.get("/user/:id", isAuthenticated, (req, res) => {
   res.status(200).json({
     message: "endpoint: Get specific user's orders",
     params: req.params,
@@ -18,21 +26,21 @@ router.get("/user/:id", (req, res) => {
 });
 
 //GET ORDER BY ID
-router.get("/:id", (req, res) => {
+router.get("/:id", isAuthenticated, (req, res) => {
   res
     .status(200)
     .json({ message: "endpoint: Get specific order", params: req.params });
 });
 
 //POST ORDER
-router.post("/", (req, res) => {
+router.post("/", isAuthenticated, (req, res) => {
   res
     .status(200)
     .json({ message: "endpoint: Get specific order", body: req.body });
 });
 
 //UPDATE ORDER
-router.put("/:id", (req, res) => {
+router.put("/:id", isAuthenticated, (req, res) => {
   res.status(200).json({
     message: "endpoint: Update specific order by id",
     params: req.params,

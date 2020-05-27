@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 mongoose.set("useCreateIndex", true);
+mongoose.set('useFindAndModify', false);
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -54,11 +55,13 @@ UserSchema.pre("save", function (next) {
 });
 
 // rehash password on update
-UserSchema.pre("updateOne", function (next) {
+UserSchema.pre(["updateOne", "findOneAndUpdate"], function (next) {
   const user = this;
-  bcrypt.hash(user.password, 10, function (err, hash) {
-    if (err) return next(err);
-    user.password = hash;
+  bcrypt.hash(user._update.password, 10, function (err, hash) {
+    if (err) {
+      return next(err);
+    }
+    user._update.password = hash;
     next();
   });
 });

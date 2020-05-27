@@ -1,14 +1,13 @@
-GET http://localhost:8080/api/users
-
+GET http://localhost:8080/api/users/all
 ###
-GET http://localhost:8080/api/users/USERID
+GET http://localhost:8080/api/users/
 
 ###
 POST http://localhost:8080/api/users/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson3@hotmail.com",
+    "email" : "nyuser@test.com",
     "password" : "hansonjansson",
     "firstName" : "Hans2",
     "lastName" : "Jansson",
@@ -16,16 +15,16 @@ Content-Type: application/json
     "streetAddress" : "Hansons gata 1",
     "zipCode" : "12345",
     "city" : "Hjo",
-    "isAdmin" : "false"
+    "isAdmin" : "true"
 }
 
 ###
-PUT http://localhost:8080/api/users/USERID
+PUT http://localhost:8080/api/users/5ece2ad51c7670319c72aa32
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson@hotmail.com",
-    "password" : "hansonjansson",
+    "email" : "Hej!@test.com",
+    "password" : "hejehjehe",
     "firstName" : "Hans",
     "lastName" : "Jansson",
     "phoneNumber" : "07007007070",
@@ -36,15 +35,15 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:8080/api/users/USERID
+DELETE http://localhost:8080/api/users/5ece226d487c2c16044957f7
 
 ###
 POST http://localhost:8080/api/users/session/login/
 Content-Type: application/json
 
 {
-    "email" : "hansonjansson2@hotmail.com",
-    "password" : "hansonjansson2"
+    "email" : "admin@admin.com",
+    "password" : "hansonjansson"
 }
 
 ###
