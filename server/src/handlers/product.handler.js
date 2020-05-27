@@ -29,17 +29,10 @@ const getProductsById = (req, res, next) => {
 
 //GetProductsByCategory
 
+
+//CreateProduct
 const createProduct = (req, res, next) => {
     const productData = req.body
-    // {
-    //     title: req.body.title,
-    //     desc: req.body.desc,
-    //     image: req.body.image,
-    //     price: req.body.price,
-    //     category: req.body.category,
-    //     sizes: [{size: req.body.size, stock: req.body.stock}]
-    // }
-
     Product.create(productData, (err, product) => {
         if(err){
             res.status(500).json(err)
@@ -50,7 +43,19 @@ const createProduct = (req, res, next) => {
 }
 
 //updateProduct
-
+const updateProduct = (req, res, next) => {
+    Product.findByIdAndUpdate(req.params.id,
+      req.body,
+      { new: true },
+      (err, updatedProduct) => {
+        if (err) {
+          res.status(500).json({ message: "Couldn't perform product update" });
+        } 
+        res.updatedProduct = updatedProduct;
+        next();
+      }
+    );
+  };
 
 //deleteProduct
 const deleteProduct = (req, res, next) => {
@@ -66,4 +71,4 @@ const deleteProduct = (req, res, next) => {
     });
 }
 
-module.exports = {getAllProducts, getProductsById, createProduct, deleteProduct}
+module.exports = {getAllProducts, getProductsById, createProduct, updateProduct, deleteProduct}

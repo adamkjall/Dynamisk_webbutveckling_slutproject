@@ -41,19 +41,27 @@ Content-Type: application/json
 ###
 
 // UPDATE PRODUCT
-PUT http://localhost:8080/api/products/productId
+PUT http://localhost:8080/api/products/5ecec6a45d9dd73e8c7f4bbf
 Content-Type: application/json
 
 {
-    "title" : "Ny produkt titel",
-    "desc" : "Detta är ny produktbeskrivning",
+    "title" : "Min tredje produkt",
+    "desc" : "Den allra första",
     "image" : "fin bild",
     "price" : "5000",
-    "category" : "categoryName",
-    "sizes" : [
-        {"size" : "S", "stock" : 2},
-        {"size" : "M", "stock" : 7}
-    ]
+    "category" : "stor",
+    "sizes" : [{
+            "size" : "s",
+            "stock" : "6"
+        },
+        {
+            "size" : "m",
+            "stock" : "10"
+        },
+        {
+            "size" : "l",
+            "stock" : "9"
+        }]
 }
 
 ###

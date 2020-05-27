@@ -14,7 +14,8 @@ const {
   getAllProducts,
   createProduct,
   getProductsById,
-  deleteProduct
+  deleteProduct,
+  updateProduct
 } = require("../handlers/product.handler");
 
 /* ENDPOINTS */
@@ -42,12 +43,8 @@ router.post("/", isAuthenticated, createProduct, (req, res) => {
 });
 
 //UPDATE PRODUCT
-router.put("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Update specific product by id",
-    params: req.params,
-    body: req.body,
-  });
+router.put("/:id", updateProduct, (req, res) => {
+  res.status(200).json(res.updatedProduct);
 });
 
 // DELETE PRODUCT
