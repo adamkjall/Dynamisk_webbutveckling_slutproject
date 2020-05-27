@@ -9,12 +9,17 @@ const { Product } = require("../models/product.model");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 
 /* HANDLERS */
+const {
+  getAllProducts,
+  createProduct,
+  getProductsById
+} = require("../handlers/product.handler");
 
 /* ENDPOINTS */
 
 //GET ALL PRODUCTS
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "endpoint: Get all products" });
+router.get("/", getAllProducts, (req, res) => {
+  res.status(200).json(res.allUsers);
 });
 
 //GET ONE PRODUCT
@@ -33,7 +38,7 @@ router.get("/category/:id", (req, res) => {
 });
 
 //CREATE PRODUCT
-router.post("/", isAuthenticated, (req, res) => {
+router.post("/", isAuthenticated, createProduct, (req, res) => {
   res.status(200).json({ message: "endpoint: create product", body: req.body });
 });
 

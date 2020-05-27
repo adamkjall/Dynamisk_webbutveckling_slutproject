@@ -19,15 +19,13 @@ POST http://localhost:8080/api/products/
 Content-Type: application/json
 
 {
-    "title" : "utloggad produkt",
-    "desc" : "Detta är en superfin produkt",
-    "image" : "fin bild",
+    "title" : "Min första produkt",
+    "description" : "Den allra första",
+    "imageUrl" : "fin bild",
     "price" : "5000",
-    "category" : "categoryName",
-    "sizes" : [
-        {"size" : "S", "stock" : 2},
-        {"size" : "M", "stock" : 7}
-    ]
+    "category" : "stor",
+    "sizes.[0].size" : "s",
+    "sizes.[0].stock" : 7
 }
 
 ###
@@ -38,8 +36,8 @@ Content-Type: application/json
 
 {
     "title" : "Ny produkt titel",
-    "desc" : "Detta är ny produktbeskrivning",
-    "image" : "fin bild",
+    "description" : "Detta är ny produktbeskrivning",
+    "imageUrl" : "fin bild",
     "price" : "5000",
     "category" : "categoryName",
     "sizes" : [
