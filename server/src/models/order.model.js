@@ -31,6 +31,7 @@ const OrderSchema = new Schema({
   timeStamp: {
     type: Date,
     required: true,
+    default: Date.now
   },
   orderStatus: {
     type: Boolean,
