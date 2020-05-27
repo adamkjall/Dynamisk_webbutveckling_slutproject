@@ -12,22 +12,20 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const {
   getAllProducts,
   createProduct,
-  getProductsById
+  getProductsById,
+  deleteProduct
 } = require("../handlers/product.handler");
 
 /* ENDPOINTS */
 
 //GET ALL PRODUCTS
 router.get("/", getAllProducts, (req, res) => {
-  res.status(200).json(res.allUsers);
+  res.status(200).json(res.allProducts);
 });
 
 //GET ONE PRODUCT
-router.get("/:id", (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Get specfic product by id",
-    params: req.params,
-  });
+router.get("/:id", getProductsById, (req, res) => {
+  res.status(200).json(res.product);
 });
 
 //GET ALL PRODUCTS IN A CATEGORY
@@ -52,8 +50,8 @@ router.put("/:id", isAuthenticated, (req, res) => {
 });
 
 // DELETE PRODUCT
-router.delete("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "endpoint: delete product" });
+router.delete("/:id", deleteProduct, (req, res) => {
+  res.status(200).json(res.deletedProduct);
 });
 
 module.exports = router;

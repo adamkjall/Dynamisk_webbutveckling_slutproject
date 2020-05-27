@@ -5,7 +5,7 @@ GET http://localhost:8080/api/products
 ###
 
 // GET ONE PRODUCT
-GET http://localhost:8080/api/products/productId
+GET http://localhost:8080/api/products/5ec532922c855608f41ccd42
 
 ###
 
@@ -49,6 +49,6 @@ Content-Type: application/json
 ###
 
 // DELETE A PRODUCT
-DELETE http://localhost:8080/api/products/productId
+DELETE http://localhost:8080/api/products/5ec532922c855608f41ccd40
 
 ###

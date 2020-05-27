@@ -3,7 +3,7 @@ const { Product } = require("../models/product.model");
 const getAllProducts = (req, res, next) => {
     Product.find({}, (err, allProducts) => {
         if(err) res.status(500).json({ message: "Couldn't get all products"});
-        res.status(200).json(allProducts)
+        res.allProducts = allProducts
         next();
     })
 }
@@ -11,7 +11,9 @@ const getAllProducts = (req, res, next) => {
 //getOneProduct
 const getProductsById = (req, res, next) => {
     Product.findById(req.params.id, (err, product) => {
-        if(err) res.status(404).json({ message: "Couldn't find product" })
+        if(err) res.status(404).json({ message: "Couldn't find product" });
+        res.product = product
+        next();
     })
 }
 
@@ -38,6 +40,15 @@ const createProduct = (req, res, next) => {
 
 //updateProduct
 
-//deleteProduct
 
-module.exports = {getAllProducts, getProductsById, createProduct}
+//deleteProduct
+const deleteProduct = (req, res, next) => {
+    Product.findByIdAndDelete(req.params.id, (err, deletedProduct) => {
+        if (err)
+        res.status(500).json({ message: "Couldn't perform product deletion" });
+      res.deletedProduct = deletedProduct;
+      next();
+    });
+}
+
+module.exports = {getAllProducts, getProductsById, createProduct, deleteProduct}
