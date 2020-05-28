@@ -3,3 +3,14 @@
 GET http://localhost:8080/api/payments
 
 ###
+
+// POST A PAYMENT
+
+POST http://localhost:8080/api/payments
+Content-Type: application/json
+
+{
+    "type" : "VISA/Mastercard",
+    "desc" : "Fast and reliable",
+    "price" : "799"
+}

@@ -1,8 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// const { Shipment } = require("../models/shipment.model");
-
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
 
