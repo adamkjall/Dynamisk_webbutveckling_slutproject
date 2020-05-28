@@ -1,5 +1,17 @@
-
 // GET ALL SHIPMENTS
 GET http://localhost:8080/api/shipments
 
 ###
+
+// POST A SHIPMENT
+
+POST http://localhost:8080/api/shipments
+Content-Type: application/json
+
+{
+    "type" : "Home delivery",
+    "desc" : "Delivery to your front door",
+    "company" : "PostMord",
+    "price" : "199",
+    "deliveryTime" : "2"
+}

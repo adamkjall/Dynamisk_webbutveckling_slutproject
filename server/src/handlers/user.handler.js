@@ -91,7 +91,7 @@ const updateUser = (req, res, next) => {
     (err, updatedUser) => {
       if (err) {
         res.status(500).json({ message: "Couldn't perform user update" });
-      } 
+      }
       res.updatedUser = updatedUser;
       next();
     }
