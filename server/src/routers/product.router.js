@@ -7,48 +7,49 @@ const { Product } = require("../models/product.model");
 
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
+const { getSessionUser } = require("../handlers/user.handler");
+const {
+  getAllProducts,
+  getProductsById,
+  getProductsByCategory,
+  createProduct,
+  deleteProduct,
+  updateProduct
+} = require("../handlers/product.handler");
 
 /* ENDPOINTS */
 
 //GET ALL PRODUCTS
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "endpoint: Get all products" });
+router.get("/", getAllProducts, (req, res) => {
+  res.status(200).json(res.allProducts);
 });
 
 //GET ONE PRODUCT
-router.get("/:id", (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Get specfic product by id",
-    params: req.params,
-  });
+router.get("/:id", getProductsById, (req, res) => {
+  res.status(200).json(res.product);
 });
 
 //GET ALL PRODUCTS IN A CATEGORY
-router.get("/category/:id", (req, res) => {
-  res
-    .status(200)
-    .json({ message: "endpoint: Get product by category", params: req.params });
+router.get("/category/:category", getProductsByCategory, (req, res) => {
+  res.status(200).json(res.foundProducts);
 });
 
 //CREATE PRODUCT
-router.post("/", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "endpoint: create product", body: req.body });
+router.post("/", isAuthenticated, getSessionUser, isAdmin, createProduct, (req, res) => {
+  res.status(200).json(res.createdProduct);
 });
 
 //UPDATE PRODUCT
-router.put("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Update specific product by id",
-    params: req.params,
-    body: req.body,
-  });
+router.put("/:id", isAuthenticated, getSessionUser, isAdmin, updateProduct, (req, res) => {
+  res.status(200).json(res.updatedProduct);
 });
 
 // DELETE PRODUCT
-router.delete("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({ message: "endpoint: delete product" });
+router.delete("/:id", isAuthenticated, getSessionUser, isAdmin, deleteProduct, (req, res) => {
+  res.status(200).json(res.deletedProduct);
 });
 
 module.exports = router;

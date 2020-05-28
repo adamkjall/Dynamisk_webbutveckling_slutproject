@@ -2,47 +2,67 @@
 const express = require("express");
 const router = express.Router();
 
-/* MODELS */
-const { Order } = require("../models/order.model");
-
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
+const { getSessionUser } = require("../handlers/user.handler");
+const {
+  getAllOrders,
+  getAllOrdersFromAUser,
+  getOrder,
+  createOrder,
+} = require("../handlers/order.handler");
 
 /* ENDPOINTS */
 
 //GET ALL ORDERS
-router.get("/", (req, res) => {
-  res.status(200).json({ message: "endpoint: Get all orders" });
-});
+router.get(
+  "/",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  getAllOrders,
+  (req, res) => {
+    res.status(200).json(res.allOrders);
+  }
+);
 
 //GET ALL ORDERS FOR A USER
-router.get("/user/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Get specific user's orders",
-    params: req.params,
-  });
-});
+router.get(
+  "/user/:id",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  getAllOrdersFromAUser,
+  (req, res) => {
+    res.status(200).json(res.allUserOrders);
+  }
+);
 
 //GET ORDER BY ID
-router.get("/:id", isAuthenticated, (req, res) => {
-  res
-    .status(200)
-    .json({ message: "endpoint: Get specific order", params: req.params });
-});
+router.get(
+  "/:id",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  getOrder,
+  (req, res) => {
+    res.status(200).json(res.order);
+  }
+);
 
 //POST ORDER
-router.post("/", isAuthenticated, (req, res) => {
-  res
-    .status(200)
-    .json({ message: "endpoint: Get specific order", body: req.body });
+router.post("/", isAuthenticated, createOrder, (req, res) => {
+  res.status(200).json(res.newOrder);
 });
 
 //UPDATE ORDER
 router.put("/:id", isAuthenticated, (req, res) => {
   res.status(200).json({
     message: "endpoint: Update specific order by id",
+    devInfo: "Will this get used?",
     params: req.params,
     body: req.body,
   });
