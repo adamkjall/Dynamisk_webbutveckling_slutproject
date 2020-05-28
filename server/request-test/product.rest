@@ -5,12 +5,12 @@ GET http://localhost:8080/api/products
 ###
 
 // GET ONE PRODUCT
-GET http://localhost:8080/api/products/productId
+GET http://localhost:8080/api/products/5ec532922c855608f41ccd42
 
 ###
 
 // GET ALL PRODUCTS IN A CATEGORY
-GET http://localhost:8080/api/products/category/categoryName
+GET http://localhost:8080/api/products/category/shoes
 
 ###
 
@@ -19,38 +19,54 @@ POST http://localhost:8080/api/products/
 Content-Type: application/json
 
 {
-    "title" : "utloggad produkt",
-    "desc" : "Detta är en superfin produkt",
+    "title" : "En till produkt",
+    "desc" : "Farväl grymma e-shop",
     "image" : "fin bild",
     "price" : "5000",
-    "category" : "categoryName",
-    "sizes" : [
-        {"size" : "S", "stock" : 2},
-        {"size" : "M", "stock" : 7}
-    ]
+    "category" : "stor",
+    "sizes" : [{
+            "size" : "S",
+            "stock" : "0"
+        },
+        {
+            "size" : "M",
+            "stock" : "0"
+        },
+        {
+            "size" : "L",
+            "stock" : "100"
+        }]
 }
 
 ###
 
 // UPDATE PRODUCT
-PUT http://localhost:8080/api/products/productId
+PUT http://localhost:8080/api/products/5ecec6a45d9dd73e8c7f4bbf
 Content-Type: application/json
 
 {
-    "title" : "Ny produkt titel",
-    "desc" : "Detta är ny produktbeskrivning",
+    "title" : "Min tredje produkt",
+    "desc" : "Den allra första",
     "image" : "fin bild",
     "price" : "5000",
-    "category" : "categoryName",
-    "sizes" : [
-        {"size" : "S", "stock" : 2},
-        {"size" : "M", "stock" : 7}
-    ]
+    "category" : "stor",
+    "sizes" : [{
+            "size" : "s",
+            "stock" : "6"
+        },
+        {
+            "size" : "m",
+            "stock" : "10"
+        },
+        {
+            "size" : "l",
+            "stock" : "9"
+        }]
 }
 
 ###
 
 // DELETE A PRODUCT
-DELETE http://localhost:8080/api/products/productId
+DELETE http://localhost:8080/api/products/5eced0f7defe392ee0422c02
 
 ###
