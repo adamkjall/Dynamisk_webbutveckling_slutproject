@@ -6,7 +6,6 @@ const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
 require("dotenv").config();
-require("./fileStorage")
 
 /* DATABASE SETUP */
 const { connectToDb, mongoose } = require("./mongo");
