@@ -1,5 +1,5 @@
 // GET SINGLE IMAGE FROM DATABASE
-GET http://localhost:8080/api/files/5ed38de9872b52051ccb345a
+GET http://localhost:8080/api/files/5ed39901fc46de3ec04fabdd
 
 ###
 // POST A SINGLE IMAGE
@@ -15,4 +15,4 @@ Content-Type: image/jpeg
 
 ###
 // DELETE A SINGLE IMAGE
-DELETE http://localhost:8080/api/files/5ed38de9872b52051ccb345a
+DELETE http://localhost:8080/api/files/5ed39901fc46de3ec04fabdd

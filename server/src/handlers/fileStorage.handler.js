@@ -64,7 +64,6 @@ const readSingleImage = (req, res, next) => {
   });
 
   readStream.on("end", () => {
-    console.log(imageData);
     const image = imageData.concat()[0].toString("base64");
     res.image = image;
     next();
