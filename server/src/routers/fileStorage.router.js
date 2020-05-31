@@ -1,11 +1,21 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { upload } = require('../fileStorage')
+const { 
+    readSingleImage,
+    writeSingleImage,
+    deleteSingleImage
+} = require("../handlers/fileStorage.handler");
 
-router.post("/", upload.single("image"), (req, res) => {
-    console.log(req.file)
-    res.status(200).json({ message: "Success!" })
+router.get("/:id", readSingleImage, (req, res) => {
+    res.status(200).json({message: "success", image: res.image})
 })
 
+router.post("/", writeSingleImage, (req, res) => {
+    res.status(201).json({message: "success"})
+})
 
-module.exports = router
+router.delete("/:id", deleteSingleImage, (req, res) => {
+    res.status(200).json({message: "image deleted"})
+})
+
+module.exports = router;

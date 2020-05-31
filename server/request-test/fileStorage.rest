@@ -1,3 +1,8 @@
+// GET SINGLE IMAGE FROM DATABASE
+GET http://localhost:8080/api/files/5ed38de9872b52051ccb345a
+
+###
+// POST A SINGLE IMAGE
 POST http://localhost:8080/api/files
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
 
@@ -7,3 +12,7 @@ Content-Type: image/jpeg
 
 < ./uggla.jpg
 ------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
+// DELETE A SINGLE IMAGE
+DELETE http://localhost:8080/api/files/5ed38de9872b52051ccb345a
