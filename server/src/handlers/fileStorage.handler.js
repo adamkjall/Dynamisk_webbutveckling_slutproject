@@ -43,7 +43,7 @@ mongoose.connection.once("open", () => {
 const writeSingleImage = (req, res, next) => {
   const upload = multer({ storage }).single("image");
   upload(req, res, (err) => {
-    if (err) res.status(500).json({ message: "FATAL ERROR" });
+    if (err) res.status(500).json({ message: "Couldn't upload image" });
     next();
   });
 };
@@ -75,7 +75,7 @@ const readSingleImage = async (req, res, next) => {
       next();
     });
   } catch (err) {
-    res.status(404).json({ message: "Didn't find image", error: err }); 
+    res.status(404).json({ message: "Didn't find image" }); 
   }
 };
 
