@@ -8,7 +8,7 @@ import AppRouter from "./router/app-router";
 import Header from "./components/header";
 import Menu from "./components/menu";
 
-import SHOP_DATA from "./shop.data";
+// import SHOP_DATA from "./shop.data";
 
 const myTheme = {
   global: {
@@ -31,15 +31,15 @@ const myTheme = {
 };
 
 function App() {
-  useEffect(() => {
-    syncWithLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   syncWithLocalStorage();
+  // }, []);
 
   const syncWithLocalStorage = () => {
-    const localstorageCollections = localStorage.getItem("collection");
-    if (!localstorageCollections) {
-      localStorage.setItem("collection", JSON.stringify(SHOP_DATA));
-    }
+    // const localstorageCollections = localStorage.getItem("collection");
+    // if (!localstorageCollections) {
+    //   localStorage.setItem("collection", JSON.stringify(SHOP_DATA));
+    // }
   };
 
   return (

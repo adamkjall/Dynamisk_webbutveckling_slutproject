@@ -15,7 +15,7 @@ import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
 
-import { CollectionItem } from "../shop.data";
+import { Product } from "../shop.data";
 
 interface Props {
   locked?: boolean; // prohibit any change to the cart items
@@ -35,7 +35,8 @@ const CartItems = ({ locked = false }: Props) => {
     let total: number = 0;
 
     for (let i = 0; i < cart.length; i++) {
-      const quantity = cart[i].quantity || 1;
+      // const quantity = cart[i].quantity || 1;
+      const quantity = 1;
       total += cart[i].price * quantity;
     }
 
@@ -74,32 +75,32 @@ const CartItems = ({ locked = false }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((item: CollectionItem) => (
-            <TableRow key={item.id}>
+          {cart.map((item: Product) => (
+            <TableRow key={item._id}>
               {responsive !== "small" ? (
                 <TableCell>
-                  <Image src={item.imageUrl} style={{ width: "4rem" }}></Image>
+                  <Image src={item.image} style={{ width: "4rem" }}></Image>
                 </TableCell>
               ) : null}
-              <TableCell>{item.name}</TableCell>
+              <TableCell>{item.title}</TableCell>
               <TableCell>${item.price}</TableCell>
               {!locked && (
                 <>
                   <TableCell flex direction="row" align="center">
-                    {item.quantity > 1 ? (
+                    {2 > 1 ? ( // todo check if quantity is greater than 1
                       <Button
                         icon={<SubtractCircle />}
                         style={{
                           padding:
                             responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                         }}
-                        onClick={() => removeItemFromCart(item.id)}
+                        onClick={() => removeItemFromCart(item._id)}
                       />
                     ) : (
                       <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
                       // "\u00a0\u00a0" // for empty space
                     )}
-                    <span>{item.quantity}</span>
+                    <span>{1}</span> {/* item.quantity */}
                     <Button
                       size="small"
                       style={{
@@ -116,7 +117,7 @@ const CartItems = ({ locked = false }: Props) => {
                       style={{
                         padding: responsive === "small" ? "0" : "0",
                       }}
-                      onClick={() => clearItemFromCart(item.id)}
+                      onClick={() => clearItemFromCart(item._id)}
                       icon={<Close />}
                     />
                   </TableCell>

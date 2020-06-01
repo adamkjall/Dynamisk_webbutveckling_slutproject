@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 
 import CartContext from "./context";
 
-import { CollectionItem } from "../../shop.data";
+import { Product } from "../../shop.data";
 
 interface IProps {}
 
@@ -10,7 +10,7 @@ export type ShippingMethod = "postNord" | "schenker" | "dhl";
 export type PaymentMethod = "card" | "invoice" | "swish";
 
 const CartContextProvider: FC<IProps> = (props) => {
-  const [cart, setCart] = useState<CollectionItem[]>([]);
+  const [cart, setCart] = useState<Product[]>([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>(
     "postNord"
@@ -32,12 +32,12 @@ const CartContextProvider: FC<IProps> = (props) => {
     setShippingCost(cost);
   }, [shippingMethod]);
 
-  const addItemToCart = (item: CollectionItem) => {
-    const existing = cart.find((cartItem) => cartItem.id === item.id);
+  const addItemToCart = (item: Product) => {
+    const existing = cart.find((cartItem) => cartItem._id === item._id);
 
     if (existing) {
       const newCart = cart.map((cartItem) => {
-        if (cartItem.id === item.id) {
+        if (cartItem._id === item._id) {
           return {
             ...cartItem,
             quantity: cartItem.quantity ? cartItem.quantity + 1 : 1,
@@ -50,16 +50,16 @@ const CartContextProvider: FC<IProps> = (props) => {
     }
   };
 
-  const removeItemFromCart = (itemId: number) => {
-    const existing = cart.find((cartItem) => cartItem.id === itemId);
+  const removeItemFromCart = (itemId: string) => {
+    const existing = cart.find((cartItem) => cartItem._id === itemId);
 
     if (existing) {
       if (existing.quantity === 1) {
-        const newCart = cart.filter((item) => item.id !== itemId);
+        const newCart = cart.filter((item) => item._id !== itemId);
         setCart(newCart);
       } else {
         const newCart = cart.map((cartItem) => {
-          if (cartItem.id === itemId) {
+          if (cartItem._id === itemId) {
             return {
               ...cartItem,
               quantity: cartItem.quantity ? cartItem.quantity - 1 : 1,
@@ -71,9 +71,9 @@ const CartContextProvider: FC<IProps> = (props) => {
     }
   };
 
-  const clearItemFromCart = (itemId: number) => {
+  const clearItemFromCart = (itemId: string) => {
     setCart((prevCart) =>
-      prevCart.filter((cartItem) => cartItem.id !== itemId)
+      prevCart.filter((cartItem) => cartItem._id !== itemId)
     );
   };
 

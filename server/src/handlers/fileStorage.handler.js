@@ -65,13 +65,14 @@ const readSingleImage = (req, res, next) => {
 
   readStream.on("end", () => {
     const image = imageData.concat()[0].toString("base64");
+    console.log("image", imageData);
     res.image = image;
     next();
   });
 };
 
 const deleteSingleImage = (req, res, next) => {
-  const id = mongoose.Types.ObjectId(req.params.id)
+  const id = mongoose.Types.ObjectId(req.params.id);
   bucket.delete(id, (err) => {
     if (err) {
       res.status(404).json({ message: "Couldn't find dokument" });
