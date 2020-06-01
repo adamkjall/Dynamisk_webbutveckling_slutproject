@@ -1,5 +1,5 @@
 // GET SINGLE IMAGE FROM DATABASE
-GET http://localhost:8080/api/files/5ed39901fc46de3ec04fabdd
+GET http://localhost:8080/api/files/5ed39b61be0d454cb87dfd4e
 
 ###
 // POST A SINGLE IMAGE
