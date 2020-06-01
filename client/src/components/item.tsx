@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import {
+  withRouter,
+  RouteComponentProps,
+  BrowserRouter,
+} from "react-router-dom";
 
 import { Box, Button, Layer, Heading, Paragraph } from "grommet";
 import { Close } from "grommet-icons";

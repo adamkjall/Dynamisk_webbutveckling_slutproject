@@ -41,13 +41,13 @@ Content-Type: application/json
 ###
 
 // UPDATE PRODUCT
-PUT http://localhost:8080/api/products/5ecec6a45d9dd73e8c7f4bbf
+PUT http://localhost:8080/api/products/5ed50f4ecd7a6240fced2dbc
 Content-Type: application/json
 
 {
     "title" : "Min tredje produkt",
     "desc" : "Den allra första",
-    "image" : "fin bild",
+    "image" : "fin bild 2",
     "price" : "5000",
     "category" : "stor",
     "sizes" : [{

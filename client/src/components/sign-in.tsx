@@ -31,7 +31,7 @@ const SignIn = () => {
   };
 
   return (
-    <StyledSignIn>
+    <StyledSignIn className="sign-in">
       <h2 className="title">LOGIN</h2>
       <form className="sign-in-form" onSubmit={handleSubmit}>
         <FormInput

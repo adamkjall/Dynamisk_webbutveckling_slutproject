@@ -44,6 +44,8 @@ const writeSingleImage = (req, res, next) => {
   const upload = multer({ storage }).single("image");
   upload(req, res, (err) => {
     if (err) res.status(500).json({ message: "Couldn't upload image" });
+
+    res.id = req.file.id;
     next();
   });
 };

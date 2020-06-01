@@ -5,8 +5,17 @@ import AuthenticationContext, { User } from "./context";
 interface Props {}
 
 const AuthenticationContextProvider: FC<Props> = (props) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>({
+    firstName: "Adam",
+    lastName: "Kjäll",
+    phoneNumber: "0123456789",
+    email: "adam@email.se",
+    streetAddress: "Blåbärsvägeb 7",
+    zipCode: "40010",
+    city: "Ankeborg",
+    isAdmin: true,
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const login = (email: string, password: string) => {
     // TODO login API call to server
@@ -15,11 +24,11 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
       lastName: "Kjäll",
       phoneNumber: "0123456789",
       email: "adam@email.se",
-      address: "Blåbärsvägeb 7",
-      postCode: "400 10",
+      streetAddress: "Blåbärsvägeb 7",
+      zipCode: "40010",
       city: "Ankeborg",
       card: "999999999999",
-      role: "admin",
+      isAdmin: true,
     };
 
     setUser(user);
@@ -40,7 +49,7 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
     }));
   };
 
-  const isAdmin = () => user && user.role === "admin";
+  const isAdmin = () => user && user.isAdmin;
 
   return (
     <AuthenticationContext.Provider

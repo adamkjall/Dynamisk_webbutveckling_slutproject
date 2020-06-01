@@ -1,16 +1,3 @@
-/* Used as starting data for ShopPage */
-
-// export interface Product {
-//   id: number;
-//   name: string;
-//   imageUrl: string;
-//   price: number;
-//   size: string[];
-//   season: string[];
-//   description: string;
-//   quantity?: number;
-// }
-
 export interface Product {
   _id: string;
   category: string;
@@ -24,13 +11,6 @@ export interface Product {
   desc: string;
   quantity?: number;
 }
-
-// export interface Collection {
-//   id: number;
-//   title: string;
-//   routeName: string;
-//   items: Product[];
-// }
 
 // const SHOP_DATA: Collection[] = [
 //   {
