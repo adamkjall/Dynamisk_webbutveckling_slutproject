@@ -48,26 +48,35 @@ const writeSingleImage = (req, res, next) => {
   });
 };
 
-const readSingleImage = (req, res, next) => {
-  const readStream = bucket.openDownloadStream(
-    mongoose.Types.ObjectId(req.params.id)
-  );
+const readSingleImage = async (req, res, next) => {
+  const filter = mongoose.Types.ObjectId(req.params.id)
+  
+  try {  
+    const { filename, contentType, uploadDate } = await bucket.find(filter).next()
+    const readStream = bucket.openDownloadStream(filter);
+    let imageData = [];
 
-  let imageData = [];
-
-  readStream.on("error", () => {
-    res.status(404).json({ message: "Didn't find image" });
-  });
-
-  readStream.on("data", (chunk) => {
-    imageData.push(chunk);
-  });
-
-  readStream.on("end", () => {
-    const image = imageData.concat()[0].toString("base64");
-    res.image = image;
-    next();
-  });
+    readStream.on("error", () => {
+      res.status(500).json({ message: "Couldn't load image" });
+    });
+  
+    readStream.on("data", (chunk) => {
+      imageData.push(chunk);
+    });
+  
+    readStream.on("end", () => {
+      const imageBase64 ={ data: imageData.concat()[0].toString("base64") };
+      res.image = { 
+        filename,
+        contentType,
+        uploadDate, 
+        ...imageBase64 
+      };
+      next();
+    });
+  } catch (err) {
+    res.status(404).json({ message: "Didn't find image", error: err }); 
+  }
 };
 
 const deleteSingleImage = (req, res, next) => {
