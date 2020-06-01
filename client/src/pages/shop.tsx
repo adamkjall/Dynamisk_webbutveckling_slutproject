@@ -21,6 +21,11 @@ const Shop: FC<IProps> = ({ query }) => {
 
   // const matchWithQuery = (item: Product): boolean =>
   //   item.name.toLowerCase().includes(query.trim().toLowerCase());
+  useEffect(() => {
+    fetch("http://localhost:8080/api/files/5ed2cdf0d8c45b34d0ca1b72")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
 
   return (
     <Box
