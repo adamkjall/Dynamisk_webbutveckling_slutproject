@@ -17,6 +17,7 @@ const MyCheckOut = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isCardValid, setIsCardValid] = useState(true)
   const { user } = useContext(AuthenticationContext);
   const { clearCart, paymentMethod } = useContext(CartContext);
   const history = useHistory();
@@ -82,15 +83,16 @@ const MyCheckOut = () => {
         </AccordionPanel>
         <AccordionPanel onClick={() => setActiveIndex(2)} label="Payment">
           <Box pad="medium" background="light-2">
-            <PaymentForm />
+            <PaymentForm setIsCardValid = {setIsCardValid} isCardValid = {isCardValid}/>
           </Box>
         </AccordionPanel>
         {activeIndex === 2 &&
         !loading &&
         validUserInformation() &&
-        (paymentMethod === "card" ||
+        !isCardValid &&
+         "card" ||
           paymentMethod === "swish" ||
-          paymentMethod === "invoice") ? (
+          paymentMethod === "invoice" ? (
           <Button
             margin="medium"
             primary
