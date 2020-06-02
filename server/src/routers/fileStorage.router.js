@@ -7,7 +7,7 @@ const {
 } = require("../handlers/fileStorage.handler");
 
 router.get("/:id", readSingleImage, (req, res) => {
-  res.status(200).json({ message: "success", image: res.image });
+  res.status(200).end();
 });
 
 router.post("/", writeSingleImage, (req, res) => {
