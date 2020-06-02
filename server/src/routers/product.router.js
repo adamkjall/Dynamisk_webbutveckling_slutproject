@@ -24,8 +24,6 @@ const {
 
 //GET ALL PRODUCTS
 router.get("/", getAllProducts, (req, res) => {
-  console.log(res.allProducts);
-
   res.status(200).json(res.allProducts);
 });
 

@@ -1,21 +1,5 @@
 const mongoose = require("mongoose");
 
-const FileSchema = new mongoose.Schema({ _id: mongoose.ObjectId });
-FileSchema.virtual("imageData", {
-  ref: "Chunk",
-  localField: "_id",
-  foreignField: "files_id",
-  justOne: true,
-});
-
-const File = mongoose.model("File", FileSchema, "product-images.files");
-
-const ChunkSchema = new mongoose.Schema({
-  files_id: mongoose.ObjectId,
-  data: "Buffer",
-});
-const Chunk = mongoose.model("Chunk", ChunkSchema, "product-images.chunks");
-
 const Schema = mongoose.Schema;
 const sizesSubSchema = mongoose.Schema(
   {
@@ -54,19 +38,17 @@ const ProductSchema = new Schema(
       required: true,
     },
     sizes: [sizesSubSchema],
-  },
-  {
-    toObject: {
-      virtuals: true,
-    },
+  }, {
     toJSON: {
       virtuals: true,
+      id: false
     },
   }
 );
 
-// ProductSchema.set("toJSON", { virtuals: true });
-// ProductSchema.set("toObject", { virtuals: true });
+ProductSchema.virtual("imageURL").get(function () {
+  return process.env.DOMAIN + this.image.toString()
+})
 
 const Product = mongoose.model("Product", ProductSchema);
 
