@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Form } from "grommet";
 
-import FormFieldLabel from "./form-field-fabel";
+import FormFieldLabel from "./form-field-label";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
 

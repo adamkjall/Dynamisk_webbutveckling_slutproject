@@ -14,7 +14,7 @@ import {
 } from "grommet";
 import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
 
-import FormFieldLabel from "../components/form-field-fabel";
+import FormFieldLabel from "../components/form-field-label";
 
 // import { Collection, Product } from "../shop.data";
 

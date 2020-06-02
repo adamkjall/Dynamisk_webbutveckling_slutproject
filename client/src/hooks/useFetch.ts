@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url: string, options: RequestInit = {}) => {
+const useFetch = (url: string, options?: RequestInit) => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
 
@@ -13,7 +13,7 @@ const useFetch = (url: string, options: RequestInit = {}) => {
         setLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [url]);
+  }, [url, options]);
 
   return { loading, data };
 };

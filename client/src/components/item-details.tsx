@@ -12,7 +12,6 @@ interface Iprops {
 const ItemDetails = ({ item }: Iprops) => {
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
-  console.log("item", item);
 
   return (
     <Box
