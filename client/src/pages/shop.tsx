@@ -16,7 +16,8 @@ const Shop: FC<IProps> = ({ query }) => {
   // const [products, setProducts] = useState<Product[]>(null);
   const { category } = useParams();
   const { loading, data: products } = useFetch(
-    "http://localhost:8080/api/products/category/" + category
+    // "http://localhost:8080/api/products/category/" + category
+    "http://localhost:8080/api/products/"
   );
 
   console.log("prod", products);
