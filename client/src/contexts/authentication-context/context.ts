@@ -21,7 +21,7 @@ interface IContext {
 }
 
 export default React.createContext<IContext>({
-  isAuthenticated: false,
+  isAuthenticated: true,
   isAdmin: () => false,
   user: null,
   login: (email: string, password: string) => {},

@@ -26,11 +26,11 @@ const MyCheckOut = () => {
     user.firstName.match(/[A-Ö]/gi)?.length === user.firstName.length &&
     user.lastName.length > 1 &&
     user.lastName.match(/[A-Ö]/gi)?.length === user.lastName.length &&
-    user.email.length > 1 &&
-    user.phoneNumber.length > 1 &&
+    user.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/) &&
+    user.phoneNumber.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/) &&
     user.streetAddress.length > 1 &&
     user.city.length > 1 &&
-    user.zipCode.length > 1;
+    user.zipCode.match(/^\d{5}$/);
 
   const closeModal = () => {
     history.push("/");
