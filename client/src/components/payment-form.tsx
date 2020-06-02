@@ -10,26 +10,41 @@ import { PaymentMethod } from "../contexts/cart-context/context-provider";
 
 interface IProps {
   setIsCardValid,
-  isCardValid
+  isCardValid:boolean,
+  setIsPayPhoneValid,
+  isPayPhoneValid:boolean,
+  setIsPayMailValid,
+  isPayMailValid:boolean
 }
 
 const PaymentForm = (props: IProps) => {
   const { user, updateUser } = useContext(AuthenticationContext);
   const { paymentMethod, setPaymentMethod } = useContext(CartContext);
 
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    updateUser(name, value);
-  };
-
   const cardnoVisa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/
   const cardnoMasterCard = /^(?:5[1-5][0-9]{14})$/
 
   const checkCardValidation = (event) => {
     if((event.target.value.match(cardnoMasterCard))||(event.target.value.match(cardnoVisa))){
-      props.setIsCardValid(false)
-    }else{
       props.setIsCardValid(true)
+    }else{
+      props.setIsCardValid(false)
+    }
+  }
+
+  const checkPhoneValidation = (event) => {
+    if(event.target.value.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)){
+      props.setIsPayPhoneValid(true)
+    }else{
+      props.setIsPayPhoneValid(false)
+    }
+  }
+
+  const checkMailValidation = (event) => {
+    if(event.target.value.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)){
+      props.setIsPayMailValid(true)
+    }else{
+      props.setIsPayMailValid(false)
     }
   }
 
@@ -54,11 +69,18 @@ const PaymentForm = (props: IProps) => {
         <FormField
           key={1}
           name="email"
-          label="Email"
+          label={
+            (
+              <Box direction="row">
+                <Text>E-mail</Text>
+                <Text color="status-critical">*</Text>
+              </Box>
+            )
+          }
           required
           type="email"
           value={user.email}
-          onChange={handleOnChange}
+          onChange={(event) => checkMailValidation(event)}
           validate={[
             { regexp: /^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/ },
             name => {
@@ -82,25 +104,30 @@ const PaymentForm = (props: IProps) => {
         required
         type="number"
         value={user.phoneNumber}
-        onChange={handleOnChange}
+        onChange={(event) => checkPhoneValidation(event)}
         validate={[
           { regexp: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/ },
           name => {
             if (!name.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)) return "Not a valid phone number";
             return undefined;
           }
-        ]}
-        
+        ]}  
       />
       ) : (
         <FormField
           key={3}
           name="card"
-          label="Card"
+          label={
+            (
+              <Box direction="row">
+                <Text>Card</Text>
+                <Text color="status-critical">*</Text>
+              </Box>
+            )
+          }
           required
           type="number"
           value={""}
-          //onChange={handleOnChange}
           onChange={(event) => checkCardValidation(event)}
           validate={[
             { regexp: cardnoMasterCard||cardnoVisa},
