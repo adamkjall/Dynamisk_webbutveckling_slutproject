@@ -57,7 +57,7 @@ const ContactFormField = (props: IProps) => {
         label="Address"
         required
         type="text"
-        value={user.address}
+        value={user.streetAddress}
         onChange={handleOnChange}
       />
       <FormFieldLabel
@@ -65,7 +65,7 @@ const ContactFormField = (props: IProps) => {
         label="Post code"
         required
         type="number"
-        value={user.postCode}
+        value={user.zipCode}
         onChange={handleOnChange}
       />
       <FormFieldLabel

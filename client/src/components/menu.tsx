@@ -36,7 +36,7 @@ const MyMenu = () => {
                 },
                 {
                   label: "Sneakers",
-                  onClick: () => history.push("/shop/sneakers"),
+                  onClick: () => history.push("/shop/shoes"),
                 },
               ]}
             />
@@ -63,7 +63,7 @@ const MyMenu = () => {
                 </Link>
               </Text>
               <Text size="medium">
-                <Link className="link" to="/shop/sneakers">
+                <Link className="link" to="/shop/shoes">
                   SNEAKERS
                 </Link>
               </Text>

@@ -16,130 +16,127 @@ import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
 
 import FormFieldLabel from "../components/form-field-fabel";
 
-import { Collection, CollectionItem } from "../shop.data";
+// import { Collection, Product } from "../shop.data";
 
 const initialInputs = {
-  name: "",
-  imageUrl: "",
+  title: "",
+  image: "",
   price: "",
   size: [""],
-  season: [""],
-  description: "",
+  desc: "",
 };
 
 const Admin = () => {
-  const [collections, setCollections] = useState<Collection[]>([]);
-  const [open, setOpen] = React.useState<boolean>(false);
-  const [category, setCategory] = useState("none");
-  const [itemToEdit, setItemToEdit] = useState<CollectionItem>();
-  const [inputs, setInputs] = useState(initialInputs);
-  const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
+  // const [collections, setCollections] = useState<Collection[]>([]);
+  const [open, setOpen] = useState(false);
+  // const [category, setCategory] = useState("none");
+  // const [itemToEdit, setItemToEdit] = useState<Product>();
+  // const [inputs, setInputs] = useState(initialInputs);
+  // const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
 
   const onOpen = () => setOpen(true);
 
   const onClose = () => setOpen(false);
 
-  useEffect(() => {
-    const localStorageCollections = localStorage.getItem("collection");
-    if (localStorageCollections) {
-      setCollections(JSON.parse(localStorageCollections));
-    }
-  }, []);
+  useEffect(() => {}, []);
 
-  const addToCollection = () => {
-    const item: CollectionItem = {
-      id: calculateNextItemId(),
-      name: inputs.name,
-      imageUrl: inputs.imageUrl,
-      price: Number(inputs.price),
-      size: inputs.size,
-      season: inputs.season,
-      description: inputs.description,
-    };
+  // const addToCollection = () => {
+  //   const item: Product = {
+  //     id: calculateNextItemId(),
+  //     title: inputs.title,
+  //     image: inputs.image,
+  //     price: Number(inputs.price),
+  //     size: inputs.size,
+  //     desc: inputs.desc,
+  //   };
 
-    const updatedCollections = collections.map((collection) => {
-      if (collection.routeName === category) {
-        return {
-          ...collection,
-          items: [...collection.items, item],
-        };
-      } else {
-        return { ...collection };
-      }
-    });
+  //   const updatedCollections = collections.map((collection) => {
+  //     if (collection.routeName === category) {
+  //       return {
+  //         ...collection,
+  //         items: [...collection.items, item],
+  //       };
+  //     } else {
+  //       return { ...collection };
+  //     }
+  //   });
 
-    setCollections(updatedCollections);
-    localStorage.setItem("collection", JSON.stringify(updatedCollections));
-    onClose();
-  };
+  //   setCollections(updatedCollections);
+  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
+  //   onClose();
+  // };
 
-  const removeFromCollection = (itemId: number) => {
-    const updatedCollections = collections.map((collection) => ({
-      ...collection,
-      items: collection.items.filter((item) => item.id !== itemId),
-    }));
+  // const removeFromCollection = (itemId: string) => {
+  //   const updatedCollections = collections.map((collection) => ({
+  //     ...collection,
+  //     items: collection.items.filter((item) => item._id !== itemId),
+  //   }));
 
-    setCollections(updatedCollections);
-    localStorage.setItem("collection", JSON.stringify(updatedCollections));
-  };
+  //   setCollections(updatedCollections);
+  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
+  // };
 
-  const editItem = () => {
-    const updatedCollections = collections.map((collection) => {
-      if (itemToEdit !== undefined) {
-        let itemIndex = collection.items.findIndex(
-          (item) => item.id === itemToEdit.id
-        );
+  // const editItem = () => {
+  //   const updatedCollections = collections.map((collection) => {
+  //     if (itemToEdit !== undefined) {
+  //       let itemIndex = collection.items.findIndex(
+  //         (item) => item._id === itemToEdit._id
+  //       );
 
-        if (itemIndex !== -1) {
-          // if we found the index of the item
-          collection.items[itemIndex] = {
-            ...itemToEdit,
-            name: inputs.name,
-            imageUrl: inputs.imageUrl,
-            price: Number(inputs.price),
-            size: inputs.size,
-            season: inputs.season,
-            description: inputs.description,
-          };
-        }
-      }
-      return collection;
-    });
+  //       if (itemIndex !== -1) {
+  //         // if we found the index of the item
+  //         collection.items[itemIndex] = {
+  //           ...itemToEdit,
+  //           title: inputs.title,
+  //           image: inputs.image,
+  //           price: Number(inputs.price),
+  //           sizes: [
+  //             {
+  //               size: "small",
+  //               stock: 1,
+  //             },
+  //           ],
+  //           desc: inputs.desc,
+  //         };
+  //       }
+  //     }
+  //     return collection;
+  //   });
 
-    setCollections(updatedCollections);
-    localStorage.setItem("collection", JSON.stringify(updatedCollections));
-    onClose();
-  };
+  //   setCollections(updatedCollections);
+  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
+  //   onClose();
+  // };
 
-  const calculateNextItemId = () => {
-    let highestId =
-      collections
-        .map((collection) => collection.items.map((item) => item.id))
-        .flat()
-        .sort((a, b) => a - b)
-        .pop() || 0;
+  // const calculateNextItemId = () => {
+  //   let highestId =
+  //     collections
+  //       .map((collection) => collection.items.map((item) => item._id))
+  //       .flat()
+  //       .sort((a, b) => a - b)
+  //       .pop() || 0;
 
-    return highestId + 1;
-  };
+  //   return highestId + 1;
+  // };
 
-  const handleInputs = (name: string, value: string) => {
-    setInputs((prev) => ({ ...prev, [name]: value }));
-  };
+  // const handleInputs = (name: string, value: string) => {
+  //   setInputs((prev) => ({ ...prev, [name]: value }));
+  // };
 
-  const setInputsToItemData = (item: CollectionItem) => {
-    setInputs({
-      name: item.name,
-      imageUrl: item.imageUrl,
-      price: item.price + "",
-      size: item.size,
-      season: item.season,
-      description: item.description,
-    });
-  };
+  // const setInputsToItemData = (item: Product) => {
+  //   setInputs({
+  //     name: item.title,
+  //     imageUrl: item.image,
+  //     price: item.price + "",
+  //     size: item.size,
+  //     // season: item.season,
+  //     description: item.desc,
+  //   });
+  // };
 
   return (
     <Main>
-      <Box direction="row" justify="evenly">
+      {/* <Box direction="row" justify="evenly">
         {collections.map((collection: Collection) => (
           <Box key={collection.id}>
             <Heading size="small">
@@ -158,7 +155,7 @@ const Admin = () => {
               />
             </Heading>
 
-            {collection.items.map((item: CollectionItem) => (
+            {collection.items.map((item: Product) => (
               <Box key={item.id}>
                 <Box direction="row" align="center">
                   <Button
@@ -255,7 +252,7 @@ const Admin = () => {
             </Form>
           </Box>
         </Layer>
-      )}
+      )} */}
     </Main>
   );
 };

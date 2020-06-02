@@ -3,10 +3,10 @@ import { Box, Button, Text, Heading, Image, ResponsiveContext } from "grommet";
 
 import CartContext from "../contexts/cart-context/context";
 
-import { CollectionItem } from "../shop.data";
+import { Product } from "../shop.data";
 
 interface Iprops {
-  item: CollectionItem;
+  item: Product;
 }
 
 const ItemDetails = (props: Iprops) => {
@@ -28,7 +28,7 @@ const ItemDetails = (props: Iprops) => {
           margin="xsmall"
           size={responsive === "small" ? "small" : "large"}
         >
-          {props.item.name}
+          {props.item.title}
         </Heading>
         <Heading
           color="#c96d36"
@@ -46,7 +46,7 @@ const ItemDetails = (props: Iprops) => {
         >
           <Image
             fit="cover"
-            src={props.item.imageUrl}
+            src={props.item.image}
             style={{ boxShadow: "2px 2px 4px gray" }}
           />
         </Box>
@@ -54,7 +54,7 @@ const ItemDetails = (props: Iprops) => {
           <Text style={{ fontWeight: "bold" }}>Sizes: </Text>
           <Box margin={{ vertical: "small" }}>
             <Text>
-              {props.item.size.map((sizeUnit: any, index: any) => (
+              {/* {props.item.size.map((sizeUnit: any, index: any) => (
                 <Text
                   key={index}
                   style={{
@@ -67,13 +67,13 @@ const ItemDetails = (props: Iprops) => {
                 >
                   {sizeUnit}
                 </Text>
-              ))}
+              ))} */}
             </Text>
           </Box>
           <Text style={{ fontWeight: "bold" }}>Seasons: </Text>
           <Box margin={{ vertical: "small" }}>
             <Text>
-              {props.item.season.map((seasonUnit: any, index: any) => (
+              {/* {props.item.season.map((seasonUnit: any, index: any) => (
                 <Text
                   key={index}
                   style={{
@@ -86,14 +86,14 @@ const ItemDetails = (props: Iprops) => {
                 >
                   {seasonUnit}
                 </Text>
-              ))}
+              ))} */}
             </Text>
           </Box>
           <Text margin={{ vertical: "xsmall" }}>
             <span style={{ fontWeight: "bold" }}>Description: </span>
             {responsive === "small"
-              ? props.item.description.slice(0, 50)
-              : props.item.description}
+              ? props.item.desc.slice(0, 50)
+              : props.item.desc}
           </Text>
           <Button
             primary

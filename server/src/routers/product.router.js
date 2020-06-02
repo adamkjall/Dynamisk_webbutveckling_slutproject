@@ -17,7 +17,7 @@ const {
   getProductsByCategory,
   createProduct,
   deleteProduct,
-  updateProduct
+  updateProduct,
 } = require("../handlers/product.handler");
 
 /* ENDPOINTS */
@@ -38,18 +38,39 @@ router.get("/category/:category", getProductsByCategory, (req, res) => {
 });
 
 //CREATE PRODUCT
-router.post("/", isAuthenticated, getSessionUser, isAdmin, createProduct, (req, res) => {
-  res.status(200).json(res.createdProduct);
-});
+router.post(
+  "/",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  createProduct,
+  (req, res) => {
+    res.status(200).json(res.createdProduct);
+  }
+);
 
 //UPDATE PRODUCT
-router.put("/:id", isAuthenticated, getSessionUser, isAdmin, updateProduct, (req, res) => {
-  res.status(200).json(res.updatedProduct);
-});
+router.put(
+  "/:id",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  updateProduct,
+  (req, res) => {
+    res.status(200).json(res.updatedProduct);
+  }
+);
 
 // DELETE PRODUCT
-router.delete("/:id", isAuthenticated, getSessionUser, isAdmin, deleteProduct, (req, res) => {
-  res.status(200).json(res.deletedProduct);
-});
+router.delete(
+  "/:id",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  deleteProduct,
+  (req, res) => {
+    res.status(200).json(res.deletedProduct);
+  }
+);
 
 module.exports = router;

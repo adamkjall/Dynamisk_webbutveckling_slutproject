@@ -6,7 +6,7 @@ import ProtectedRoute from "./protected-route/protected-route";
 import Home from "../pages/home";
 import Shop from "../pages/shop";
 import Checkout from "../pages/checkout";
-import Admin from "../pages/admin-page";
+import Admin from "../pages/admin";
 import SignInSignUp from "../pages/sign-in-sign-up";
 
 /**

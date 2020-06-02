@@ -37,9 +37,9 @@ const OrderConfirmation = (props: IProps) => {
       </StyledGrid>
       <h4>Items</h4>
 
-      {cart.map(item => (
-        <StyledItemRow key={item.id}>
-          <span>{item.name}</span>
+      {cart.map((item) => (
+        <StyledItemRow key={item._id}>
+          <span>{item.title}</span>
           <span>
             ${item.price} x {item.quantity || 1}
           </span>

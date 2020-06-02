@@ -56,7 +56,7 @@ const PaymentForm = (props: IProps) => {
           label="Card"
           required
           type="number"
-          value={user.card}
+          value={"12938120931283091"}
           onChange={(e) => updateUser("card", e.target.value)}
         />
       )}
