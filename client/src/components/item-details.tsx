@@ -9,9 +9,10 @@ interface Iprops {
   item: Product;
 }
 
-const ItemDetails = (props: Iprops) => {
+const ItemDetails = ({ item }: Iprops) => {
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
+  console.log("item", item);
 
   return (
     <Box
@@ -28,14 +29,14 @@ const ItemDetails = (props: Iprops) => {
           margin="xsmall"
           size={responsive === "small" ? "small" : "large"}
         >
-          {props.item.title}
+          {item.title}
         </Heading>
         <Heading
           color="#c96d36"
           size="small"
           margin={responsive === "small" ? "none" : "medium"}
         >
-          ${props.item.price}
+          ${item.price}
         </Heading>
       </Box>
       <Box direction={responsive === "small" ? "column" : "row"} align="center">
@@ -46,7 +47,7 @@ const ItemDetails = (props: Iprops) => {
         >
           <Image
             fit="cover"
-            src={props.item.image}
+            src={`data:${item.image.contentType};base64, ${item.image.imageData}`}
             style={{ boxShadow: "2px 2px 4px gray" }}
           />
         </Box>
@@ -91,14 +92,12 @@ const ItemDetails = (props: Iprops) => {
           </Box>
           <Text margin={{ vertical: "xsmall" }}>
             <span style={{ fontWeight: "bold" }}>Description: </span>
-            {responsive === "small"
-              ? props.item.desc.slice(0, 50)
-              : props.item.desc}
+            {responsive === "small" ? item.desc.slice(0, 50) : item.desc}
           </Text>
           <Button
             primary
             onClick={(event: any) => {
-              addItemToCart(props.item);
+              addItemToCart(item);
               const itemComponent = event.target;
               itemComponent.innerText = "Item added";
               itemComponent.style.backgroundColor = "#76FEB3";

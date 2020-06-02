@@ -79,7 +79,10 @@ const CartItems = ({ locked = false }: Props) => {
             <TableRow key={item._id}>
               {responsive !== "small" ? (
                 <TableCell>
-                  <Image src={item.image} style={{ width: "4rem" }}></Image>
+                  <Image
+                    src={`data:${item.image.contentType};base64, ${item.image.imageData}`}
+                    style={{ width: "4rem" }}
+                  ></Image>
                 </TableCell>
               ) : null}
               <TableCell>{item.title}</TableCell>

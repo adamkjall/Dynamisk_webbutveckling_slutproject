@@ -16,52 +16,53 @@ const Shop: FC<IProps> = ({ query }) => {
   // const [products, setProducts] = useState<Product[]>(null);
   const { category } = useParams();
   const { loading, data: products } = useFetch(
-    "http://localhost:8080/api/products/"
+    "http://localhost:8080/api/products/category/" + category
   );
-  console.log("products", products);
+
+  console.log("prod", products);
 
   // const matchWithQuery = (item: Product): boolean =>
   //   item.name.toLowerCase().includes(query.trim().toLowerCase());
 
-  useEffect(() => {
-    if (!products) return;
+  // useEffect(() => {
+  //   if (!products) return;
 
-    products.forEach((item) => {
-      fetch(item.image)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const formData = new FormData();
-          formData.append("type", "file");
-          formData.append("image", blob);
-          formData.append("id", item._id);
-          return formData;
-        })
-        .then((data) => {
-          fetch("http://localhost:8080/api/files", {
-            method: "POST",
-            body: data,
-          })
-            .then((res) => res.json())
-            .then((data) => {
-              const updatedItem = {
-                title: item.title,
-                image: data.id,
-                price: item.price,
-                sizes: item.sizes,
-                category: item.category,
-                desc: item.desc,
-              };
-              fetch("http://localhost:8080/api/products/" + item._id, {
-                method: "PUT",
-                headers: {
-                  "Content-type": "application/json",
-                },
-                body: JSON.stringify(updatedItem),
-              });
-            });
-        });
-    });
-  }, [products]);
+  //   products.forEach((item) => {
+  //     fetch(item.image)
+  //       .then((res) => res.blob())
+  //       .then((blob) => {
+  //         const formData = new FormData();
+  //         formData.append("type", "file");
+  //         formData.append("image", blob);
+  //         formData.append("id", item._id);
+  //         return formData;
+  //       })
+  //       .then((data) => {
+  //         fetch("http://localhost:8080/api/files", {
+  //           method: "POST",
+  //           body: data,
+  //         })
+  //           .then((res) => res.json())
+  //           .then((data) => {
+  //             const updatedItem = {
+  //               title: item.title,
+  //               image: data.id,
+  //               price: item.price,
+  //               sizes: item.sizes,
+  //               category: item.category,
+  //               desc: item.desc,
+  //             };
+  //             fetch("http://localhost:8080/api/products/" + item._id, {
+  //               method: "PUT",
+  //               headers: {
+  //                 "Content-type": "application/json",
+  //               },
+  //               body: JSON.stringify(updatedItem),
+  //             });
+  //           });
+  //       });
+  //   });
+  // }, [products]);
 
   return (
     <Box

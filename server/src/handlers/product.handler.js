@@ -2,18 +2,35 @@ const { Product } = require("../models/product.model");
 
 /* GET ALL PRODUCTS */
 const getAllProducts = (req, res, next) => {
-  Product.find({}, (err, allProducts) => {
-    if (err) {
-      res
-        .status(500)
-        .json({ message: "Couldn't perform get for all products" });
-    } else if (!allProducts) {
-      res.status(404).json({ message: "Couldn't find all products" });
-    } else {
-      res.allProducts = allProducts;
-      next();
-    }
-  });
+  Product.find()
+    .populate({
+      path: "image",
+      populate: {
+        path: "imageData",
+      },
+    })
+    .exec((err, allProducts) => {
+      if (err) {
+        res
+          .status(500)
+          .json({ message: "Couldn't perform get for all products" });
+      } else if (!allProducts) {
+        res.status(404).json({ message: "Couldn't find all products" });
+      } else {
+        const products = allProducts.map((product) => ({
+          ...product._doc,
+          image: {
+            ...product.image._doc,
+            // const imageBase64 = { data: imageData.concat()[0].toString("base64") };
+            imageData: product.image.imageData._doc.data.toString("base64"),
+          },
+        }));
+
+        res.allProducts = products;
+
+        next();
+      }
+    });
 };
 
 /* GET ONE PRODUCT BY ID */

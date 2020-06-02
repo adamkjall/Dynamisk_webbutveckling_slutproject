@@ -19,6 +19,7 @@ interface Iprops extends RouteComponentProps {
 
 const Item = ({ item, history, match, location }: Iprops) => {
   const [showItemDetails, setShowItemDetails] = useState(false);
+  // const [imgData, setImgData] = useState(null);
 
   // this effect makes sure you can share an items url
   // if we have an item id in the url we open the item
@@ -30,6 +31,12 @@ const Item = ({ item, history, match, location }: Iprops) => {
       setShowItemDetails(true);
     }
   }, [location.search, item._id]);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:8080/api/files/" + item.image._id)
+  //     .then((res) => res.json())
+  //     .then((data) => setImgData(data.image));
+  // }, []);
 
   const closeModal = () => {
     setShowItemDetails(false);
@@ -58,7 +65,11 @@ const Item = ({ item, history, match, location }: Iprops) => {
       justify="end"
       elevation="medium"
       overflow="hidden"
-      background={item.image}
+      background={`${
+        item
+          ? `url(data:${item.image.contentType};base64, ${item.image.imageData})`
+          : ""
+      }`}
       margin="small"
       onClick={openModal}
     >

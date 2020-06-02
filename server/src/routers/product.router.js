@@ -24,6 +24,8 @@ const {
 
 //GET ALL PRODUCTS
 router.get("/", getAllProducts, (req, res) => {
+  console.log(res.allProducts);
+
   res.status(200).json(res.allProducts);
 });
 
@@ -52,9 +54,9 @@ router.post(
 //UPDATE PRODUCT
 router.put(
   "/:id",
-  isAuthenticated,
-  getSessionUser,
-  isAdmin,
+  // isAuthenticated,
+  // getSessionUser,
+  // isAdmin,
   updateProduct,
   (req, res) => {
     res.status(200).json(res.updatedProduct);
