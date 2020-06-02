@@ -28,9 +28,9 @@ const MyCheckOut = () => {
     user.lastName.match(/[A-Ö]/gi)?.length === user.lastName.length &&
     user.email.length > 1 &&
     user.phoneNumber.length > 1 &&
-    user.address.length > 1 &&
+    user.streetAddress.length > 1 &&
     user.city.length > 1 &&
-    user.postCode.length > 1;
+    user.zipCode.length > 1;
 
   const closeModal = () => {
     history.push("/");
@@ -88,7 +88,7 @@ const MyCheckOut = () => {
         {activeIndex === 2 &&
         !loading &&
         validUserInformation() &&
-        ((paymentMethod === "card" && user.card.length) ||
+        (paymentMethod === "card" ||
           paymentMethod === "swish" ||
           paymentMethod === "invoice") ? (
           <Button

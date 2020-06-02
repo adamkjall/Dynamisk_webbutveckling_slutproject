@@ -1,40 +1,54 @@
 const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
-const sizesSubSchema = mongoose.Schema({
-  size: {
-    type: String,
-    required: true,
+const sizesSubSchema = mongoose.Schema(
+  {
+    size: {
+      type: String,
+      required: true,
+    },
+    stock: {
+      type: Number,
+      required: true,
+    },
   },
-  stock: {
-    type: Number,
-    required: true,
-  },
-}, { _id: false })
+  { _id: false }
+);
 
-const ProductSchema = new Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  desc: {
-    type: String,
-    required: true,
-  },
-  image: {
-    type: String,
-    required: true,
-  },
-  price: {
-    type: Number,
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true,
-  },
-  sizes: [sizesSubSchema],
-});
+const ProductSchema = new Schema(
+  {
+    title: {
+      type: String,
+      required: true,
+    },
+    desc: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: mongoose.ObjectId,
+      ref: "File",
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    sizes: [sizesSubSchema],
+  }, {
+    toJSON: {
+      virtuals: true,
+      id: false
+    },
+  }
+);
+
+ProductSchema.virtual("imageURL").get(function () {
+  return process.env.DOMAIN + this.image.toString()
+})
 
 const Product = mongoose.model("Product", ProductSchema);
 

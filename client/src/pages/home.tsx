@@ -63,6 +63,7 @@ const Home = () => {
     large: [homeHeader, homeCollection, homeSale, fallCollection],
     xlarge: [homeHeader, homeCollection, homeSale, fallCollection],
   };
+
   return (
     <Grid
       fill

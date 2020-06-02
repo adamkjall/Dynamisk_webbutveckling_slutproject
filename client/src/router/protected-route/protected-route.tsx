@@ -15,14 +15,13 @@ const ProtectedRoute: FC<Props> = ({
   admin,
   ...rest
 }) => {
-  const { isAuthenticated, user } = useContext(AuthenticationContext);
+  const { isAuthenticated } = useContext(AuthenticationContext);
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        (admin && isAuthenticated && user && user.role === "admin") ||
-        (!admin && isAuthenticated) ? (
+        (admin && isAuthenticated) || (!admin && isAuthenticated) ? (
           <Component {...rest} {...props} />
         ) : (
           <Redirect to="/login" />

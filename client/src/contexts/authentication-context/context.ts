@@ -5,11 +5,10 @@ export interface User {
   lastName: string;
   phoneNumber: string;
   email: string;
-  address: string;
-  postCode: string;
+  streetAddress: string;
+  zipCode: string;
   city: string;
-  card: string;
-  role: string;
+  isAdmin: boolean;
 }
 
 interface IContext {
