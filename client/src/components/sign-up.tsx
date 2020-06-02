@@ -30,9 +30,10 @@ const INITIAL_STATE = Object.freeze({
   confirmPassword: "",
 });
 
-const SignUp = () => {
+const SignUp = ({ toggleView }) => {
   const [inputs, setInputs] = useState<IState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
+  const [shakeComponent, setShakeComponent] = useState(false);
   const { register } = useContext(AuthenticationContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,6 +56,23 @@ const SignUp = () => {
 
     try {
       // TODO validate inputs
+      const fakeValidate =
+        inputs.firstName.length &&
+        inputs.lastName.length &&
+        inputs.email.length &&
+        inputs.phoneNumber.length &&
+        inputs.streetAddress.length &&
+        inputs.zipCode.length &&
+        inputs.city.length &&
+        inputs.password.length &&
+        inputs.confirmPassword.length;
+
+      if (!fakeValidate) {
+        setShakeComponent(true);
+        setTimeout(() => setShakeComponent(false), 820);
+        return;
+      }
+
       setLoading(true);
       const { confirmPassword, ...rest } = inputs;
       const userToRegister = {
@@ -76,7 +94,7 @@ const SignUp = () => {
   };
 
   return (
-    <StyledSignUp>
+    <StyledSignUp className={shakeComponent ? "shake" : ""}>
       <h2 className="title">Register</h2>
       <form className="sign-up-form" onSubmit={handleSubmit}>
         <FormInput
@@ -160,6 +178,12 @@ const SignUp = () => {
           label={"Confirm password"}
           required
         />
+        <p>
+          Already have an account?{" "}
+          <span className="emphasis" onClick={toggleView}>
+            Login here!
+          </span>
+        </p>
         <div className="buttons">
           <CustomButton loading={loading} type="submit">
             Register
@@ -173,7 +197,7 @@ const SignUp = () => {
 export default SignUp;
 
 const StyledSignUp = styled.div`
-  background: #373737e0;
+  background: #a93535;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
     0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
     0 16px 16px rgba(0, 0, 0, 0.05);
@@ -182,11 +206,43 @@ const StyledSignUp = styled.div`
   align-items: center;
   width: 100%;
   max-width: 24rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
+
+  &.shake {
+    animation: shake-animation 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  @keyframes shake-animation {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
 
   .title {
     color: white;
     margin: 2.2rem 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
   }
 
   .sign-up-form {
@@ -203,6 +259,7 @@ const StyledSignUp = styled.div`
       "city zip"
       "password password"
       "confirm confirm"
+      "goToLogin goToLogin"
       "buttons buttons";
 
     > div {
@@ -242,6 +299,25 @@ const StyledSignUp = styled.div`
     grid-area: buttons;
     display: grid;
     place-items: center;
+  }
+
+  p {
+    grid-area: goToLogin;
+    margin: 0;
+    color: #dedeee;
+    font-size: 0.8rem;
+    text-align: center;
+
+    .emphasis {
+      font-weight: bold;
+      cursor: pointer;
+      color: #232323;
+      transition: font-size 0.3s ease;
+
+      &:hover {
+        font-size: 0.9rem;
+      }
+    }
   }
 
   @media screen and (max-width: 450px) {

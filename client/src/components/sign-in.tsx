@@ -7,10 +7,11 @@ import AuthenticationContext from "../contexts/authentication-context/context";
 import FormInput from "./form-input";
 import CustomButton from "./custom-button";
 
-const SignIn = () => {
+const SignIn = ({ toggleView }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [shakeComponent, setShakeComponent] = useState(false);
   const { login } = useContext(AuthenticationContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +26,15 @@ const SignIn = () => {
     event.preventDefault();
 
     try {
+      // TODO validate inputs
+      const fakeValidate = email.length && password.length;
+
+      if (!fakeValidate) {
+        setShakeComponent(true);
+        setTimeout(() => setShakeComponent(false), 820);
+        return;
+      }
+
       setLoading(true);
       const message = await login(email, password);
       // TODO view message to user in a nicer way
@@ -41,7 +51,7 @@ const SignIn = () => {
   };
 
   return (
-    <StyledSignIn className="sign-in">
+    <StyledSignIn className={`${shakeComponent ? "shake" : ""} sign-in`}>
       <h2 className="title">LOGIN</h2>
       <form className="sign-in-form" onSubmit={handleSubmit}>
         <FormInput
@@ -60,7 +70,12 @@ const SignIn = () => {
           value={password}
           required
         />
-
+        <p>
+          Have no account?{" "}
+          <span className="emphasis" onClick={toggleView}>
+            Register here
+          </span>
+        </p>
         <div className="buttons">
           <CustomButton loading={loading} type="submit">
             Login
@@ -83,11 +98,41 @@ const StyledSignIn = styled.div`
   align-items: center;
   width: 100%;
   max-width: 24rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
+
+  &.shake {
+    animation: shake-animation 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  @keyframes shake-animation {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
 
   .title {
     color: white;
-    padding-top: 1.5rem;
+    margin: 2.2rem 0;
   }
 
   .sign-in-form {
@@ -100,6 +145,24 @@ const StyledSignIn = styled.div`
   .buttons {
     display: grid;
     place-items: center;
+  }
+
+  p {
+    margin: 0;
+    color: #dedeee;
+    font-size: 0.8rem;
+    text-align: center;
+
+    .emphasis {
+      font-weight: bold;
+      cursor: pointer;
+      color: #232323;
+      transition: font-size 0.3s ease;
+
+      &:hover {
+        font-size: 0.9rem;
+      }
+    }
   }
 
   @media screen and (max-width: 450px) {
