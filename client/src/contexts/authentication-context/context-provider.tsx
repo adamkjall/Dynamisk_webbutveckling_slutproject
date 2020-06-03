@@ -1,44 +1,95 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 
 import AuthenticationContext, { User } from "./context";
 
 interface Props {}
 
 const AuthenticationContextProvider: FC<Props> = (props) => {
-  const [user, setUser] = useState<User | null>({
-    firstName: "Adam",
-    lastName: "Kjäll",
-    phoneNumber: "0123456789",
-    email: "adam@email.se",
-    streetAddress: "Blåbärsvägeb 7",
-    zipCode: "40010",
-    city: "Ankeborg",
-    isAdmin: true,
-  });
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
+  const [user, setUser] = useState<User | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (email: string, password: string) => {
-    // TODO login API call to server
-    const user = {
-      firstName: "Adam",
-      lastName: "Kjäll",
-      phoneNumber: "0123456789",
-      email: "adam@email.se",
-      streetAddress: "Blåbärsvägeb 7",
-      zipCode: "40010",
-      city: "Ankeborg",
-      card: "999999999999",
-      isAdmin: true,
+  console.log("user", user);
+
+  // check if user already as an authentication session
+  useEffect(() => {
+    const options: RequestInit = {
+      credentials: "include",
     };
 
-    setUser(user);
-    setIsAuthenticated(true);
+    fetch("http://localhost:8080/api/users", options)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message && data.message === "Authenticated") {
+          setIsAuthenticated(true);
+          setUser(data.user);
+        } else {
+          setIsAuthenticated(false);
+          setUser(null);
+        }
+      });
+  }, []);
+
+  const login = async (email: string, password: string) => {
+    const options: RequestInit = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email, password }),
+    };
+
+    const res = await fetch(
+      "http://localhost:8080/api/users/session/login",
+      options
+    );
+    const data = await res.json();
+
+    if (data.message) {
+      if (data.message === "Authenticated") {
+        setIsAuthenticated(true);
+        setUser(data.user);
+      }
+      return data.message;
+    }
+
+    return "Failed to login";
   };
 
-  const logout = () => {
-    // TODO logout api call to server
+  const logout = async () => {
     setUser(null);
     setIsAuthenticated(false);
+
+    const options: RequestInit = {
+      method: "DELETE",
+      credentials: "include",
+    };
+
+    await fetch("http://localhost:8080/api/users/session/logout", options);
+  };
+
+  const register = async (user: User) => {
+    const options: RequestInit = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user }),
+    };
+
+    const res = await fetch("http://localhost:8080/api/users", options);
+    const data = await res.json();
+
+    if (data.message) {
+      if (data.message === "Authenticated") {
+        setIsAuthenticated(true);
+        setUser(data.user);
+      }
+      return data.message;
+    }
+
+    return "Failed to register";
   };
 
   const updateUser = (key: string, value: string) => {
@@ -60,6 +111,7 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
         isAdmin,
         login,
         logout,
+        register,
         updateUser,
       }}
     />
