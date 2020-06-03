@@ -2,36 +2,23 @@ const { User } = require("../models/user.model");
 const { ErrorHandler } = require("../helpers/error.helpers")
 
 const registerUser = (req, res, next) => {
-  // or perhaps send user as a named object eg req.body.user
-  const userData = {
-    email: req.body.email,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    phoneNumber: req.body.phoneNumber,
-    streetAddress: req.body.streetAddress,
-    zipCode: req.body.zipCode,
-    city: req.body.city,
-    isAdmin: req.body.isAdmin,
-  };
-  User.findOne({ email: userData.email }, (error, queriedUser) => {
+  // TODO validate user
+  const userToRegister = req.body.user;
+
+  User.findOne({ email: userToRegister.email }, (error, queriedUser) => {
     try {
       if (error) next(error)
       if (!queriedUser) {
-        User.create(userData, (error, user) => {
-          if (error) {
-            next(error)
-          } else {
-            // store authentication session
-            req.session.userId = user._id;
-            res.status(201).json({ message: "Authenticated" });
-          }
+        User.create(userToRegister, (error, user) => {
+          if (error) next(error)
+          // store authentication session
+          req.session.userId = user._id;
+          res.status(201).json({ message: "Authenticated", user });
         });
+      } else {
+        throw new ErrorHandler(401, "Email address is already in use")
       }
-      else {
-        throw new ErrorHandler(400, "Email address is already in use")
-      }
-    } catch (error) {
+    } catch (error){
       next(error)
     }
   });
@@ -64,6 +51,7 @@ const logoutUser = (req, res, next) => {
       } else {
         return res.redirect("/");
       }
+      next();
     });
   }
 };

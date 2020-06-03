@@ -15,8 +15,6 @@ import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
 
-import { Product } from "../shop.data";
-
 interface Props {
   locked?: boolean; // prohibit any change to the cart items
 }
@@ -75,18 +73,18 @@ const CartItems = ({ locked = false }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((item: Product) => (
-            <TableRow key={item._id}>
+          {cart.map((product) => (
+            <TableRow key={product._id}>
               {responsive !== "small" ? (
                 <TableCell>
                   <Image
-                    src={`data:${item.image.contentType};base64, ${item.image.imageData}`}
+                    src={`${product.imageURL}`}
                     style={{ width: "4rem" }}
                   ></Image>
                 </TableCell>
               ) : null}
-              <TableCell>{item.title}</TableCell>
-              <TableCell>${item.price}</TableCell>
+              <TableCell>{product.title}</TableCell>
+              <TableCell>${product.price}</TableCell>
               {!locked && (
                 <>
                   <TableCell flex direction="row" align="center">
@@ -97,7 +95,7 @@ const CartItems = ({ locked = false }: Props) => {
                           padding:
                             responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                         }}
-                        onClick={() => removeItemFromCart(item._id)}
+                        onClick={() => removeItemFromCart(product._id)}
                       />
                     ) : (
                       <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
@@ -111,7 +109,7 @@ const CartItems = ({ locked = false }: Props) => {
                           responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                       }}
                       icon={<AddCircle />}
-                      onClick={() => addItemToCart(item)}
+                      onClick={() => addItemToCart(product)}
                     />
                   </TableCell>
                   <TableCell align="center">
@@ -120,7 +118,7 @@ const CartItems = ({ locked = false }: Props) => {
                       style={{
                         padding: responsive === "small" ? "0" : "0",
                       }}
-                      onClick={() => clearItemFromCart(item._id)}
+                      onClick={() => clearItemFromCart(product._id)}
                       icon={<Close />}
                     />
                   </TableCell>

@@ -7,12 +7,16 @@ import AuthenticationContext from "../contexts/authentication-context/context";
 import FormInput from "./form-input";
 import CustomButton from "./custom-button";
 
-const SignIn = () => {
+const SignIn = ({ toggleView }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [shakeComponent, setShakeComponent] = useState(false);
   const { login } = useContext(AuthenticationContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (loading) return; // lock input during loading
+
     const { name, value } = event.target;
     if (name === "email") setEmail(value);
     else if (name === "password") setPassword(value);
@@ -22,16 +26,32 @@ const SignIn = () => {
     event.preventDefault();
 
     try {
-      login(email, password);
-      setEmail("");
-      setPassword("");
+      // TODO validate inputs
+      const fakeValidate = email.length && password.length;
+
+      if (!fakeValidate) {
+        setShakeComponent(true);
+        setTimeout(() => setShakeComponent(false), 820);
+        return;
+      }
+
+      setLoading(true);
+      const message = await login(email, password);
+      // TODO view message to user in a nicer way
+      if (message != "Authenticated") {
+        alert(message);
+        setLoading(false);
+        setEmail("");
+        setPassword("");
+      }
     } catch (error) {
+      // TODO handle error
       console.log("Error while sign in", error.message);
     }
   };
 
   return (
-    <StyledSignIn className="sign-in">
+    <StyledSignIn className={`${shakeComponent ? "shake" : ""} sign-in`}>
       <h2 className="title">LOGIN</h2>
       <form className="sign-in-form" onSubmit={handleSubmit}>
         <FormInput
@@ -50,9 +70,16 @@ const SignIn = () => {
           value={password}
           required
         />
-
+        <p>
+          Have no account?{" "}
+          <span className="emphasis" onClick={toggleView}>
+            Register here
+          </span>
+        </p>
         <div className="buttons">
-          <CustomButton type="submit">Login</CustomButton>
+          <CustomButton loading={loading} type="submit">
+            Login
+          </CustomButton>
         </div>
       </form>
     </StyledSignIn>
@@ -63,26 +90,79 @@ export default SignIn;
 
 const StyledSignIn = styled.div`
   background: #a93535;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
+    0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),
+    0 16px 16px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 24rem;
-  border-radius: 1rem;
+  border-radius: 0.4rem;
+
+  &.shake {
+    animation: shake-animation 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+
+  @keyframes shake-animation {
+    10%,
+    90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%,
+    80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%,
+    50%,
+    70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%,
+    60% {
+      transform: translate3d(4px, 0, 0);
+    }
+  }
 
   .title {
     color: white;
-    padding-top: 1.5rem;
+    margin: 2.2rem 0;
   }
 
   .sign-in-form {
     width: 100%;
     padding: 0 2rem 3rem 2rem;
+    display: grid;
+    gap: 1.4rem;
   }
 
   .buttons {
     display: grid;
     place-items: center;
+  }
+
+  p {
+    margin: 0;
+    color: #dedeee;
+    font-size: 0.8rem;
+    text-align: center;
+
+    .emphasis {
+      font-weight: bold;
+      cursor: pointer;
+      color: #232323;
+      transition: font-size 0.3s ease;
+
+      &:hover {
+        font-size: 0.9rem;
+      }
+    }
   }
 
   @media screen and (max-width: 450px) {

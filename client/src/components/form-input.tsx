@@ -7,8 +7,10 @@ interface IProps {
   label: string;
   value: string;
   name: string;
-  type: string;
-  required?: boolean;
+  type?: string;
+  className?: string;
+  // All other props
+  [x: string]: any;
 }
 
 const FormInput: React.FC<IProps> = ({
@@ -17,15 +19,17 @@ const FormInput: React.FC<IProps> = ({
   value,
   name,
   type,
+  className,
+  rest,
 }) => (
-  <StyledFormInput>
+  <StyledFormInput className={className}>
     <input
       className="form-input"
       name={name}
       value={value}
       type={type}
       onChange={handleChange}
-      required
+      {...rest}
     />
     {label ? (
       <label className={`${value.length ? "shrink" : ""} form-input-label`}>
@@ -38,22 +42,22 @@ const FormInput: React.FC<IProps> = ({
 export default FormInput;
 
 const StyledFormInput = styled.div`
-  $main-color: black;
-  $sub-color: grey;
+  --main-color: rgba(255, 255, 255, 0.8);
+  --sub-color: grey;
 
   position: relative;
-  margin: 3rem 0;
+  /* margin: 3rem 0; */
 
   .form-input {
     background: white;
-    color: $sub-color;
+    color: var(--sub-color);
     font-size: 1rem;
     padding: 0.7rem 0.7rem 0.7rem 0.33rem;
-    margin: 1.5rem 0;
+    /* margin: 1.5rem 0; */
     display: block;
     width: 100%;
     border: none;
-    border-bottom: 1px solid $sub-color;
+    border-bottom: 1px solid var(--sub-color);
 
     &:focus {
       outline: none;
@@ -62,7 +66,7 @@ const StyledFormInput = styled.div`
     &:focus ~ .form-input-label {
       top: -1.4rem;
       font-size: 0.9rem;
-      color: $main-color;
+      color: var(--main-color);
     }
   }
 
@@ -74,7 +78,7 @@ const StyledFormInput = styled.div`
     position: absolute;
     left: 0.33rem;
     top: 0.7rem;
-    color: $sub-color;
+    color: var(--sub-color);
     font-size: 1rem;
     font-weight: normal;
     pointer-events: none;
@@ -84,7 +88,7 @@ const StyledFormInput = styled.div`
     &.shrink {
       top: -1.4rem;
       font-size: 0.9rem;
-      color: $main-color;
+      color: var(--main-color);
     }
   }
 `;

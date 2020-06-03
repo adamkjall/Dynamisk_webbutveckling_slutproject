@@ -1,25 +1,33 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  withRouter,
-  RouteComponentProps,
-  BrowserRouter,
-} from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { Box, Button, Layer, Heading, Paragraph } from "grommet";
 import { Close } from "grommet-icons";
 
-import ItemDetails from "../components/item-details";
+import ProductDetails from "./product-details";
 
-import { Product } from "../shop.data";
-
-interface Iprops extends RouteComponentProps {
-  item: Product;
+export interface IProduct {
+  _id: string;
+  category: string;
+  title: string;
+  image: string;
+  imageURL: string;
+  price: number;
+  sizes: {
+    size: string;
+    stock: number;
+  }[];
+  desc: string;
+  quantity?: number;
 }
 
-const Item = ({ item, history, match, location }: Iprops) => {
+interface Iprops extends RouteComponentProps {
+  product: IProduct;
+}
+
+const Product = ({ product, history, match, location }: Iprops) => {
   const [showItemDetails, setShowItemDetails] = useState(false);
-  // const [imgData, setImgData] = useState(null);
 
   // this effect makes sure you can share an items url
   // if we have an item id in the url we open the item
@@ -27,16 +35,10 @@ const Item = ({ item, history, match, location }: Iprops) => {
   useEffect(() => {
     const id = location.search.slice(4, location.search.length);
 
-    if (id === item._id) {
+    if (id === product._id) {
       setShowItemDetails(true);
     }
-  }, [location.search, item._id]);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/files/" + item.image._id)
-  //     .then((res) => res.json())
-  //     .then((data) => setImgData(data.image));
-  // }, []);
+  }, [location.search, product._id]);
 
   const closeModal = () => {
     setShowItemDetails(false);
@@ -50,9 +52,9 @@ const Item = ({ item, history, match, location }: Iprops) => {
     history.push(
       match.url +
         "/" +
-        item.title.replace(/\s/g, "-").toLowerCase() +
+        product.title.replace(/\s/g, "-").toLowerCase() +
         "/?id=" +
-        item._id
+        product._id
     );
   };
 
@@ -65,11 +67,7 @@ const Item = ({ item, history, match, location }: Iprops) => {
       justify="end"
       elevation="medium"
       overflow="hidden"
-      background={`${
-        item
-          ? `url(data:${item.image.contentType};base64, ${item.image.imageData})`
-          : ""
-      }`}
+      background={`url(${product.imageURL})`}
       margin="small"
       onClick={openModal}
     >
@@ -89,9 +87,9 @@ const Item = ({ item, history, match, location }: Iprops) => {
           justify="around"
         >
           <Heading level="3" margin="small">
-            {item.title}
+            {product.title}
           </Heading>
-          <Paragraph margin="none">${item.price}</Paragraph>
+          <Paragraph margin="none">${product.price}</Paragraph>
         </Box>
       </Box>
 
@@ -108,7 +106,7 @@ const Item = ({ item, history, match, location }: Iprops) => {
               }}
               color="light-3"
             />
-            <ItemDetails item={item} />
+            <ProductDetails product={product} />
           </Box>
         </Layer>
       )}
@@ -116,4 +114,4 @@ const Item = ({ item, history, match, location }: Iprops) => {
   );
 };
 
-export default withRouter(Item);
+export default withRouter(Product);

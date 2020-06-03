@@ -1,21 +1,43 @@
 import { useState, useEffect } from "react";
 
-const useFetch = (url: string, options: RequestInit = {}) => {
+/**
+ * Custom fetch hook
+ * @param url Url to send request to
+ * @param options Fetch options
+ * @param depencies Dependency array
+ */
+const useFetch = (url: string, options?: RequestInit, depencies?: any[]) => {
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState(null);
 
   useEffect(() => {
-    setLoading(true);
-    fetch(url, options)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch((err) => console.log(err));
-  }, [url]);
+    const abortController = new AbortController();
+    const signal = abortController.signal;
 
-  return { loading, data };
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(url, options);
+        const json = await res.json();
+        if (!signal.aborted) {
+          setResponse(json);
+        }
+      } catch (error) {
+        if (!signal.aborted) {
+          setError(error);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => abortController.abort();
+  }, [...depencies]);
+
+  return { response, error, loading };
 };
 
 export default useFetch;
