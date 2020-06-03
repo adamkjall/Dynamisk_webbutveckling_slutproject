@@ -1,25 +1,41 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  withRouter,
-  RouteComponentProps,
-  BrowserRouter,
-} from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { Box, Button, Layer, Heading, Paragraph } from "grommet";
 import { Close } from "grommet-icons";
 
-import ItemDetails from "../components/item-details";
+import ProductDetails from "./product-details";
 
-import { Product } from "../shop.data";
+export interface IProduct {
+  _id: string;
+  category: string;
+  title: string;
+  image: {
+    filename: string;
+    contentType: string;
+    uploadDate: string;
+    imageData: string;
+    chunkSize: number;
+    length: number;
+    md5: string;
+    _id: string;
+  };
+  price: number;
+  sizes: {
+    size: string;
+    stock: number;
+  }[];
+  desc: string;
+  quantity?: number;
+}
 
 interface Iprops extends RouteComponentProps {
-  item: Product;
+  item: IProduct;
 }
 
 const Item = ({ item, history, match, location }: Iprops) => {
   const [showItemDetails, setShowItemDetails] = useState(false);
-  // const [imgData, setImgData] = useState(null);
 
   // this effect makes sure you can share an items url
   // if we have an item id in the url we open the item
@@ -31,12 +47,6 @@ const Item = ({ item, history, match, location }: Iprops) => {
       setShowItemDetails(true);
     }
   }, [location.search, item._id]);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:8080/api/files/" + item.image._id)
-  //     .then((res) => res.json())
-  //     .then((data) => setImgData(data.image));
-  // }, []);
 
   const closeModal = () => {
     setShowItemDetails(false);
@@ -108,7 +118,7 @@ const Item = ({ item, history, match, location }: Iprops) => {
               }}
               color="light-3"
             />
-            <ItemDetails item={item} />
+            <ProductDetails product={item} />
           </Box>
         </Layer>
       )}

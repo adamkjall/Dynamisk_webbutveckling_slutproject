@@ -2,7 +2,7 @@ import React, { FC, useState, useEffect } from "react";
 
 import CartContext from "./context";
 
-import { Product } from "../../shop.data";
+import { IProduct } from "../../components/product";
 
 interface IProps {}
 
@@ -10,7 +10,7 @@ export type ShippingMethod = "postNord" | "schenker" | "dhl";
 export type PaymentMethod = "card" | "invoice" | "swish";
 
 const CartContextProvider: FC<IProps> = (props) => {
-  const [cart, setCart] = useState<Product[]>([]);
+  const [cart, setCart] = useState<IProduct[]>([]);
   const [shippingCost, setShippingCost] = useState(0);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>(
     "postNord"
@@ -32,12 +32,12 @@ const CartContextProvider: FC<IProps> = (props) => {
     setShippingCost(cost);
   }, [shippingMethod]);
 
-  const addItemToCart = (item: Product) => {
-    const existing = cart.find((cartItem) => cartItem._id === item._id);
+  const addItemToCart = (product: IProduct) => {
+    const existing = cart.find((cartItem) => cartItem._id === product._id);
 
     if (existing) {
       const newCart = cart.map((cartItem) => {
-        if (cartItem._id === item._id) {
+        if (cartItem._id === product._id) {
           return {
             ...cartItem,
             quantity: cartItem.quantity ? cartItem.quantity + 1 : 1,
@@ -46,7 +46,7 @@ const CartContextProvider: FC<IProps> = (props) => {
       });
       setCart(newCart);
     } else {
-      setCart([...cart, { ...item, quantity: 1 }]);
+      setCart([...cart, { ...product, quantity: 1 }]);
     }
   };
 

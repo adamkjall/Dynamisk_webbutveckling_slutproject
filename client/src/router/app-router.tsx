@@ -21,7 +21,7 @@ import SignInSignUp from "../pages/sign-in-sign-up";
 const AppRouter = () => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/shop/:category" component={Shop} />
+    <Route path="/shop/:category/:query?" component={Shop} />
     <Route exact path="/login" component={SignInSignUp} />
     <ProtectedRoute exact path="/checkout" component={Checkout} />
     <ProtectedRoute exact admin path="/admin" component={Admin} />

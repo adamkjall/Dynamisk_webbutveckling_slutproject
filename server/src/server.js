@@ -22,7 +22,12 @@ const fileStorageRouter = require("./routers/fileStorage.router");
 connectToDb();
 
 /* Middelwares */
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:8080"],
+    credentials: true,
+  })
+);
 // Make sure to parse req.body as JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
