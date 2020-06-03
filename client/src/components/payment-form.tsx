@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Box, Form, FormField, RadioButtonGroup, Text } from "grommet";
 
@@ -23,12 +23,21 @@ const PaymentForm = (props: IProps) => {
 
   const cardnoVisa = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/
   const cardnoMasterCard = /^(?:5[1-5][0-9]{14})$/
+  const [cardOwner, setCardOwner] = useState(`${user.firstName} ${user.lastName}`)
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardExp, setCardExp] = useState('')
+  const [cardCVC, setCardCVC] = useState('')
 
-  const checkCardValidation = (event) => {
-    if((event.target.value.match(cardnoMasterCard))||(event.target.value.match(cardnoVisa))){
+  const checkCardValidation = () => {
+    if(
+      cardOwner.length >= 4 &&
+      cardNumber.match(cardnoMasterCard||cardnoVisa) &&
+      cardExp.match(/^(0?[1-9]|1[012])[/-](?:202[0-5])/) &&
+      cardCVC.match(/^\d{3}$/)
+    ){
       props.setIsCardValid(true)
-    }else{
-      props.setIsCardValid(false)
+    }
+      else{props.setIsCardValid(false)
     }
   }
 
@@ -114,31 +123,108 @@ const PaymentForm = (props: IProps) => {
         ]}  
       />
       ) : (
-        <FormField
-          key={3}
-          name="card"
-          label={
-            (
-              <Box direction="row">
-                <Text>Card</Text>
-                <Text color="status-critical">*</Text>
-              </Box>
-            )
-          }
-          required
-          type="number"
-          value={""}
-          onChange={(event) => checkCardValidation(event)}
-          validate={[
-            { regexp: cardnoMasterCard||cardnoVisa},
-            value => {
-              if (!value.match(cardnoMasterCard||cardnoVisa)) return "We only accept MasterCard or Visa";
-              return undefined;
-            }
-          ]}
-        />
-      )}
-    </Form>
+          <>
+              <FormField
+              //key={3}
+              name="CardOwner"
+              autoComplete = "ccname"
+              label={
+                (
+                  <Box direction="row">
+                    <Text>Card Owner</Text>
+                    <Text color="status-critical">*</Text>
+                  </Box>
+                )
+              }
+              required
+              type="text"
+              value={`${user.firstName} ${user.lastName}`}
+              onChange={(event) => setCardOwner(event.target.value)}
+              validate={[
+                { regexp: /^[A-Z]/gi},
+                value => {
+                  if (value.length >= 4) return "Not a valid card owner";
+                  return undefined;
+                }
+              ]}
+            />
+            <FormField
+              key={3}
+              name="cardNumber"
+              autoComplete="cc-number"
+              label={
+                (
+                  <Box direction="row">
+                    <Text>Card</Text>
+                    <Text color="status-critical">*</Text>
+                  </Box>
+                )
+              }
+              required
+              type="number"
+              value={""}
+              onChange={(event) => setCardNumber(event.target.value)}
+              validate={[
+                { regexp: cardnoMasterCard||cardnoVisa},
+                value => {
+                  if (!value.match(cardnoMasterCard||cardnoVisa)) return "We only accept MasterCard or Visa";
+                  return undefined;
+                }
+              ]}
+            />
+            <FormField
+              key={3}
+              name="cc-exp"
+              autoComplete = "cc-exp"
+              label={
+                (
+                  <Box direction="row">
+                    <Text>Card Exp</Text>
+                    <Text color="status-critical">*</Text>
+                  </Box>
+                )
+              }
+              placeholder="MM/YYYY"
+              required
+              type="text"
+              value={""}
+              onChange={(event) => setCardExp(event.target.value)}
+              validate={[
+                { regexp: /^(0?[1-9]|1[012])[/-](?:202[0-5])/},
+                value => {
+                  if (!value.match(/^(0?[1-9]|1[012])[/-](?:202[0-5])/)) return "wrong format, MM/YYYY";
+                  return undefined;
+                }
+              ]}
+            />
+            <FormField
+              key={3}
+              name="cardCVC"
+              autoComplete="cc-csc"
+              label={
+                (
+                  <Box direction="row">
+                    <Text>Card CVC</Text>
+                    <Text color="status-critical">*</Text>
+                  </Box>
+                )
+              }
+              required
+              type="number"
+              value={""}
+              onChange={(event) => setCardCVC(event.target.value)}
+              validate={[
+                { regexp: /^\d{3}$/ },
+                value => {
+                  if (!value.match(/^\d{3}$/)) return "Must be 3 numbers";
+                  return undefined;
+                }
+              ]}
+            />
+          </>
+        )}        
+      </Form>
+    
   );
 };
 
