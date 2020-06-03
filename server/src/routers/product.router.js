@@ -52,9 +52,9 @@ router.post(
 //UPDATE PRODUCT
 router.put(
   "/:id",
-  isAuthenticated,
-  getSessionUser,
-  isAdmin,
+  // isAuthenticated,
+  // getSessionUser,
+  // isAdmin,
   updateProduct,
   (req, res) => {
     res.status(200).json(res.updatedProduct);

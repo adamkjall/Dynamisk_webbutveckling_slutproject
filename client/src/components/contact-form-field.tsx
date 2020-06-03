@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 
 import { Box, Form, FormField, Text } from "grommet";
 
-import FormFieldLabel from "./form-field-fabel";
+import FormFieldLabel from "./form-field-label";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
 
@@ -47,7 +47,7 @@ const ContactFormField = (props: IProps) => {
           )
         }
         required
-        type="number"
+        type="text"
         value={user.phoneNumber}
         onChange={handleOnChange}
         validate={[

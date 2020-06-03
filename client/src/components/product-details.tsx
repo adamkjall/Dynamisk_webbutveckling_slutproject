@@ -3,13 +3,13 @@ import { Box, Button, Text, Heading, Image, ResponsiveContext } from "grommet";
 
 import CartContext from "../contexts/cart-context/context";
 
-import { Product } from "../shop.data";
+import { IProduct } from "../components/product";
 
 interface Iprops {
-  item: Product;
+  product: IProduct;
 }
 
-const ItemDetails = (props: Iprops) => {
+const ItemDetails = ({ product }: Iprops) => {
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -28,14 +28,14 @@ const ItemDetails = (props: Iprops) => {
           margin="xsmall"
           size={responsive === "small" ? "small" : "large"}
         >
-          {props.item.title}
+          {product.title}
         </Heading>
         <Heading
           color="#c96d36"
           size="small"
           margin={responsive === "small" ? "none" : "medium"}
         >
-          ${props.item.price}
+          ${product.price}
         </Heading>
       </Box>
       <Box direction={responsive === "small" ? "column" : "row"} align="center">
@@ -46,7 +46,7 @@ const ItemDetails = (props: Iprops) => {
         >
           <Image
             fit="cover"
-            src={props.item.image}
+            src={product.imageURL}
             style={{ boxShadow: "2px 2px 4px gray" }}
           />
         </Box>
@@ -91,14 +91,12 @@ const ItemDetails = (props: Iprops) => {
           </Box>
           <Text margin={{ vertical: "xsmall" }}>
             <span style={{ fontWeight: "bold" }}>Description: </span>
-            {responsive === "small"
-              ? props.item.desc.slice(0, 50)
-              : props.item.desc}
+            {responsive === "small" ? product.desc.slice(0, 50) : product.desc}
           </Text>
           <Button
             primary
             onClick={(event: any) => {
-              addItemToCart(props.item);
+              addItemToCart(product);
               const itemComponent = event.target;
               itemComponent.innerText = "Item added";
               itemComponent.style.backgroundColor = "#76FEB3";

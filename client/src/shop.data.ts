@@ -2,7 +2,16 @@ export interface Product {
   _id: string;
   category: string;
   title: string;
-  image: string;
+  image: {
+    filename: string;
+    contentType: string;
+    uploadDate: string;
+    imageData: string;
+    chunkSize: number;
+    length: number;
+    md5: string;
+    _id: string;
+  };
   price: number;
   sizes: {
     size: string;

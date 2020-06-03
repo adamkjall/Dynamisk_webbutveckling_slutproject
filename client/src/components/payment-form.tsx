@@ -115,7 +115,7 @@ const PaymentForm = (props: IProps) => {
             )
           }
           required
-          type="number"
+          type="text"
           value={user.phoneNumber}
           onChange={(event) => checkPhoneValidation(event)}
           validate={[
