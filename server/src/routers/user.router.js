@@ -64,13 +64,15 @@ router.delete(
 
 //REGISTER USER
 router.post("/", registerUser, (req, res) => {
-  // res.status(200).json({ message: "endpoint: Register user", body: req.body });
+  res.status(201).json({ message: "Authenticated", user });
 });
 
 // USER SESSION ENDPOINTS
 
 //LOGIN USER
-router.post("/session/login", loginUser);
+router.post("/session/login", loginUser, (req, res) => {
+  res.status(200).json({ message: "Authenticated" });
+});
 
 // LOGOUT USER
 router.delete(
