@@ -52,7 +52,7 @@ const Shop = () => {
         products
           .filter(matchWithQuery)
           .map((product: IProduct) => (
-            <Product key={product._id} item={product} />
+            <Product key={product._id} product={product} />
           ))
       )}
     </Box>

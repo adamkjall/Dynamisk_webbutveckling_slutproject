@@ -46,7 +46,7 @@ const ItemDetails = ({ product }: Iprops) => {
         >
           <Image
             fit="cover"
-            src={`data:${product.image.contentType};base64, ${product.image.imageData}`}
+            src={product.imageURL}
             style={{ boxShadow: "2px 2px 4px gray" }}
           />
         </Box>
