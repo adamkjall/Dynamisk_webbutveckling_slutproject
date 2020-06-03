@@ -1,34 +1,25 @@
 const { User } = require("../models/user.model");
 
 const registerUser = (req, res, next) => {
-  // or perhaps send user as a named object eg req.body.user
-  const userData = {
-    email: req.body.email,
-    password: req.body.password,
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    phoneNumber: req.body.phoneNumber,
-    streetAddress: req.body.streetAddress,
-    zipCode: req.body.zipCode,
-    city: req.body.city,
-    isAdmin: req.body.isAdmin,
-  };
+  // TODO validate user
+  const userToRegister = req.body.user;
 
-  User.findOne({ email: userData.email }, (err, queriedUser) => {
+  User.findOne({ email: userToRegister.email }, (err, queriedUser) => {
     if (err) {
       res.status(400).json(err);
       return;
     }
 
     if (!queriedUser) {
-      User.create(userData, (err, user) => {
+      User.create(userToRegister, (err, user) => {
         if (err) {
           res.status(400).json(err);
-        } else {
-          // store authentication session
-          req.session.userId = user._id;
-          res.status(201).json({ message: "Authenticated" });
+          return;
         }
+
+        // store authentication session
+        req.session.userId = user._id;
+        res.status(201).json({ message: "Authenticated", user });
       });
     } else {
       res.status(401).json({ message: "Email address is already in use" });
@@ -46,7 +37,7 @@ const loginUser = (req, res, next) => {
       } else if (user) {
         // store authentication session
         req.session.userId = user._id;
-        res.status(200).json({ message: "Authenticated" });
+        res.status(200).json({ message: "Authenticated", user });
       } else {
         res.status(401).json({ message: "Wrong password" });
       }
@@ -60,9 +51,8 @@ const logoutUser = (req, res, next) => {
     req.session.destroy(function (err) {
       if (err) {
         return next(err);
-      } else {
-        return res.redirect("/");
       }
+      next();
     });
   }
 };

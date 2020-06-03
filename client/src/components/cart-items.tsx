@@ -15,8 +15,6 @@ import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
 
-import { Product } from "../shop.data";
-
 interface Props {
   locked?: boolean; // prohibit any change to the cart items
 }
@@ -75,7 +73,7 @@ const CartItems = ({ locked = false }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((item: Product) => (
+          {cart.map((item) => (
             <TableRow key={item._id}>
               {responsive !== "small" ? (
                 <TableCell>

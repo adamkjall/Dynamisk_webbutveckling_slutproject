@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
 mongoose.set("useCreateIndex", true);
-mongoose.set('useFindAndModify', false);
+mongoose.set("useFindAndModify", false);
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -43,6 +43,13 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
 });
+
+// removes __v property from user when sending user as json
+UserSchema.methods.toJSON = function () {
+  const obj = this.toObject();
+  delete obj.__v;
+  return obj;
+};
 
 // has password on save
 UserSchema.pre("save", function (next) {

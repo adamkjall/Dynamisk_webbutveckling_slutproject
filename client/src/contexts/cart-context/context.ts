@@ -1,15 +1,15 @@
 import { createContext } from "react";
 import { ShippingMethod, PaymentMethod } from "./context-provider";
 
-import { Product } from "../../shop.data";
+import { IProduct } from "../../components/product";
 
 interface IContext {
-  cart: Product[];
+  cart: IProduct[];
   shippingMethod: ShippingMethod;
   setShippingMethod: (method: ShippingMethod) => void;
   paymentMethod: PaymentMethod;
   setPaymentMethod: (method: PaymentMethod) => void;
-  addItemToCart: (item: Product) => void;
+  addItemToCart: (item: IProduct) => void;
   removeItemFromCart: (itemId: string) => void;
   clearItemFromCart: (itemId: string) => void;
   clearCart: () => void;

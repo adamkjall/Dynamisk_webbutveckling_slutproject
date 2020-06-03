@@ -25,7 +25,7 @@ const AppRouter = () => {
   return (
     <Switch>
       <Route exact path="/" component={Home} />
-      <Route path="/shop/:category" component={Shop} />
+      <Route path="/shop/:category/:query?" component={Shop} />
       <Route
         exact
         path="/login"
