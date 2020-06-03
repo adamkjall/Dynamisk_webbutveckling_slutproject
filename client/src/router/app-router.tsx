@@ -1,5 +1,7 @@
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { useContext } from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+
+import AuthenticationContext from "../contexts/authentication-context/context";
 
 import ProtectedRoute from "./protected-route/protected-route";
 
@@ -18,14 +20,23 @@ import SignInSignUp from "../pages/sign-in-sign-up";
  *
  * @see https://reacttraining.com/react-router/web/guides/quick-start
  */
-const AppRouter = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/shop/:category/:query?" component={Shop} />
-    <Route exact path="/login" component={SignInSignUp} />
-    <ProtectedRoute exact path="/checkout" component={Checkout} />
-    <ProtectedRoute exact admin path="/admin" component={Admin} />
-  </Switch>
-);
+const AppRouter = () => {
+  const { isAuthenticated } = useContext(AuthenticationContext);
+  return (
+    <Switch>
+      <Route exact path="/" component={Home} />
+      <Route path="/shop/:category/:query?" component={Shop} />
+      <Route
+        exact
+        path="/login"
+        render={(props) =>
+          isAuthenticated ? <Redirect to="/" /> : <SignInSignUp />
+        }
+      />
+      <ProtectedRoute exact path="/checkout" component={Checkout} />
+      <ProtectedRoute exact admin path="/admin" component={Admin} />
+    </Switch>
+  );
+};
 
 export default AppRouter;

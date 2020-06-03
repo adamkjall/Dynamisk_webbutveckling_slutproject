@@ -7,7 +7,9 @@ import AuthenticationContext from "../contexts/authentication-context/context";
 
 const MyMenu = () => {
   const history = useHistory();
-  const { isAdmin } = useContext(AuthenticationContext);
+  const { isAdmin, isAuthenticated, logout } = useContext(
+    AuthenticationContext
+  );
 
   return (
     <Box
@@ -42,46 +44,43 @@ const MyMenu = () => {
             />
           ) : (
             <Nav direction="row" background="mainText">
-              <Text margin={{ left: "small" }} size="medium">
-                <Link className="link" to="/shop/mens">
+              <Link className="link" to="/shop/mens">
+                <Text margin={{ left: "small" }} size="medium">
                   MENS
-                </Link>
-              </Text>
-              <Text size="medium">
-                <Link className="link" to="/shop/womens">
-                  WOMENS
-                </Link>
-              </Text>
-              <Text size="medium">
-                <Link className="link" to="/shop/hats">
-                  HATS
-                </Link>
-              </Text>
-              <Text size="medium">
-                <Link className="link" to="/shop/jackets">
-                  JACKETS
-                </Link>
-              </Text>
-              <Text size="medium">
-                <Link className="link" to="/shop/shoes">
-                  SNEAKERS
-                </Link>
-              </Text>
+                </Text>
+              </Link>
+              <Link className="link" to="/shop/womens">
+                <Text size="medium">WOMENS</Text>
+              </Link>
+              <Link className="link" to="/shop/hats">
+                <Text size="medium">HATS</Text>
+              </Link>
+              <Link className="link" to="/shop/jackets">
+                <Text size="medium">JACKETS</Text>
+              </Link>
+              <Link className="link" to="/shop/shoes">
+                <Text size="medium">SNEAKERS</Text>
+              </Link>
             </Nav>
           )
         }
       </ResponsiveContext.Consumer>
-      <Text size="medium">
-        {isAdmin() ? (
+      <Nav direction="row">
+        {isAdmin() && (
           <Link className="link" to="/admin">
-            Admin
+            <Text size="medium">Admin</Text>
+          </Link>
+        )}
+        {isAuthenticated ? (
+          <Link className="link" to="/" onClick={logout}>
+            <Text size="medium">Logout</Text>
           </Link>
         ) : (
           <Link className="link" to="/login">
-            Login
+            <Text size="medium">Login</Text>
           </Link>
         )}
-      </Text>
+      </Nav>
     </Box>
   );
 };

@@ -1,12 +1,14 @@
 import React from "react";
-
 import styled from "styled-components";
+
+import Loader from "react-loader-spinner";
 
 interface IProps {
   childlren?: React.ReactNode;
   isGoogleSignIn?: boolean;
   inverted?: boolean;
   type?: "button" | "submit" | "reset";
+  loading?: boolean;
   handleClick?: (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => void;
@@ -17,16 +19,28 @@ const CustomButton: React.FC<IProps> = ({
   isGoogleSignIn,
   inverted,
   type,
+  loading,
   handleClick,
 }) => (
   <StyledCustomButton
     className={`${inverted ? "inverted" : ""} ${
       isGoogleSignIn ? "google-sign-in" : ""
-    } custom-button`}
+    } ${loading ? "loading" : ""} custom-button`}
     type={type}
-    onClick={handleClick}
+    onClick={loading ? () => {} : handleClick}
   >
-    {children}
+    {loading ? (
+      <Loader
+        className="loader"
+        type="Oval"
+        color="black"
+        height={25}
+        width={25}
+        style={{ display: "grid", placeItems: "center" }}
+      />
+    ) : (
+      children
+    )}
   </StyledCustomButton>
 );
 
@@ -39,10 +53,9 @@ const StyledCustomButton = styled.button`
   --google-color-hover: #357ae8;
 
   display: inline-block;
-  min-width: 10rem;
-  width: auto;
+  width: 100%;
   height: 3rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 1.8px;
   line-height: 3rem;
   padding: 0 2rem;
   background-color: var(--main-color);
@@ -52,6 +65,7 @@ const StyledCustomButton = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+  transition: background-color 0.3s ease-out;
 
   &:hover {
     background-color: var(--sub-color);
@@ -79,5 +93,9 @@ const StyledCustomButton = styled.button`
       color: var(--sub-color);
       border: none;
     }
+  }
+
+  &.loading {
+    background: lightgray;
   }
 `;
