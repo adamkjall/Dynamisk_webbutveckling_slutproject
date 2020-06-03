@@ -7,6 +7,7 @@ const GridFsStorage = require("multer-gridfs-storage");
 let bucket;
 let storage;
 
+
 const randomString = [...Array(6)]
   .map((i) => (~~(Math.random() * 36)).toString(36))
   .join("");
@@ -41,45 +42,40 @@ mongoose.connection.once("open", () => {
 
 const writeSingleImage = (req, res, next) => {
   const upload = multer({ storage }).single("image");
-  upload(req, res, (err) => {
-    if (err) res.status(500).json({ message: "Couldn't upload image" });
-
+  upload(req, res, (error) => {
+    if (error) next(error)
     res.id = req.file.id;
     next();
   });
 };
 
+
 const readSingleImage = async (req, res, next) => {
   const filter = mongoose.Types.ObjectId(req.params.id);
+  const { contentType } = await bucket
+    .find(filter)
+    .next();
+  const readStream = bucket.openDownloadStream(filter);
 
-  try {
-    const { contentType } = await bucket
-      .find(filter)
-      .next();
-    const readStream = bucket.openDownloadStream(filter);
+  readStream.on("error", (error) => {
+    next(error)
+  });
 
-    readStream.on("error", () => {
-      res.status(500).json({ message: "Couldn't load image" });
-    });
+  readStream.on("data", (chunk) => {
+    res.write(chunk)
+  });
 
-    readStream.on("data", (chunk) => {
-      res.write(chunk)
-    });
-
-    readStream.on("end", () => {
-      res.contentType = contentType
-      next();
-    });
-  } catch (err) {
-    res.status(404).json({ message: "Didn't find image" });
-  }
+  readStream.on("end", () => {
+    res.contentType = contentType
+    next();
+  });
 };
 
 const deleteSingleImage = (req, res, next) => {
   const id = mongoose.Types.ObjectId(req.params.id);
-  bucket.delete(id, (err) => {
-    if (err) {
-      res.status(404).json({ message: "Couldn't find dokument" });
+  bucket.delete(id, (error) => {
+    if (error) {
+      next(error)
     } else {
       next();
     }

@@ -1,25 +1,24 @@
 const Order = require("../models/order.model");
 
 const getAllOrders = (req, res, next) => {
-    Order.find({}, (err, allOrders) => {
-        if (err) res.status(500).json({ message: "Couldn't perform orders get" });
+    Order.find({}, (error, allOrders) => {
+        if (error) next(error)
         res.allOrders = allOrders;
         next();
     });
 };
 
 const getAllOrdersFromAUser = (req, res, next) => {
-    Order.find({ 'user._id': req.params.id }, (err, allUserOrders) => {
-        if (err)
-            res.status(500).json({ message: "Coundn't get all orders for a user" });
+    Order.find({ 'user._id': req.params.id }, (error, allUserOrders) => {
+        if (error) next(error)
         res.allUserOrders = allUserOrders;
         next();
     });
 };
 
 const getOrder = (req, res, next) => {
-    Order.findById(req.params.id, (err, order) => {
-        if (err) res.status(404).json({ message: "Coundn't find order" });
+    Order.findById(req.params.id, (error, order) => {
+        if (error) next(error)
         res.order = order;
         next();
     });
@@ -33,11 +32,8 @@ const createOrder = (req, res, next) => {
 
     Order.create(
         orderData,
-        (err, newOrder) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ message: "Couldn't create order" });
-            }
+        (error, newOrder) => {
+            if (error) next(error)
             res.newOrder = newOrder;
             next();
         }

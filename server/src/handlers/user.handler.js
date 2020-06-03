@@ -1,4 +1,5 @@
 const { User } = require("../models/user.model");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 const registerUser = (req, res, next) => {
   // or perhaps send user as a named object eg req.body.user
@@ -13,25 +14,25 @@ const registerUser = (req, res, next) => {
     city: req.body.city,
     isAdmin: req.body.isAdmin,
   };
-
-  User.findOne({ email: userData.email }, (err, queriedUser) => {
-    if (err) {
-      res.status(400).json(err);
-      return;
-    }
-
-    if (!queriedUser) {
-      User.create(userData, (err, user) => {
-        if (err) {
-          res.status(400).json(err);
-        } else {
-          // store authentication session
-          req.session.userId = user._id;
-          res.status(201).json({ message: "Authenticated" });
-        }
-      });
-    } else {
-      res.status(401).json({ message: "Email address is already in use" });
+  User.findOne({ email: userData.email }, (error, queriedUser) => {
+    try {
+      if (error) next(error)
+      if (!queriedUser) {
+        User.create(userData, (error, user) => {
+          if (error) {
+            next(error)
+          } else {
+            // store authentication session
+            req.session.userId = user._id;
+            res.status(201).json({ message: "Authenticated" });
+          }
+        });
+      }
+      else {
+        throw new ErrorHandler(400, "Email address is already in use")
+      }
+    } catch (error) {
+      next(error)
     }
   });
 };
@@ -40,15 +41,15 @@ const loginUser = (req, res, next) => {
   const { email, password } = req.body;
 
   if (email && password) {
-    User.authenticate(email, password, (err, user) => {
-      if (err) {
-        res.status(401).json({ message: "Wrong name" });
-      } else if (user) {
+    User.authenticate(email, password, (error, user) => {
+      try {
+        if (error) next(error)
+        if (!user) throw new ErrorHandler(401, "Wrong email or password")
         // store authentication session
         req.session.userId = user._id;
         res.status(200).json({ message: "Authenticated" });
-      } else {
-        res.status(401).json({ message: "Wrong password" });
+      } catch (error) {
+        next(error)
       }
     });
   }
@@ -57,9 +58,9 @@ const loginUser = (req, res, next) => {
 const logoutUser = (req, res, next) => {
   if (req.session) {
     // delete session object
-    req.session.destroy(function (err) {
-      if (err) {
-        return next(err);
+    req.session.destroy( (error) => {
+      if (error) {
+        return next(error);
       } else {
         return res.redirect("/");
       }
@@ -68,16 +69,16 @@ const logoutUser = (req, res, next) => {
 };
 
 const getSessionUser = (req, res, next) => {
-  User.findById(req.session.userId, (err, user) => {
-    if (err) res.status(404).json({ message: "Couldn't find user" });
+  User.findById(req.session.userId, (error, user) => {
+    if (error) next(error)
     res.user = user;
     next();
   });
 };
 
 const getAllUsers = (req, res, next) => {
-  User.find({}, (err, allUsers) => {
-    if (err) res.status(500).json({ message: "Couldn't perform user get" });
+  User.find({}, (error, allUsers) => {
+    if (error) next(error)
     res.allUsers = allUsers;
     next();
   });
@@ -88,10 +89,8 @@ const updateUser = (req, res, next) => {
     { _id: req.params.id },
     req.body,
     { new: true },
-    (err, updatedUser) => {
-      if (err) {
-        res.status(500).json({ message: "Couldn't perform user update" });
-      }
+    (error, updatedUser) => {
+      if (error) next(error)
       res.updatedUser = updatedUser;
       next();
     }
@@ -99,9 +98,8 @@ const updateUser = (req, res, next) => {
 };
 
 const deleteUser = (req, res, next) => {
-  User.findByIdAndDelete(req.params.id, (err, deletedResult) => {
-    if (err)
-      res.status(500).json({ message: "Couldn't perform user deletion" });
+  User.findByIdAndDelete(req.params.id, (error, deletedResult) => {
+    if (error) next(error)
     res.deletedResult = deletedResult;
     next();
   });
