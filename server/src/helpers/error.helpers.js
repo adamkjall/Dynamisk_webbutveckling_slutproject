@@ -12,10 +12,10 @@ const handleError = (err, res) => {
     if (!message) message = "Unhandled Server Error"
     res.status(statusCode).json({
         status: "error",
-        statusCode,
+        // statusCode,
         message
     })
-    console.error(err)
+    // console.error(err)
 }
 
 module.exports = {

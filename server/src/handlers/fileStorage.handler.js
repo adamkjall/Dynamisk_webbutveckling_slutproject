@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const mongodb = require("mongodb");
 const GridFsStorage = require("multer-gridfs-storage");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 // let db
 let bucket;
@@ -43,43 +44,58 @@ mongoose.connection.once("open", () => {
 const writeSingleImage = (req, res, next) => {
   const upload = multer({ storage }).single("image");
   upload(req, res, (error) => {
-    if (error) next(error)
-    res.id = req.file.id;
-    next();
+    try {
+      if (error) next(error)
+      if (!req.file.id) throw new ErrorHandler()
+      res.id = req.file.id;
+      next();
+    } catch (error) {
+      next(error)
+    }
   });
 };
 
 
 const readSingleImage = async (req, res, next) => {
-  const filter = mongoose.Types.ObjectId(req.params.id);
-  const { contentType } = await bucket
-    .find(filter)
-    .next();
-  const readStream = bucket.openDownloadStream(filter);
+  try {
+    const filter = mongoose.Types.ObjectId(req.params.id);
+    if(!filter) throw new ErrorHandler()
+    const { contentType } = await bucket
+      .find(filter)
+      .next();
+    const readStream = bucket.openDownloadStream(filter);
 
-  readStream.on("error", (error) => {
+    readStream.on("error", (error) => {
+      next(error)
+    });
+
+    readStream.on("data", (chunk) => {
+      res.write(chunk)
+    });
+
+    readStream.on("end", () => {
+      res.contentType = contentType
+      next();
+    });
+  } catch (error) {
     next(error)
-  });
-
-  readStream.on("data", (chunk) => {
-    res.write(chunk)
-  });
-
-  readStream.on("end", () => {
-    res.contentType = contentType
-    next();
-  });
+  }
 };
 
 const deleteSingleImage = (req, res, next) => {
-  const id = mongoose.Types.ObjectId(req.params.id);
-  bucket.delete(id, (error) => {
-    if (error) {
-      next(error)
-    } else {
-      next();
-    }
-  });
+  try {
+    if(!req.params.id) throw new ErrorHandler(400, "No image ID was submitted")
+    const id = mongoose.Types.ObjectId(req.params.id);
+    bucket.delete(id, (error) => {
+      if (error) {
+        next(error)
+      } else {
+        next();
+      }
+    });
+  } catch (error) {
+    next(error)
+  }
 };
 
 module.exports = {
