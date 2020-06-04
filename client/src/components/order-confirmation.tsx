@@ -29,9 +29,9 @@ const OrderConfirmation = (props: IProps) => {
       <h3>Order nr: {Math.floor(new Date().getTime() / 10000)}</h3>
       <StyledGrid>
         <span>Paying with: </span>
-        <span>{paymentMethod}</span>
+        <span>{paymentMethod.type}</span>
         <span>Shipping with: </span>
-        <span>{shippingMethod}</span>
+        <span>{shippingMethod.company}</span>
         <span>Estimated delivery: </span>
         <span>{new Date().toLocaleString()}</span>
       </StyledGrid>
