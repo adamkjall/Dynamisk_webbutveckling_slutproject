@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   phoneNumber: {
-    type: Number,
+    type: String,
     required: true,
   },
   streetAddress: {
@@ -31,7 +31,7 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   zipCode: {
-    type: Number,
+    type: String,
     required: true,
   },
   city: {
