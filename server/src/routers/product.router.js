@@ -34,7 +34,7 @@ router.get("/:id", getProductsById, (req, res) => {
 
 //GET ALL PRODUCTS IN A CATEGORY
 router.get("/category/:category", getProductsByCategory, (req, res) => {
-  res.status(200).json(res.foundProducts);
+  res.status(200).json(res.products);
 });
 
 //CREATE PRODUCT
