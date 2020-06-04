@@ -1,10 +1,25 @@
 import { createContext } from "react";
-import { ShippingMethod, PaymentMethod } from "./context-provider";
 
 import { IProduct } from "../../components/product";
 
+export interface ShippingMethod {
+  company: string
+  deliveryTime: number
+  desc: string
+  price: number
+  type: string
+}
+
+export interface PaymentMethod {
+  type: string
+  desc: string
+  price: number
+}
+
 interface IContext {
   cart: IProduct[];
+  shippingMethods: ShippingMethod[],
+  paymentMethods: PaymentMethod[]
   shippingMethod: ShippingMethod;
   setShippingMethod: (method: ShippingMethod) => void;
   paymentMethod: PaymentMethod;
@@ -13,18 +28,18 @@ interface IContext {
   removeItemFromCart: (itemId: string) => void;
   clearItemFromCart: (itemId: string) => void;
   clearCart: () => void;
-  shippingCost: number;
 }
 
 export default createContext<IContext>({
   cart: [],
-  shippingMethod: "postNord",
+  shippingMethods: [],
+  paymentMethods: [],
+  shippingMethod: null,
   setShippingMethod: () => {},
-  paymentMethod: "card",
+  paymentMethod: null,
   setPaymentMethod: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
   clearCart: () => {},
-  shippingCost: 0,
 });

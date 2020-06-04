@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const OrderConfirmation = (props: IProps) => {
-  const { cart, shippingMethod, paymentMethod, shippingCost } = useContext(
+  const { cart, shippingMethod, paymentMethod } = useContext(
     CartContext
   );
 
@@ -29,9 +29,9 @@ const OrderConfirmation = (props: IProps) => {
       <h3>Order nr: {Math.floor(new Date().getTime() / 10000)}</h3>
       <StyledGrid>
         <span>Paying with: </span>
-        <span>{paymentMethod}</span>
+        <span>{paymentMethod.type}</span>
         <span>Shipping with: </span>
-        <span>{shippingMethod}</span>
+        <span>{shippingMethod.company}</span>
         <span>Estimated delivery: </span>
         <span>{new Date().toLocaleString()}</span>
       </StyledGrid>
@@ -51,7 +51,7 @@ const OrderConfirmation = (props: IProps) => {
         {cart.reduce(
           (acc, item) => acc + item.price * (item.quantity || 1),
           0
-        ) + shippingCost}
+        ) + shippingMethod.price}
       </h4>
 
       <Button primary margin="medium" onClick={props.closeModal} label="Okay" />
