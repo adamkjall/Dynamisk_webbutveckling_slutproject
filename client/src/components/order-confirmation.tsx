@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const OrderConfirmation = (props: IProps) => {
-  const { cart, shippingMethod, paymentMethod, shippingCost } = useContext(
+  const { cart, shippingMethod, paymentMethod } = useContext(
     CartContext
   );
 
@@ -51,7 +51,7 @@ const OrderConfirmation = (props: IProps) => {
         {cart.reduce(
           (acc, item) => acc + item.price * (item.quantity || 1),
           0
-        ) + shippingCost}
+        ) + shippingMethod.price}
       </h4>
 
       <Button primary margin="medium" onClick={props.closeModal} label="Okay" />

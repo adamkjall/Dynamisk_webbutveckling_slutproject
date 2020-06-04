@@ -25,7 +25,7 @@ const CartItems = ({ locked = false }: Props) => {
     removeItemFromCart,
     addItemToCart,
     clearItemFromCart,
-    shippingCost,
+    shippingMethod,
   } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -38,7 +38,7 @@ const CartItems = ({ locked = false }: Props) => {
       total += cart[i].price * quantity;
     }
 
-    return total + shippingCost;
+    return total + shippingMethod.price
   };
 
   const calculateVat = () => {
@@ -128,7 +128,7 @@ const CartItems = ({ locked = false }: Props) => {
           ))}
           <TableRow>
             <TableCell scope="row">Shipping</TableCell>
-            <TableCell>${shippingCost}</TableCell>
+            <TableCell>${shippingMethod.price}</TableCell>
           </TableRow>
 
           <TableRow>
