@@ -33,7 +33,7 @@ const FormFieldLabel = (props: Iprops) => {
       validate={[
         { regexp: /^[A-Z]/gi },
         (name) => {
-          if (name && name.length === 1) return "must be more than 1 character";
+          if (name && name.length <= 1) return "must be more than 2 characters";
           return undefined;
         },
       ]}

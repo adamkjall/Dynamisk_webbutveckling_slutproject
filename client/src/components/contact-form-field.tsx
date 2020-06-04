@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 
-import { Form } from "grommet";
+import { Box, Form, FormField, Text } from "grommet";
 
 import FormFieldLabel from "./form-field-label";
 
@@ -36,21 +36,50 @@ const ContactFormField = (props: IProps) => {
         onChange={handleOnChange}
       />
 
-      <FormFieldLabel
+      <FormField
         name="phoneNumber"
-        label="Phone number"
+        label={
+          (
+            <Box direction="row">
+              <Text>Phone Number</Text>
+              <Text color="status-critical">*</Text>
+            </Box>
+          )
+        }
         required
-        type="number"
+        type="text"
         value={user.phoneNumber}
         onChange={handleOnChange}
+        validate={[
+          { regexp: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/ },
+          name => {
+            if (!name.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)) return "Not a valid phone number";
+            return undefined;
+          }
+        ]}
+        
       />
-      <FormFieldLabel
+      <FormField
         name="email"
-        label="Email"
+        label={
+          (
+            <Box direction="row">
+              <Text>E-Mail</Text>
+              <Text color="status-critical">*</Text>
+            </Box>
+          )
+        }
         required
         type="email"
         value={user.email}
         onChange={handleOnChange}
+        validate={[
+          { regexp: /^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/ },
+          name => {
+            if (!name.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)) return "Not a valid e-mail";
+            return undefined;
+          }
+        ]}
       />
       <FormFieldLabel
         name="address"
@@ -60,13 +89,27 @@ const ContactFormField = (props: IProps) => {
         value={user.streetAddress}
         onChange={handleOnChange}
       />
-      <FormFieldLabel
+      <FormField
         name="postCode"
-        label="Post code"
+        label={
+          (
+            <Box direction="row">
+              <Text>Post Code</Text>
+              <Text color="status-critical">*</Text>
+            </Box>
+          )
+        }
         required
         type="number"
         value={user.zipCode}
         onChange={handleOnChange}
+        validate={[
+          { regexp: /^\d{5}$/ },
+          name => {
+            if (!name.match(/^\d{5}$/)) return "Not a valid post number";
+            return undefined;
+          }
+        ]}
       />
       <FormFieldLabel
         name="city"
