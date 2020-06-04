@@ -69,8 +69,8 @@ const MyMenu = () => {
           ) : (
               <Nav direction="row" background="mainText">
                 {
-                  menuItems.map((item) => 
-                    <Link className="link" to={item.route}>
+                  menuItems.map((item, index) => 
+                    <Link className="link" to={item.route} key={`${item.label}-${index}`}>
                       <Text size="medium">{item.label.toUpperCase()}</Text>
                     </Link>
                   )

@@ -33,7 +33,7 @@ const Shop = () => {
   };
 
   useEffect(() => {
-    console.log(products);
+    // console.log(products);
     if (products && products.status && products.status === "error") {
       history.push("/shop/all")
     }
