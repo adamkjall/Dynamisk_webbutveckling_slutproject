@@ -1,7 +1,13 @@
+const { ErrorHandler } = require("../helpers/error.helpers")
+
 module.exports = (req, res, next) => {
-  if (req.session && req.session.userId) {
-    next();
-  } else {
-    res.status(403).json({ message: "Unauthorized" });
+  try {
+    if (req.session && req.session.userId) {
+      next();
+    } else {
+      throw new ErrorHandler(403, "User is not logged in")
+    }
+  } catch (error) {
+    next(error)
   }
 };

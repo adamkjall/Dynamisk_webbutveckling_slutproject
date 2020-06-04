@@ -1,27 +1,46 @@
 const Order = require("../models/order.model");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 const getAllOrders = (req, res, next) => {
-    Order.find({}, (err, allOrders) => {
-        if (err) res.status(500).json({ message: "Couldn't perform orders get" });
-        res.allOrders = allOrders;
-        next();
+    Order.find({}, (error, allOrders) => {
+        try {
+            if (error) next(error)
+            if (!allOrders || allOrders.length === 0) {
+                throw new ErrorHandler(404, "Couldn't find any orders")
+            }
+            res.allOrders = allOrders;
+            next();
+        } catch (error) {
+            next(error)
+        }
     });
 };
 
 const getAllOrdersFromAUser = (req, res, next) => {
-    Order.find({ 'user._id': req.params.id }, (err, allUserOrders) => {
-        if (err)
-            res.status(500).json({ message: "Coundn't get all orders for a user" });
-        res.allUserOrders = allUserOrders;
-        next();
+    Order.find({ 'user._id': req.params.id }, (error, allUserOrders) => {
+        try {
+            if (error) next(error)
+            if (!allUserOrders || allUserOrders.length === 0) {
+                throw new ErrorHandler(404, "Coundn't find user and/or orders")
+            }
+            res.allUserOrders = allUserOrders;
+            next();
+        } catch (error) {
+            next(error)
+        }
     });
 };
 
 const getOrder = (req, res, next) => {
-    Order.findById(req.params.id, (err, order) => {
-        if (err) res.status(404).json({ message: "Coundn't find order" });
-        res.order = order;
-        next();
+    Order.findById(req.params.id, (error, order) => {
+        try {
+            if (error) next(error)
+            if (!order) throw new ErrorHandler(404, "Couldn't find order")
+            res.order = order;
+            next();
+        } catch (error) {
+            next(error)
+        }
     });
 };
 
@@ -30,16 +49,17 @@ const createOrder = (req, res, next) => {
         ...req.body,
         orderStatus: false
     };
-
     Order.create(
         orderData,
-        (err, newOrder) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json({ message: "Couldn't create order" });
+        (error, newOrder) => {
+            try {
+                if (error) next(error)
+                if (!newOrder) throw new ErrorHandler(400, "Couldn't create order")
+                res.newOrder = newOrder;
+                next();
+            } catch (error) {
+                next(error)
             }
-            res.newOrder = newOrder;
-            next();
         }
     )
 };

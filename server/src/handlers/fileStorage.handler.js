@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const multer = require("multer");
 const mongodb = require("mongodb");
 const GridFsStorage = require("multer-gridfs-storage");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 // let db
 let bucket;
 let storage;
+
 
 const randomString = [...Array(6)]
   .map((i) => (~~(Math.random() * 36)).toString(36))
@@ -41,25 +43,30 @@ mongoose.connection.once("open", () => {
 
 const writeSingleImage = (req, res, next) => {
   const upload = multer({ storage }).single("image");
-  upload(req, res, (err) => {
-    if (err) res.status(500).json({ message: "Couldn't upload image" });
-
-    res.id = req.file.id;
-    next();
+  upload(req, res, (error) => {
+    try {
+      if (error) next(error)
+      if (!req.file.id) throw new ErrorHandler()
+      res.id = req.file.id;
+      next();
+    } catch (error) {
+      next(error)
+    }
   });
 };
 
-const readSingleImage = async (req, res, next) => {
-  const filter = mongoose.Types.ObjectId(req.params.id);
 
+const readSingleImage = async (req, res, next) => {
   try {
+    const filter = mongoose.Types.ObjectId(req.params.id);
+    if(!filter) throw new ErrorHandler()
     const { contentType } = await bucket
       .find(filter)
       .next();
     const readStream = bucket.openDownloadStream(filter);
 
-    readStream.on("error", () => {
-      res.status(500).json({ message: "Couldn't load image" });
+    readStream.on("error", (error) => {
+      next(error)
     });
 
     readStream.on("data", (chunk) => {
@@ -70,20 +77,25 @@ const readSingleImage = async (req, res, next) => {
       res.contentType = contentType
       next();
     });
-  } catch (err) {
-    res.status(404).json({ message: "Didn't find image" });
+  } catch (error) {
+    next(error)
   }
 };
 
 const deleteSingleImage = (req, res, next) => {
-  const id = mongoose.Types.ObjectId(req.params.id);
-  bucket.delete(id, (err) => {
-    if (err) {
-      res.status(404).json({ message: "Couldn't find dokument" });
-    } else {
-      next();
-    }
-  });
+  try {
+    if(!req.params.id) throw new ErrorHandler(400, "No image ID was submitted")
+    const id = mongoose.Types.ObjectId(req.params.id);
+    bucket.delete(id, (error) => {
+      if (error) {
+        next(error)
+      } else {
+        next();
+      }
+    });
+  } catch (error) {
+    next(error)
+  }
 };
 
 module.exports = {
