@@ -1,54 +1,66 @@
 const { Product } = require("../models/product.model");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 /* GET ALL PRODUCTS */
 const getAllProducts = (req, res, next) => {
-  Product.find()
-    .exec(async (err, allProducts) => {
-      if (err) {
-        res
-          .status(500)
-          .json({ message: "Couldn't perform get for all products" });
-      } else if (!allProducts) {
-        res.status(404).json({ message: "Couldn't find all products" });
+  Product.find({}, (error, products) => {
+    try {
+      if (error) next(error)
+      if (!products || products.length === 0) {
+        throw new ErrorHandler(404, "Couldn't find any products")
       } else {
-        res.allProducts = allProducts
+        res.allProducts = products
         next();
       }
-    });
+    } catch (error) {
+      next(error)
+    }
+  })
 };
 
 /* GET ONE PRODUCT BY ID */
 const getProductsById = (req, res, next) => {
-  Product.findById(req.params.id, (err, product) => {
-    if (err) {
-      res.status(500).json({ message: "Couldn't perform product get" });
-    } else if (!product) {
-      res.status(404).json({ message: "Couldn't find product" });
-    } else {
-      res.product = product;
-      next();
+  Product.findById(req.params.id, (error, product) => {
+    try {
+      if (error) next(error)
+      if (!product) throw new ErrorHandler(404, "Couldn't find product")
+      res.product = product
+      return product
+      next()
+    } catch (error) {
+      next(error)
     }
-  });
+  })
 };
 
 /* GET PRODUCT BY CATEGORY */
 const getProductsByCategory = (req, res, next) => {
-  Product.find({ category: req.params.category }, (err, foundProducts) => {
-    if (err)
-      res
-        .status(500)
-        .json({ message: "Couldn't find any products in this category" });
-    res.foundProducts = foundProducts;
-    next();
+  Product.find({ category: req.params.category }, (error, products) => {
+    try {
+      if (error) next(error)
+      if (!products || products.length === 0) {
+        throw new ErrorHandler(404, "Couldn't find products and/or category")
+      } else {
+        res.products = products
+        next()
+      }
+    } catch (error) {
+      next(error)
+    }
   });
 };
 
 /* CREATE PRODUCT */
 const createProduct = (req, res, next) => {
-  Product.create(req.body, (err, createdProduct) => {
-    if (err) res.status(500).json({ message: "Couldn't create product" });
-    res.createdProduct = createdProduct;
-    next();
+  Product.create(req.body, (error, createdProduct) => {
+    try {
+      if (error) next(error)
+      if (!createdProduct) throw new ErrorHandler(400, "Couldn't create product")
+      res.createdProduct = createdProduct;
+      next();
+    } catch (error) {
+      next(error)
+    }
   });
 };
 
@@ -58,25 +70,33 @@ const updateProduct = (req, res, next) => {
     req.params.id,
     req.body,
     { new: true },
-    (err, updatedProduct) => {
-      if (err)
-        res.status(500).json({ message: "Couldn't perform product update" });
-      res.updatedProduct = updatedProduct;
-      next();
+    (error, product) => {
+      try {
+        if (error) next(error)
+        if (!product) {
+          throw new ErrorHandler(404, "Couldn't find product to update")
+        } else {
+          res.updatedProduct = product
+          next()
+        }
+      } catch (error) {
+        next(error)
+      }
     }
   );
+
 };
 
 /* DELETE PRODUCT */
 const deleteProduct = (req, res, next) => {
-  Product.findByIdAndDelete(req.params.id, (err, deletedProduct) => {
-    if (err) {
-      res.status(500).json({ message: "Couldn't perform product deletion" });
-    } else if (!deletedProduct) {
-      res.status(404).json({ message: "Couldn't find product" });
-    } else {
+  Product.findByIdAndDelete(req.params.id, (error, deletedProduct) => {
+    try {
+      if (error) next(error)
+      if (!deletedProduct) throw new ErrorHandler(404, "Couldn't find product to delete")
       res.deletedProduct = deletedProduct;
       next();
+    } catch (error) {
+      next(error)
     }
   });
 };

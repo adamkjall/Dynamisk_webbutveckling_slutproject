@@ -5,6 +5,7 @@ const app = express();
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 const cors = require("cors");
+const { handleError } = require("./helpers/error.helpers")
 require("dotenv").config();
 
 /* DATABASE SETUP */
@@ -52,6 +53,11 @@ app.use("/api/users", userRouter);
 app.use("/api/files", fileStorageRouter);
 
 const PORT = process.env.PORT || 8080;
+
+/* Error handling */
+app.use((err, req, res, next) => {
+  handleError(err, res)
+})
 
 /* Start server */
 app.listen(PORT, () =>

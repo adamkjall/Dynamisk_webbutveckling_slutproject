@@ -1,28 +1,32 @@
 const { Shipment } = require("../models/shipment.model");
+const { ErrorHandler } = require("../helpers/error.helpers")
 
 const getAllShipments = (req, res, next) => {
-  Shipment.find({}, (err, allShipments) => {
-    if (err) {
-      res.status(500).json({ message: "Couldn't perform shipment get" });
-    } else if (!allShipments) {
-      res.status(404).json({ message: "Couldn't find any shipments" })
-    } else {
-      res.allShipments = allShipments;
-      next();
+  Shipment.find({}, (error, allShipments) => {
+    try {
+      if (error) next(error)
+      if (!allShipments || allShipments.length === 0) {
+        throw new ErrorHandler(404, "Couldn't GET all shipments")
+      } else {
+        res.allShipments = allShipments;
+        next();
+      }
+    } catch (error) {
+      next(error)
     }
   });
 };
 
 const createNewShipping = (req, res, next) => {
   const shippingData = req.body
-  Shipment.create(shippingData, (err, newShipment) => {
-    if(err) {
-      res.status(500).json({ message: "Couldn't create shipment" });
-    } else if (!newShipment) {
-      res.status(500).json({ message: "Couldn't create shipment" });
-    } else {
+  Shipment.create(shippingData, (error, newShipment) => {
+    try {
+      if (error) next(error)
+      if (!newShipment) throw new ErrorHandler(400, "Couldn't create new shipment")
       res.newShipment = newShipment
       next()
+    } catch (error) {
+      next(error)
     }
   })
 }
