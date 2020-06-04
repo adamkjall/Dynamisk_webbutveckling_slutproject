@@ -22,6 +22,7 @@ const MyCart = (props: Iprops) => {
   const { isAuthenticated } = useContext(AuthenticationContext);
 
   const checkSession = () => {
+    
     if(!isAuthenticated){
       setShowModal(true)
     }else{
@@ -45,16 +46,23 @@ const MyCart = (props: Iprops) => {
           <CartItems />
         </Box>
       </Box>
-      <Link to="/Checkout">
+      {isAuthenticated? <Link to="/Checkout">
         <Button
           margin="medium"
           primary
           label="Proceed to checkout"
           onClick={checkSession}
         />
-      </Link>
+      </Link>:
+      <Button
+          margin="medium"
+          primary
+          label="Log in or register HERE to proceed to checkout"
+          onClick={checkSession}
+        />}
+      
     </Box>
-    {showModal && (
+    {showModal && !isAuthenticated && (
       <Box>
           
           <Layer
