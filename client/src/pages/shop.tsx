@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import useFetch from "../hooks/useFetch";
 
@@ -7,19 +7,20 @@ import { Box } from "grommet";
 import Product, { IProduct } from "../components/product";
 
 const Shop = () => {
+  const history = useHistory()
   const { category, query } = useParams();
-  const {
+  let {
     response: products,
     loading,
   } = useFetch(
     `http://localhost:8080/api/products/${
-      category !== "search" ? "category/" + category : ""
+    category !== "search" && category !== "all"
+      ? "category/" + category
+      : ""
     }`,
     {},
     [category]
   );
-
-  console.log("prod", products);
 
   const matchWithQuery = (product: IProduct): boolean => {
     if (category === "search") {
@@ -30,6 +31,13 @@ const Shop = () => {
     }
     return true;
   };
+
+  useEffect(() => {
+    // console.log(products);
+    if (products && products.status && products.status === "error") {
+      history.push("/shop/all")
+    }
+  }, [products])
 
   return (
     <Box
@@ -48,13 +56,14 @@ const Shop = () => {
       {loading ? (
         <h1>Loading</h1>
       ) : (
-        products &&
-        products
-          .filter(matchWithQuery)
-          .map((product: IProduct) => (
-            <Product key={product._id} product={product} />
-          ))
-      )}
+          (products && !products.status) ?
+            products
+              .filter(matchWithQuery)
+              .map((product: IProduct) => (
+                <Product key={product._id} product={product} />
+              ))
+        : null
+              )}
     </Box>
   );
 };

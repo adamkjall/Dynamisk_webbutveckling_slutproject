@@ -64,14 +64,14 @@ router.delete(
 
 //REGISTER USER
 router.post("/", registerUser, (req, res) => {
-  res.status(201).json({ message: "Authenticated", user });
+  res.status(201).json({ message: "Authenticated", user: res.user });
 });
 
 // USER SESSION ENDPOINTS
 
 //LOGIN USER
 router.post("/session/login", loginUser, (req, res) => {
-  res.status(200).json({ message: "Authenticated" });
+  res.status(200).json({ message: "Authenticated", user: res.user });
 });
 
 // LOGOUT USER

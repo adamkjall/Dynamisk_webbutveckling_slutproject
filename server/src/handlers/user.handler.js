@@ -39,6 +39,7 @@ const loginUser = (req, res, next) => {
           if (!user) throw new ErrorHandler(401, "Wrong email or password")
           // store authentication session
           req.session.userId = user._id;
+          res.user = user
           next()
         } catch (error) {
           next(error)
