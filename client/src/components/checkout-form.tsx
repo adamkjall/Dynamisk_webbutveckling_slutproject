@@ -17,20 +17,22 @@ const MyCheckOut = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [isCardValid, setIsCardValid] = useState(false)
-  const [isPayMailValid, setIsPayMailValid] = useState(true)
-  const [isPayPhoneValid, setIsPayPhoneValid] = useState(true)
+  const [isCardValid, setIsCardValid] = useState(false);
+  const [isPayMailValid, setIsPayMailValid] = useState(true);
+  const [isPayPhoneValid, setIsPayPhoneValid] = useState(true);
   const { user } = useContext(AuthenticationContext);
   const { clearCart, paymentMethod } = useContext(CartContext);
   const history = useHistory();
 
   const validUserInformation = () =>
     user.firstName.length > 1 &&
-    user.firstName.match(/[A-Ö]/gi)?.length === user.firstName.length &&
+    user.firstName.match(/[A-Ö]/gi) &&
     user.lastName.length > 1 &&
-    user.lastName.match(/[A-Ö]/gi)?.length === user.lastName.length &&
+    user.lastName.match(/[A-Ö]/gi) &&
     user.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/) &&
-    user.phoneNumber.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/) &&
+    user.phoneNumber.match(
+      /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+    ) &&
     user.streetAddress.length > 1 &&
     user.city.length > 1 &&
     user.zipCode.match(/^\d{5}$/);
@@ -48,19 +50,12 @@ const MyCheckOut = () => {
   };
 
   const checkPaymentBool = () => {
-    if(paymentMethod === "card" && isCardValid){
-      return true
-    }
-    if(paymentMethod === "swish" && isPayPhoneValid){
-      return true
-    }
-    if(paymentMethod === "invoice" && isPayMailValid){
-      return true
-    }
-    else{
-      return false
-    }
-  }
+    return (
+      (paymentMethod.type === "VISA/MASTERCARD" && isCardValid) ||
+      (paymentMethod.type === "SWISH" && isPayPhoneValid) ||
+      (paymentMethod.type === "INVOICE" && isPayMailValid)
+    );
+  };
 
   return (
     <Box
@@ -100,10 +95,14 @@ const MyCheckOut = () => {
         </AccordionPanel>
         <AccordionPanel onClick={() => setActiveIndex(2)} label="Payment">
           <Box pad="medium" background="light-2">
-            <PaymentForm 
-              setIsCardValid = {setIsCardValid} isCardValid = {isCardValid}
-              setIsPayPhoneValid = {setIsPayPhoneValid} isPayPhoneValid = {isPayPhoneValid}
-              setIsPayMailValid = {setIsPayMailValid} isPayMailValid = {isPayMailValid}/>
+            <PaymentForm
+              setIsCardValid={setIsCardValid}
+              isCardValid={isCardValid}
+              setIsPayPhoneValid={setIsPayPhoneValid}
+              isPayPhoneValid={isPayPhoneValid}
+              setIsPayMailValid={setIsPayMailValid}
+              isPayMailValid={isPayMailValid}
+            />
           </Box>
         </AccordionPanel>
         {activeIndex === 2 &&

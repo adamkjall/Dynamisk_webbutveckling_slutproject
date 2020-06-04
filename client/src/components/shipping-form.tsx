@@ -12,28 +12,28 @@ import {
   ResponsiveContext,
 } from "grommet";
 
-import CartContext from "../contexts/cart-context/context";
+import CartContext, { ShippingMethod } from "../contexts/cart-context/context";
 
 interface IProps {}
 
 const ShippingForm = (props: IProps) => {
-  const { shippingMethod, setShippingMethod, shippingCost } = useContext(
-    CartContext
-  );
+  const {
+    shippingMethod,
+    setShippingMethod,
+    shippingMethods,
+  } = useContext(CartContext);
 
   const getDeliveryDate = () => {
     const date = new Date();
-    switch (shippingMethod) {
-      case "postNord":
-        date.setHours(date.getHours() + 72);
-        break;
-      case "dhl":
-        date.setHours(date.getHours() + 6);
-        break;
-      default:
-        date.setHours(date.getHours() + 36);
-    }
+    date.setHours(date.getHours() + shippingMethod.deliveryTime * 24);
     return date.toLocaleDateString();
+  };
+
+  const transformMethodsToGrommetRadioButton = () => {
+    return shippingMethods.map((method) => ({
+      label: method.company + " (" + method.deliveryTime * 24 + "h)",
+      value: method.company,
+    }));
   };
 
   return (
@@ -48,33 +48,29 @@ const ShippingForm = (props: IProps) => {
               <RadioButtonGroup
                 direction="column"
                 name="radio"
-                options={[
-                  { label: "PostNord (72h)", value: "postNord" },
-                  { label: "Schenker (36h)", value: "schenker" },
-                  { label: "DHL Express (6h)", value: "dhl" },
-                ]}
-                value={shippingMethod}
-                onChange={(event) => {
-                  const method: any = event.target.value;
-                  setShippingMethod(method);
+                options={transformMethodsToGrommetRadioButton()}
+                value={shippingMethod.company}
+                onChange={(e) => {
+                  setShippingMethod(
+                    shippingMethods.find(
+                      (method) => method.company === e.target.value
+                    )
+                  );
                 }}
-                {...props}
               />
             ) : (
               <RadioButtonGroup
                 direction="row"
                 name="radio"
-                options={[
-                  { label: "PostNord (72h)", value: "postNord" },
-                  { label: "Schenker (36h)", value: "schenker" },
-                  { label: "DHL Express (6h)", value: "dhl" },
-                ]}
-                value={shippingMethod}
-                onChange={(event) => {
-                  const method: any = event.target.value;
-                  setShippingMethod(method);
+                options={transformMethodsToGrommetRadioButton()}
+                value={shippingMethod.company}
+                onChange={(e) => {
+                  setShippingMethod(
+                    shippingMethods.find(
+                      (method) => method.company === e.target.value
+                    )
+                  );
                 }}
-                {...props}
               />
             )
           }
@@ -87,7 +83,7 @@ const ShippingForm = (props: IProps) => {
               <Text>Delivery cost:</Text>
             </TableCell>
             <TableCell>
-              <strong>${shippingCost}</strong>
+              <strong>${shippingMethod.price}</strong>
             </TableCell>
           </TableRow>
           <TableRow>

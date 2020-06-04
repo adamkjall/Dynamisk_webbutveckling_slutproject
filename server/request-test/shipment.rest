@@ -9,9 +9,23 @@ POST http://localhost:8080/api/shipments
 Content-Type: application/json
 
 {
+    "type" : "Normal delivery",
+    "desc" : "Delivery to your nearest postal office",
+    "company" : "Postnord",
+    "price" : "5",
+    "deliveryTime" : "5"
+}
+{
+    "type" : "Express delivery",
+    "desc" : "Fast delivery to your nearest postal office",
+    "company" : "DHL",
+    "price" : "10",
+    "deliveryTime" : "3"
+}
+{
     "type" : "Home delivery",
     "desc" : "Delivery to your front door",
-    "company" : "PostMord",
-    "price" : "199",
+    "company" : "DB Schenker",
+    "price" : "15",
     "deliveryTime" : "2"
 }

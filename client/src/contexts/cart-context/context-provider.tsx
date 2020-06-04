@@ -1,36 +1,56 @@
 import React, { FC, useState, useEffect } from "react";
 
-import CartContext from "./context";
+import CartContext, { ShippingMethod, PaymentMethod } from "./context";
 
 import { IProduct } from "../../components/product";
 
 interface IProps {}
 
-export type ShippingMethod = "postNord" | "schenker" | "dhl";
-export type PaymentMethod = "card" | "invoice" | "swish";
+const INIT_SHIPPING_METHOD = {
+  company: "",
+  deliveryTime: 0,
+  desc: "",
+  price: 0,
+  type: "",
+};
+
+const INIT_PAYMENT_METHOD = {
+  type: "",
+  desc: "",
+  price: 0,
+};
 
 const CartContextProvider: FC<IProps> = (props) => {
   const [cart, setCart] = useState<IProduct[]>([]);
-  const [shippingCost, setShippingCost] = useState(0);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>(
-    "postNord"
+    INIT_SHIPPING_METHOD
   );
-  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
+  const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>(
+    INIT_PAYMENT_METHOD
+  );
+  const [shippingMethods, setShippingMethods] = useState<ShippingMethod[]>(
+    null
+  );
+  const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
+
+  // runs when component mounts
+  useEffect(() => {
+    fetch("http://localhost:8080/api/shipments", { credentials: "include" })
+      .then((res) => res.json())
+      .then((data) => {
+        setShippingMethods(data);
+        setShippingMethod(data[0]);
+      });
+  }, []);
 
   useEffect(() => {
-    let cost = 0;
-    switch (shippingMethod) {
-      case "dhl":
-        cost = 10;
-        break;
-      case "schenker":
-        cost = 5;
-        break;
-      default:
-        cost = 2;
-    }
-    setShippingCost(cost);
-  }, [shippingMethod]);
+    fetch("http://localhost:8080/api/payments", { credentials: "include" }) // Fetch payment data
+      .then((res) => res.json()) // Convert to json
+      .then((data) => {
+        setPaymentMethods(data);
+        setPaymentMethod(data[0]);
+      });
+  }, []);
 
   const addItemToCart = (product: IProduct) => {
     const existing = cart.find((cartItem) => cartItem._id === product._id);
@@ -88,6 +108,8 @@ const CartContextProvider: FC<IProps> = (props) => {
       {...props}
       value={{
         cart,
+        shippingMethods,
+        paymentMethods,
         shippingMethod,
         setShippingMethod: setShipping,
         paymentMethod,
@@ -96,7 +118,6 @@ const CartContextProvider: FC<IProps> = (props) => {
         removeItemFromCart,
         clearItemFromCart,
         clearCart,
-        shippingCost: shippingCost,
       }}
     />
   );
