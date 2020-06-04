@@ -4,17 +4,19 @@ import { Link } from "react-router-dom";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
 
-import { Box, Button, Heading } from "grommet";
+import { Box, Button, Heading, Layer } from "grommet";
 import { Close } from "grommet-icons";
 
 import CartItems from "./cart-items";
-import SignInSignUpModal from "./signInSignUpModal"
+import SignInSignUp from "../pages/sign-in-sign-up"
 
 interface Iprops {
   closeCart: () => void;
 }
 
 const MyCart = (props: Iprops) => {
+
+  
   
   const [showModal, setShowModal] = useState(false)
   const { isAuthenticated } = useContext(AuthenticationContext);
@@ -31,7 +33,7 @@ const MyCart = (props: Iprops) => {
 
   return (
     <>
-    {showModal? <SignInSignUpModal/>:null }
+    {/* {showModal? <SignInSignUpModal/>:null } */}
     {/* {isAuthenticated?null:<SignInSignUpModal/>} */}
     <Box>
       <Box align="center" height="100vh" overflow="auto">
@@ -52,6 +54,18 @@ const MyCart = (props: Iprops) => {
         />
       </Link>
     </Box>
+    {showModal && (
+      <Box>
+          
+          <Layer
+            onEsc={() => setShowModal(false)}
+            onClickOutside={() => setShowModal(false)}
+          >
+            <SignInSignUp/>
+          </Layer>
+
+      </Box>
+      )} 
     </>
   );
 };

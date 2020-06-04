@@ -7,10 +7,12 @@ import { Box, Button, Layer,  } from "grommet";
 const SignInSignUpModal = () => {
     const [show, setOpen] = useState(true);
     const onOpen = () => setOpen(true);
-    const onClose= () => setOpen(false);
+    const onClose = () => setOpen(false);
     return (
+      <>
+      {show && (
       <Box>
-
+          
           <Layer
             onEsc={onClose}
             onClickOutside={onClose}
@@ -19,6 +21,8 @@ const SignInSignUpModal = () => {
           </Layer>
 
       </Box>
+      )} 
+      </>
     );
 }
 
