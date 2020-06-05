@@ -27,7 +27,6 @@ const SignIn = ({ toggleView }) => {
     event.preventDefault();
 
     try {
-      // TODO validate inputs
       const validateInputs = email.length && password.length;
 
       if (!validateInputs) {
@@ -39,10 +38,11 @@ const SignIn = ({ toggleView }) => {
 
       setLoading(true);
       const message = await login(email, password);
-      // TODO view message to user in a nicer way
       if (message != "Authenticated") {
         setLogInOK(false)
         setLoading(false);
+        setShakeComponent(true);
+        setTimeout(() => setShakeComponent(false), 820);
         setEmail("");
         setPassword("");
       }

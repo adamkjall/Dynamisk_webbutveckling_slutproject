@@ -35,6 +35,7 @@ const SignUp = ({ toggleView }) => {
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
   const { register } = useContext(AuthenticationContext);
+  
   const [isFirstNameOK, setFirstNameOK] = useState(true)
   const [isLastNameOK, setLastNameOK] = useState(true)
   const [isStreetAddressOK, setStreetAddressOK] = useState(true)
@@ -58,13 +59,47 @@ const SignUp = ({ toggleView }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-/*     if (inputs.password !== inputs.confirmPassword) {
-      alert("Passwords don't match!");
-      return;
-    } */
+    const handleValidationMessages = () => {
+      if(inputs.firstName.length >= 2){
+        setFirstNameOK(true)
+      }else{setFirstNameOK(false)}
+
+      if(inputs.lastName.length >= 2){
+        setLastNameOK(true)
+      }else{setLastNameOK(false)}
+
+      if(inputs.streetAddress.length >= 4){
+        setStreetAddressOK(true)
+      }else{setStreetAddressOK(false)}
+
+      if(inputs.zipCode.match(/^\d{5}$/)){
+        setZipCodeOK(true)
+      }else{setZipCodeOK(false)}
+
+      if(inputs.city.length >= 1){
+        setCityOK(true)
+      }else{setCityOK(false)}
+
+      if(inputs.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)){
+        setEmailOK(true)
+      }else{setEmailOK(false)}
+
+      if(inputs.phoneNumber.match(
+        /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+      )){
+        setPhoneNumberOK(true)
+      }else{setPhoneNumberOK(false)}
+
+      if(inputs.password.length >= 6){
+        setPasswordOK(true)
+      }else{setPasswordOK(false)}
+
+      if(inputs.confirmPassword === inputs.password){
+        setConfirmOK(true)
+      }else{setConfirmOK(false)}
+    }
 
     try {
-      // TODO validate inputs
       const validateInputs =
         inputs.firstName.length >= 2 &&
         inputs.firstName.match(/[A-Ö]/gi) &&
@@ -79,46 +114,6 @@ const SignUp = ({ toggleView }) => {
         inputs.zipCode.match(/^\d{5}$/) &&
         inputs.password.length >= 6 &&
         inputs.confirmPassword === inputs.password;
-
-      const handleValidationMessages = () => {
-        if(inputs.firstName.length >= 2){
-          setFirstNameOK(true)
-        }else{setFirstNameOK(false)}
-
-        if(inputs.lastName.length >= 2){
-          setLastNameOK(true)
-        }else{setLastNameOK(false)}
-
-        if(inputs.streetAddress.length >= 4){
-          setStreetAddressOK(true)
-        }else{setStreetAddressOK(false)}
-
-        if(inputs.zipCode.match(/^\d{5}$/)){
-          setZipCodeOK(true)
-        }else{setZipCodeOK(false)}
-
-        if(inputs.city.length >= 1){
-          setCityOK(true)
-        }else{setCityOK(false)}
-
-        if(inputs.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)){
-          setEmailOK(true)
-        }else{setEmailOK(false)}
-
-        if(inputs.phoneNumber.match(
-          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
-        )){
-          setPhoneNumberOK(true)
-        }else{setPhoneNumberOK(false)}
-
-        if(inputs.password.length >= 6){
-          setPasswordOK(true)
-        }else{setPasswordOK(false)}
-
-        if(inputs.confirmPassword === inputs.password){
-          setConfirmOK(true)
-        }else{setConfirmOK(false)}
-      }
 
       if (!validateInputs) {
         handleValidationMessages()
@@ -162,7 +157,6 @@ const SignUp = ({ toggleView }) => {
           validate = {isFirstNameOK}
           validateText = {"Not a valid name"}
         />
-        {/* {inputs.firstName.length >= 1? null:<p>Not a valid username</p>} */}
         <FormInput
           className="last"
           type="text"
