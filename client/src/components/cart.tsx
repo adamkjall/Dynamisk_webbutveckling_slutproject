@@ -15,8 +15,6 @@ interface Iprops {
 }
 
 const MyCart = (props: Iprops) => {
-
-  
   
   const [showModal, setShowModal] = useState(false)
   const { isAuthenticated } = useContext(AuthenticationContext);
@@ -31,48 +29,46 @@ const MyCart = (props: Iprops) => {
     }
   }
 
-
   return (
     <>
-    {/* {showModal? <SignInSignUpModal/>:null } */}
-    {/* {isAuthenticated?null:<SignInSignUpModal/>} */}
-    <Box>
-      <Box align="center" height="100vh" overflow="auto">
-        <Button alignSelf="end" icon={<Close />} onClick={props.closeCart} />
-        <Heading margin="small" size="3">
-          Your Shopping Cart
-        </Heading>
-        <Box width="large" pad="medium">
-          <CartItems />
-        </Box>
-      </Box>
-      {isAuthenticated? <Link to="/Checkout">
-        <Button
-          margin="medium"
-          primary
-          label="Proceed to checkout"
-          onClick={checkSession}
-        />
-      </Link>:
-      <Button
-          margin="medium"
-          primary
-          label="Log in or register here to proceed to checkout"
-          onClick={checkSession}
-        />}
-    </Box>
-    {showModal && !isAuthenticated && (
       <Box>
-          
-          <Layer
-            onEsc={() => setShowModal(false)}
-            onClickOutside={() => setShowModal(false)}
-          >
-          <Button alignSelf="end" icon={<Close />} onClick={() => setShowModal(false)} />
-            
-            <SignInSignUp/>
-          </Layer>
-
+        <Box align="center" height="100vh" overflow="auto">
+          <Button alignSelf="end" icon={<Close />} onClick={props.closeCart} />
+          <Heading margin="small" size="3">
+            Your Shopping Cart
+          </Heading>
+          <Box width="large" pad="medium">
+            <CartItems />
+          </Box>
+        </Box>
+        {isAuthenticated? <Link to="/Checkout">
+          <Button
+            margin="medium"
+            primary
+            label="Proceed to checkout"
+            onClick={checkSession}
+          />
+        </Link>:
+        <Button
+            margin="medium"
+            primary
+            label="Log in or register here to proceed to checkout"
+            onClick={checkSession}
+          />}
+      </Box>
+      {showModal && !isAuthenticated && (
+      <Box>    
+        <Layer
+          onEsc={() => setShowModal(false)}
+          onClickOutside={() => setShowModal(false)}
+        >
+        <Button 
+          alignSelf="end" 
+          icon={<Close />} 
+          onClick={() => setShowModal(false)} 
+        />        
+          <SignInSignUp/>
+        </Layer>
       </Box>
       )} 
     </>
