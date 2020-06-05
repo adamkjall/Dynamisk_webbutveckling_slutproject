@@ -35,6 +35,15 @@ const SignUp = ({ toggleView }) => {
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
   const { register } = useContext(AuthenticationContext);
+  const [isFirstNameOK, setFirstNameOK] = useState(true)
+  const [isLastNameOK, setLastNameOK] = useState(true)
+  const [isStreetAddressOK, setStreetAddressOK] = useState(true)
+  const [isCityOK, setCityOK] = useState(true)
+  const [isZipCodeOK, setZipCodeOK] = useState(true)
+  const [isEmailOK, setEmailOK] = useState(true)
+  const [isPhoneNumberOK, setPhoneNumberOK] = useState(true)
+  const [isPasswordOK, setPasswordOK] = useState(true)
+  const [isConfirmOK, setConfirmOK] = useState(true)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return; // lock input during loading
@@ -57,17 +66,62 @@ const SignUp = ({ toggleView }) => {
     try {
       // TODO validate inputs
       const fakeValidate =
-        inputs.firstName.length &&
-        inputs.lastName.length &&
-        inputs.email.length &&
-        inputs.phoneNumber.length &&
-        inputs.streetAddress.length &&
-        inputs.zipCode.length &&
-        inputs.city.length &&
+        inputs.firstName.length > 1 &&
+        inputs.firstName.match(/[A-Ö]/gi) &&
+        inputs.lastName.length > 1 &&
+        inputs.lastName.match(/[A-Ö]/gi) &&
+        inputs.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/) &&
+        inputs.phoneNumber.match(
+          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+        ) &&
+        inputs.streetAddress.length > 1 &&
+        inputs.city.length > 1 &&
+        inputs.zipCode.match(/^\d{5}$/) &&
         inputs.password.length &&
         inputs.confirmPassword.length;
 
+      const handleValidationMessages = () => {
+        if(inputs.firstName.length >= 1){
+          setFirstNameOK(true)
+        }else{setFirstNameOK(false)}
+
+        if(inputs.lastName.length >= 1){
+          setLastNameOK(true)
+        }else{setLastNameOK(false)}
+
+        if(inputs.streetAddress.length >= 1){
+          setStreetAddressOK(true)
+        }else{setStreetAddressOK(false)}
+
+        if(inputs.zipCode.match(/^\d{5}$/)){
+          setZipCodeOK(true)
+        }else{setZipCodeOK(false)}
+
+        if(inputs.city.length >= 1){
+          setCityOK(true)
+        }else{setCityOK(false)}
+
+        if(inputs.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)){
+          setEmailOK(true)
+        }else{setEmailOK(false)}
+
+        if(inputs.phoneNumber.match(
+          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+        )){
+          setPhoneNumberOK(true)
+        }else{setPhoneNumberOK(false)}
+
+        if(inputs.password.length >= 1){
+          setPasswordOK(true)
+        }else{setPasswordOK(false)}
+
+        if(inputs.confirmPassword.length >= 1){
+          setConfirmOK(true)
+        }else{setConfirmOK(false)}
+      }
+
       if (!fakeValidate) {
+        handleValidationMessages()
         setShakeComponent(true);
         setTimeout(() => setShakeComponent(false), 820);
         return;
@@ -105,7 +159,10 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"First name"}
           required
+          validate = {isFirstNameOK}
+          validateText = {"Your mother doesn't love you"}
         />
+        {/* {inputs.firstName.length >= 1? null:<p>Not a valid username</p>} */}
         <FormInput
           className="last"
           type="text"
@@ -114,6 +171,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Last name"}
           required
+          validate = {isLastNameOK}
+          validateText = {"Your father doesn't love you"}
         />
         <FormInput
           className="email"
@@ -123,6 +182,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Email"}
           required
+          validate = {isEmailOK}
+          validateText = {"That's not an email"}
         />
         <FormInput
           className="phone"
@@ -132,6 +193,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Phone number"}
           required
+          validate = {isPhoneNumberOK}
+          validateText = {"That's not a phonenumber I can sell to a telemarketing center"}
         />
         <FormInput
           className="address"
@@ -141,6 +204,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Street address"}
           required
+          validate = {isStreetAddressOK}
+          validateText = {"You can not live there"}
         />
         <FormInput
           className="zip"
@@ -150,6 +215,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Zip code"}
           required
+          validate = {isZipCodeOK}
+          validateText = {"5 numbers idiot!"}
         />
         <FormInput
           className="city"
@@ -159,6 +226,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"City"}
           required
+          validate = {isCityOK}
+          validateText = {"A place on earth please"}
         />
         <FormInput
           className="password"
@@ -168,6 +237,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Password"}
           required
+          validate = {isPasswordOK}
+          validateText = {"Not secret enough"}
         />
         <FormInput
           className="confirm"
@@ -177,6 +248,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Confirm password"}
           required
+          validate = {isConfirmOK}
+          validateText = {"Not secret enough"}
         />
         <p>
           Already have an account?{" "}

@@ -9,6 +9,8 @@ interface IProps {
   name: string;
   type?: string;
   className?: string;
+  validate?: boolean;
+  validateText?: string;
   // All other props
   [x: string]: any;
 }
@@ -21,22 +23,27 @@ const FormInput: React.FC<IProps> = ({
   type,
   className,
   rest,
+  validate,
+  validateText
 }) => (
-  <StyledFormInput className={className}>
-    <input
-      className="form-input"
-      name={name}
-      value={value}
-      type={type}
-      onChange={handleChange}
-      {...rest}
-    />
-    {label ? (
-      <label className={`${value.length ? "shrink" : ""} form-input-label`}>
-        {label}
-      </label>
-    ) : null}
-  </StyledFormInput>
+  <>
+    <StyledFormInput className={className}>
+      <input
+        className="form-input"
+        name={name}
+        value={value}
+        type={type}
+        onChange={handleChange}
+        {...rest}
+      />
+      {label ? (
+        <label className={`${value.length ? "shrink" : ""} form-input-label`}>
+          {label}
+        </label>
+      ) : null}
+      {validate? null : <p style = {{ color: "blue"}}>{validateText}</p>}
+    </StyledFormInput>     
+  </>
 );
 
 export default FormInput;

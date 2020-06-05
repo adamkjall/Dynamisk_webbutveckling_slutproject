@@ -39,7 +39,9 @@ const CartContextProvider: FC<IProps> = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setShippingMethods(data);
-        setShippingMethod(data[0]);
+        if(Array.isArray(data)){
+          setShippingMethod(data[0]);
+        }
       });
   }, []);
 
@@ -48,9 +50,14 @@ const CartContextProvider: FC<IProps> = (props) => {
       .then((res) => res.json()) // Convert to json
       .then((data) => {
         setPaymentMethods(data);
-        setPaymentMethod(data[0]);
+        if(Array.isArray(data)){
+          setPaymentMethod(data[0]);
+        }
       });
   }, []);
+
+  console.log(shippingMethod)
+  console.log(paymentMethod)
 
   const addItemToCart = (product: IProduct) => {
     const existing = cart.find((cartItem) => cartItem._id === product._id);
