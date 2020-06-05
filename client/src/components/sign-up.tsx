@@ -65,7 +65,7 @@ const SignUp = ({ toggleView }) => {
 
     try {
       // TODO validate inputs
-      const fakeValidate =
+      const validateInputs =
         inputs.firstName.length > 1 &&
         inputs.firstName.match(/[A-Ö]/gi) &&
         inputs.lastName.length > 1 &&
@@ -120,7 +120,7 @@ const SignUp = ({ toggleView }) => {
         }else{setConfirmOK(false)}
       }
 
-      if (!fakeValidate) {
+      if (!validateInputs) {
         handleValidationMessages()
         setShakeComponent(true);
         setTimeout(() => setShakeComponent(false), 820);
@@ -160,7 +160,7 @@ const SignUp = ({ toggleView }) => {
           label={"First name"}
           required
           validate = {isFirstNameOK}
-          validateText = {"Your mother doesn't love you"}
+          validateText = {"Not a valid name"}
         />
         {/* {inputs.firstName.length >= 1? null:<p>Not a valid username</p>} */}
         <FormInput
@@ -172,7 +172,7 @@ const SignUp = ({ toggleView }) => {
           label={"Last name"}
           required
           validate = {isLastNameOK}
-          validateText = {"Your father doesn't love you"}
+          validateText = {"Not a valid name"}
         />
         <FormInput
           className="email"
@@ -183,7 +183,7 @@ const SignUp = ({ toggleView }) => {
           label={"Email"}
           required
           validate = {isEmailOK}
-          validateText = {"That's not an email"}
+          validateText = {"Not a valid e-mail"}
         />
         <FormInput
           className="phone"
@@ -194,7 +194,7 @@ const SignUp = ({ toggleView }) => {
           label={"Phone number"}
           required
           validate = {isPhoneNumberOK}
-          validateText = {"That's not a phonenumber I can sell to a telemarketing center"}
+          validateText = {"Not a valid phone number"}
         />
         <FormInput
           className="address"
@@ -205,7 +205,7 @@ const SignUp = ({ toggleView }) => {
           label={"Street address"}
           required
           validate = {isStreetAddressOK}
-          validateText = {"You can not live there"}
+          validateText = {"Not a valid street address"}
         />
         <FormInput
           className="zip"
@@ -216,7 +216,7 @@ const SignUp = ({ toggleView }) => {
           label={"Zip code"}
           required
           validate = {isZipCodeOK}
-          validateText = {"5 numbers idiot!"}
+          validateText = {"Not a valid zip code"}
         />
         <FormInput
           className="city"
@@ -227,7 +227,7 @@ const SignUp = ({ toggleView }) => {
           label={"City"}
           required
           validate = {isCityOK}
-          validateText = {"A place on earth please"}
+          validateText = {"Not a valid city"}
         />
         <FormInput
           className="password"
@@ -238,7 +238,7 @@ const SignUp = ({ toggleView }) => {
           label={"Password"}
           required
           validate = {isPasswordOK}
-          validateText = {"Not secret enough"}
+          validateText = {"Not a valid password"}
         />
         <FormInput
           className="confirm"
@@ -249,9 +249,9 @@ const SignUp = ({ toggleView }) => {
           label={"Confirm password"}
           required
           validate = {isConfirmOK}
-          validateText = {"Not secret enough"}
+          validateText = {"Doesn't match the password"}
         />
-        <p>
+        <p style = {{fontSize: "1.1rem"}}>
           Already have an account?{" "}
           <span className="emphasis" onClick={toggleView}>
             Login here!
