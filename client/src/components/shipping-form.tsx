@@ -17,11 +17,9 @@ import CartContext, { ShippingMethod } from "../contexts/cart-context/context";
 interface IProps {}
 
 const ShippingForm = (props: IProps) => {
-  const {
-    shippingMethod,
-    setShippingMethod,
-    shippingMethods,
-  } = useContext(CartContext);
+  const { shippingMethod, setShipping, shippingMethods } = useContext(
+    CartContext
+  );
 
   const getDeliveryDate = () => {
     const date = new Date();
@@ -51,7 +49,7 @@ const ShippingForm = (props: IProps) => {
                 options={transformMethodsToGrommetRadioButton()}
                 value={shippingMethod.company}
                 onChange={(e) => {
-                  setShippingMethod(
+                  setShipping(
                     shippingMethods.find(
                       (method) => method.company === e.target.value
                     )
@@ -65,7 +63,7 @@ const ShippingForm = (props: IProps) => {
                 options={transformMethodsToGrommetRadioButton()}
                 value={shippingMethod.company}
                 onChange={(e) => {
-                  setShippingMethod(
+                  setShipping(
                     shippingMethods.find(
                       (method) => method.company === e.target.value
                     )

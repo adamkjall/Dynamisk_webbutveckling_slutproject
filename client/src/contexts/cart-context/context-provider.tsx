@@ -33,6 +33,8 @@ const CartContextProvider: FC<IProps> = (props) => {
   );
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
 
+  console.log("cart", cart);
+
   // runs when component mounts
   useEffect(() => {
     fetch("http://localhost:8080/api/shipments", { credentials: "include" })
@@ -52,43 +54,17 @@ const CartContextProvider: FC<IProps> = (props) => {
       });
   }, []);
 
-  const addItemToCart = (product: IProduct) => {
-    const existing = cart.find((cartItem) => cartItem._id === product._id);
-
-    if (existing) {
-      const newCart = cart.map((cartItem) => {
-        if (cartItem._id === product._id) {
-          return {
-            ...cartItem,
-            quantity: cartItem.quantity ? cartItem.quantity + 1 : 1,
-          };
-        } else return cartItem;
-      });
-      setCart(newCart);
-    } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
-    }
+  const addItemToCart = (product: IProduct, size: string) => {
+    setCart([...cart, { ...product, selectedSize: size }]);
   };
 
   const removeItemFromCart = (itemId: string) => {
-    const existing = cart.find((cartItem) => cartItem._id === itemId);
-
-    if (existing) {
-      if (existing.quantity === 1) {
-        const newCart = cart.filter((item) => item._id !== itemId);
-        setCart(newCart);
-      } else {
-        const newCart = cart.map((cartItem) => {
-          if (cartItem._id === itemId) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity ? cartItem.quantity - 1 : 1,
-            };
-          } else return cartItem;
-        });
-        setCart(newCart);
-      }
-    }
+    const index = cart.findIndex((cartItem) => cartItem._id === itemId);
+    const updatedCart = [
+      ...cart.slice(0, index),
+      ...cart.slice(index + 1, cart.length),
+    ];
+    setCart(updatedCart);
   };
 
   const clearItemFromCart = (itemId: string) => {
@@ -98,6 +74,18 @@ const CartContextProvider: FC<IProps> = (props) => {
   };
 
   const clearCart = () => setCart([]);
+
+  const getProductQuantity = (productToCheck: IProduct) =>
+    cart.reduce(
+      (quantity, product) =>
+        productToCheck === product ? quantity + 1 : quantity,
+      0
+    );
+
+  const calcCartTotal = () =>
+    cart.reduce((total, product) => total + product.price, 0);
+
+  const totalWithVat = () => calcCartTotal() * 1.25;
 
   const setShipping = (method: ShippingMethod) => setShippingMethod(method);
 
@@ -111,13 +99,16 @@ const CartContextProvider: FC<IProps> = (props) => {
         shippingMethods,
         paymentMethods,
         shippingMethod,
-        setShippingMethod: setShipping,
+        setShipping,
         paymentMethod,
-        setPaymentMethod: setPayment,
+        setPayment,
         addItemToCart,
         removeItemFromCart,
         clearItemFromCart,
         clearCart,
+        getProductQuantity,
+        totalWithVat,
+        calcCartTotal,
       }}
     />
   );

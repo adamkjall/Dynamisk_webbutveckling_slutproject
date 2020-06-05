@@ -37,18 +37,26 @@ const ProductSchema = new Schema(
       type: String,
       required: true,
     },
-    sizes: [sizesSubSchema],
-  }, {
+    sizes: {
+      type: [sizesSubSchema],
+      required: false,
+    },
+    selectedSize: {
+      type: String,
+      required: false,
+    },
+  },
+  {
+    id: false,
     toJSON: {
       virtuals: true,
-      id: false
     },
   }
 );
 
 ProductSchema.virtual("imageURL").get(function () {
-  return process.env.DOMAIN + this.image.toString()
-})
+  return process.env.DOMAIN + this.image.toString();
+});
 
 const Product = mongoose.model("Product", ProductSchema);
 

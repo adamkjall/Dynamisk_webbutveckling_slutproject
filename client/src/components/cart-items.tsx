@@ -14,9 +14,10 @@ import {
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
+import { IProduct } from "./product";
 
 interface Props {
-  locked?: boolean; // prohibit any change to the cart items
+  locked?: boolean; // lock cart from changes
 }
 
 const CartItems = ({ locked = false }: Props) => {
@@ -26,27 +27,11 @@ const CartItems = ({ locked = false }: Props) => {
     addItemToCart,
     clearItemFromCart,
     shippingMethod,
+    getProductQuantity,
+    calcCartTotal,
+    totalWithVat,
   } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
-
-  const calculateTotal = () => {
-    let total: number = 0;
-
-    for (let i = 0; i < cart.length; i++) {
-      // const quantity = cart[i].quantity || 1;
-      const quantity = 1;
-      total += cart[i].price * quantity;
-    }
-
-    return total + shippingMethod.price
-  };
-
-  const calculateVat = () => {
-    let total = calculateTotal();
-    let vat = total * 0.25;
-
-    return vat;
-  };
 
   return (
     <Box responsive>
@@ -73,7 +58,8 @@ const CartItems = ({ locked = false }: Props) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {cart.map((product) => (
+          {/* Removes duplicate products */}
+          {Array.from(new Set(cart)).map((product) => (
             <TableRow key={product._id}>
               {responsive !== "small" ? (
                 <TableCell>
@@ -88,7 +74,7 @@ const CartItems = ({ locked = false }: Props) => {
               {!locked && (
                 <>
                   <TableCell flex direction="row" align="center">
-                    {2 > 1 ? ( // todo check if quantity is greater than 1
+                    {getProductQuantity(product) > 1 ? (
                       <Button
                         icon={<SubtractCircle />}
                         style={{
@@ -101,7 +87,7 @@ const CartItems = ({ locked = false }: Props) => {
                       <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
                       // "\u00a0\u00a0" // for empty space
                     )}
-                    <span>{1}</span> {/* item.quantity */}
+                    <span>{getProductQuantity(product)}</span>
                     <Button
                       size="small"
                       style={{
@@ -109,7 +95,9 @@ const CartItems = ({ locked = false }: Props) => {
                           responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                       }}
                       icon={<AddCircle />}
-                      onClick={() => addItemToCart(product)}
+                      onClick={() =>
+                        addItemToCart(product, product.selectedSize)
+                      }
                     />
                   </TableCell>
                   <TableCell align="center">
@@ -136,7 +124,7 @@ const CartItems = ({ locked = false }: Props) => {
               <strong>Total</strong>
             </TableCell>
             <TableCell>
-              <strong>${calculateTotal()}</strong>
+              <strong>${calcCartTotal()}</strong>
             </TableCell>
           </TableRow>
 
@@ -145,7 +133,7 @@ const CartItems = ({ locked = false }: Props) => {
               <em>VAT included</em>
             </TableCell>
             <TableCell>
-              <em>${calculateVat()}</em>
+              <em>${totalWithVat()}</em>
             </TableCell>
           </TableRow>
         </TableBody>
