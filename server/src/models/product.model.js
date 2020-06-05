@@ -38,7 +38,7 @@ const ProductSchema = new Schema(
       required: true,
     },
     sizes: {
-      type: [sizesSubSchema],
+      type: [{ sizesSubSchema }],
       required: false,
     },
     selectedSize: {
