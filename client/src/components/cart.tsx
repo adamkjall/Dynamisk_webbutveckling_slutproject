@@ -57,10 +57,9 @@ const MyCart = (props: Iprops) => {
       <Button
           margin="medium"
           primary
-          label="Log in or register HERE to proceed to checkout"
+          label="Log in or register here to proceed to checkout"
           onClick={checkSession}
         />}
-      
     </Box>
     {showModal && !isAuthenticated && (
       <Box>
@@ -69,6 +68,8 @@ const MyCart = (props: Iprops) => {
             onEsc={() => setShowModal(false)}
             onClickOutside={() => setShowModal(false)}
           >
+          <Button alignSelf="end" icon={<Close />} onClick={() => setShowModal(false)} />
+            
             <SignInSignUp/>
           </Layer>
 
