@@ -43,7 +43,7 @@ const OrderConfirmation = (props: IProps) => {
       <h4>Items</h4>
 
       {cart.map((product) => (
-        <StyledItemRow key={product._id}>
+        <StyledItemRow key={product._id + "-" + product.selectedSize}>
           <span>{product.title}</span>
           <span>${product.price + " x " + getProductQuantity(product)}</span>
         </StyledItemRow>
