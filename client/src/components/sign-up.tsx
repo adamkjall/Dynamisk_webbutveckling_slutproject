@@ -58,38 +58,38 @@ const SignUp = ({ toggleView }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (inputs.password !== inputs.confirmPassword) {
+/*     if (inputs.password !== inputs.confirmPassword) {
       alert("Passwords don't match!");
       return;
-    }
+    } */
 
     try {
       // TODO validate inputs
       const validateInputs =
-        inputs.firstName.length > 1 &&
+        inputs.firstName.length >= 2 &&
         inputs.firstName.match(/[A-Ö]/gi) &&
-        inputs.lastName.length > 1 &&
+        inputs.lastName.length >= 2 &&
         inputs.lastName.match(/[A-Ö]/gi) &&
         inputs.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/) &&
         inputs.phoneNumber.match(
           /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
         ) &&
-        inputs.streetAddress.length > 1 &&
-        inputs.city.length > 1 &&
+        inputs.streetAddress.length >= 4 &&
+        inputs.city.length >= 1 &&
         inputs.zipCode.match(/^\d{5}$/) &&
-        inputs.password.length &&
-        inputs.confirmPassword.length;
+        inputs.password.length >= 6 &&
+        inputs.confirmPassword === inputs.password;
 
       const handleValidationMessages = () => {
-        if(inputs.firstName.length >= 1){
+        if(inputs.firstName.length >= 2){
           setFirstNameOK(true)
         }else{setFirstNameOK(false)}
 
-        if(inputs.lastName.length >= 1){
+        if(inputs.lastName.length >= 2){
           setLastNameOK(true)
         }else{setLastNameOK(false)}
 
-        if(inputs.streetAddress.length >= 1){
+        if(inputs.streetAddress.length >= 4){
           setStreetAddressOK(true)
         }else{setStreetAddressOK(false)}
 
@@ -111,11 +111,11 @@ const SignUp = ({ toggleView }) => {
           setPhoneNumberOK(true)
         }else{setPhoneNumberOK(false)}
 
-        if(inputs.password.length >= 1){
+        if(inputs.password.length >= 6){
           setPasswordOK(true)
         }else{setPasswordOK(false)}
 
-        if(inputs.confirmPassword.length >= 1){
+        if(inputs.confirmPassword === inputs.password){
           setConfirmOK(true)
         }else{setConfirmOK(false)}
       }
