@@ -1,12 +1,19 @@
 import React, { useContext } from "react";
-import { Link, useHistory } from "react-router-dom";
+import styled from "styled-components"
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { Nav, Text, Box, ResponsiveContext, Menu } from "grommet";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
+import AccountMenu from "./account-menu";
+
+const StyledGrommetMenu = styled(Menu)`
+  min-width: 5.5rem;
+`
 
 const MyMenu = () => {
   const history = useHistory();
+  const location = useLocation()
   const { isAdmin, isAuthenticated, logout } = useContext(
     AuthenticationContext
   );
@@ -44,9 +51,19 @@ const MyMenu = () => {
     },
   ]
 
+  const getCurrentCategory = () => {
+    let currentCategory = "Categories"
+    menuItems.forEach((item) => {
+      if (item.route === location.pathname) {
+        currentCategory = item.label
+      }
+    })
+    return currentCategory
+  }
+
   return (
     <Box
-      height="5vh"
+      height="6.5vh"
       direction="row"
       justify="between"
       align="center"
@@ -56,8 +73,8 @@ const MyMenu = () => {
       <ResponsiveContext.Consumer>
         {(responsive) =>
           responsive === "small" ? (
-            <Menu
-              label="Menu"
+            <StyledGrommetMenu
+              label={getCurrentCategory()}
               items={
                 menuItems.map(item => {
                   const menuitem = {...item}
@@ -86,9 +103,7 @@ const MyMenu = () => {
           </Link>
         )}
         {isAuthenticated ? (
-          <Link className="link" to="/" onClick={logout}>
-            <Text size="medium">Logout</Text>
-          </Link>
+          <AccountMenu logout={logout} />
         ) : (
             <Link className="link" to="/login">
               <Text size="medium">Login</Text>
