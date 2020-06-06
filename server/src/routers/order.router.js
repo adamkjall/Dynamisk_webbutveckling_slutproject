@@ -21,8 +21,8 @@ const {
 router.get(
   "/",
   isAuthenticated,
-  getSessionUser,
-  isAdmin,
+  // getSessionUser,
+  // isAdmin,
   getAllOrders,
   (req, res) => {
     res.status(200).json(res.allOrders);
