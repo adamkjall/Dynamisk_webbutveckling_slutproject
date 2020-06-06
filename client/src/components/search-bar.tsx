@@ -17,7 +17,9 @@ const SearchBar = () => {
   const history = useHistory();
 
   const handleSubmit = () => {
-    history.push("/shop/search/" + input);
+    if(input) {
+      history.push("/shop/search/" + input);
+    }
     setInput("");
   };
 
