@@ -52,6 +52,7 @@ const getPaymentFee = (fee) => {
 const recieverInfo = (order) => {
     return (
         <Box
+            key={`recinfo-${order._id}`}
             gridArea="reciever"
             background="light-2"
             pad="small"
@@ -66,6 +67,7 @@ const recieverInfo = (order) => {
 const deliveryInfo = (order) => {
     return (
         <Box
+            key={`delinfo-${order._id}`}
             gridArea="delivery"
             background="light-2"
             pad="small"
@@ -81,6 +83,7 @@ const deliveryInfo = (order) => {
 const paymentInfo = (order) => {
     return (
         <Box
+            key={`payinfo-${order._id}`}
             gridArea="payment"
             background="light-2"
             pad="small"
@@ -138,6 +141,7 @@ const infoSection = (order, size) => {
     }
     return (
         <Grid
+            key={`infoSection-${order._id}`}
             fill
             responsive={true}
             rows={infoRows[size]}
@@ -151,7 +155,10 @@ const infoSection = (order, size) => {
 }
 const productSection = (order) => {
     return (
-        <Box background="light-2"></Box>
+        <Box 
+        key={`productSection-${order._id}`}
+            background="light-2"
+        ></Box>
     )
 }
 
