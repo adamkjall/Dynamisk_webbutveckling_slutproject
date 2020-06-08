@@ -19,7 +19,7 @@ export interface IProduct {
     stock: number;
   }[];
   desc: string;
-  selectedSize?: string;
+  selectedSize?: { size: string; quantity: number }[];
 }
 
 interface Iprops extends RouteComponentProps {

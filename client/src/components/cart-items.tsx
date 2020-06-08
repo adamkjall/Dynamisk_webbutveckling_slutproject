@@ -59,8 +59,8 @@ const CartItems = ({ locked = false }: Props) => {
         </TableHeader>
         <TableBody>
           {/* Removes duplicate products */}
-          {Array.from(new Set(cart)).map((product) => (
-            <TableRow key={product._id + "-" + product.selectedSize}>
+          {Array.from(new Set(cart)).map((product, index) => (
+            <TableRow key={index}>
               {responsive !== "small" ? (
                 <TableCell>
                   <Image

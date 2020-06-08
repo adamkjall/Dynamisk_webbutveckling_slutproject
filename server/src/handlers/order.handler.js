@@ -54,15 +54,18 @@ const createOrder = (req, res, next) => {
 
   products.forEach((product) => {
     Product.findById(product._id, (err, doc) => {
-      console.log("doc", doc);
-
       const index = doc.sizes.findIndex(
         (el) => el.size === product.selectedSize
       );
-      console.log("index", index);
 
-      doc.sizes[index].stock--;
-      doc.save();
+      if (doc.sizes[index].stock > 0) {
+        doc.sizes[index].stock--;
+        doc.save();
+      } else {
+        // TODO
+        // out of stock
+        // Throw error?
+      }
     });
   });
 

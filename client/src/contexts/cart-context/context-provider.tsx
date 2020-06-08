@@ -55,7 +55,16 @@ const CartContextProvider: FC<IProps> = (props) => {
   }, []);
 
   const addItemToCart = (product: IProduct, size: string) => {
-    setCart([...cart, { ...product, selectedSize: size }]);
+    const index = cart.findIndex((cartItem) => cartItem._id === product._id);
+    if (index === -1) {
+      setCart([
+        ...cart,
+        { ...product, selectedSize: [{ size: size, quantity: 1 }] },
+      ]);
+    } else {
+      const findIndex = product;
+      setCart([...cart, { ...product, selectedSize: size }]);
+    }
   };
 
   const removeItemFromCart = (itemId: string) => {
