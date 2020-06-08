@@ -109,7 +109,7 @@ const CartItems = ({ locked = false }: Props) => {
                       style={{
                         padding: responsive === "small" ? "0" : "0",
                       }}
-                      onClick={() => clearItemFromCart(product._id)}
+                      onClick={() => clearItemFromCart(product.id)}
                       icon={<Close />}
                     />
                   </TableCell>
