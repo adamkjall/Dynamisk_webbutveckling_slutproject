@@ -60,7 +60,7 @@ router.post(
   isAuthenticated,
   checkProductStock,
   createOrder,
-  (req, res, error) => {
+  (req, res) => {
     res.status(200).json(res.newOrder);
   }
 );
