@@ -21,10 +21,12 @@ const MyCart = (props: Iprops) => {
   const [isDisableButton, setDisableButton] = useState(false)
   const { isAuthenticated } = useContext(AuthenticationContext);
   const { cart } = useContext(CartContext);
+  const noDuplicateProducts = Array.from(new Set(cart))
 
   useEffect(() => {
     checkCart();
   });
+
 
   const checkSession = () => {  
     if(!isAuthenticated){
@@ -50,7 +52,7 @@ const MyCart = (props: Iprops) => {
             Your Shopping Cart
           </Heading>
           <Box width="large" pad="medium">
-            <CartItems />
+            <CartItems locked={false} productsArray={noDuplicateProducts} />
           </Box>         
         </Box>       
         {isAuthenticated? 

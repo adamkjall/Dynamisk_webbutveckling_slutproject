@@ -3,11 +3,15 @@ import React, { useContext } from "react";
 import { Grid, Box, Image, ResponsiveContext, Main } from "grommet";
 
 import CheckoutForm from "../components/checkout-form";
+
+import CartContext from "../contexts/cart-context/context"
 import CartItems from "../components/cart-items";
 
 import clothesOnRackImg from "../assets/images/clothesonrack.jpg";
 
 const Checkout = () => {
+  const { cart } = useContext(CartContext)
+  const noDuplicateProducts = Array.from(new Set(cart))
   const size = useContext(ResponsiveContext) as
     | "small"
     | "medium"
@@ -49,7 +53,7 @@ const Checkout = () => {
 
   const checkoutForm = <CheckoutForm key="0" />;
 
-  const cart = (
+  const cartSection = (
     <Box
       gridArea="cart"
       round="small"
@@ -57,7 +61,7 @@ const Checkout = () => {
       key="1"
       style={{ overflowY: "scroll" }}
     >
-      <CartItems locked />
+      <CartItems locked={true} productsArray={noDuplicateProducts} />
     </Box>
   );
 
@@ -78,9 +82,9 @@ const Checkout = () => {
 
   const components = {
     small: [checkoutForm],
-    medium: [checkoutForm, cart, checkOutImage],
-    large: [checkoutForm, cart, checkOutImage],
-    xlarge: [checkoutForm, cart, checkOutImage],
+    medium: [checkoutForm, cartSection, checkOutImage],
+    large: [checkoutForm, cartSection, checkOutImage],
+    xlarge: [checkoutForm, cartSection, checkOutImage],
   };
 
   return (
