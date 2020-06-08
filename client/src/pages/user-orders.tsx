@@ -75,9 +75,12 @@ const UserOrders = () => {
             columns={columns[size]}
             gap="medium"
             areas={areas[size]}
+            style={{
+                overflowY: "scroll",
+            }}
         >
-            {components[size]}
-        </Grid>
+                { components[size]}
+        </Grid >
     )
 }
 
