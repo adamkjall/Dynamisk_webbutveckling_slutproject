@@ -1,5 +1,5 @@
 import React, { useContext } from "react"
-import { Box, Grid, ResponsiveContext } from "grommet"
+import { Box, Grid, ResponsiveContext, Heading } from "grommet"
 import useFetch from "../hooks/useFetch"
 import OrderList from "../components/orders-list"
 
@@ -68,19 +68,25 @@ const UserOrders = () => {
     }
 
     return (
-        <Grid
-            fill
-            responsive={true}
-            rows={rows[size]}
-            columns={columns[size]}
-            gap="medium"
-            areas={areas[size]}
-            style={{
-                overflowY: "scroll",
-            }}
-        >
-                { components[size]}
-        </Grid >
+        <>
+            {
+                orders ?
+                    <Grid
+                        fill
+                        responsive={true}
+                        rows={rows[size]}
+                        columns={columns[size]}
+                        gap="medium"
+                        areas={areas[size]}
+                        style={{
+                            overflowY: "scroll",
+                        }}
+                    >
+                        {components[size]}
+                    </Grid >
+        : <Heading level="3"> Nothing to see here... </Heading>
+        }
+        </>
     )
 }
 

@@ -1,5 +1,6 @@
 import React from "react"
 import { Box, Text, Grid, Heading } from "grommet"
+import CartItems from "./cart-items"
 
 interface IProps {
     order: any
@@ -9,29 +10,29 @@ interface IProps {
 const columns = {
     small: ["flex"],
     medium: ["flex"],
-    large: ["medium", "auto"],
+    large: ["flex"],
     xlarge: ["medium", "auto"],
 }
 
 const rows = {
-    small: ["auto", "medium"],
-    medium: ["auto", "medium"],
-    large: ["auto"],
+    small: ["auto", "auto"],
+    medium: ["auto", "auto"],
+    large: ["auto", "auto"],
     xlarge: ["auto"],
 }
 
 const areas = {
     small: [
         { name: "info", start: [0, 0], end: [1, 0] },
-        { name: "products", start: [0, 1], end: [1, 1] },
+        { name: "products", start: [0, 1], end: [0, 1] },
     ],
     medium: [
         { name: "info", start: [0, 0], end: [1, 0] },
-        { name: "products", start: [0, 1], end: [1, 1] },
+        { name: "products", start: [0, 1], end: [0, 1] },
     ],
     large: [
-        { name: "info", start: [0, 0], end: [0, 0] },
-        { name: "products", start: [1, 0], end: [1, 0] },
+        { name: "info", start: [0, 0], end: [1, 0] },
+        { name: "products", start: [0, 1], end: [0, 1] },
     ],
     xlarge: [
         { name: "info", start: [0, 0], end: [0, 0] },
@@ -40,11 +41,11 @@ const areas = {
 }
 
 const getPaymentFee = (fee) => {
-    let sanitizedFee = fee
-    if (sanitizedFee === 0) {
+    let sanitizedFee
+    if (fee === 0) {
         sanitizedFee = "None"
     } else {
-        sanitizedFee += ":-"
+        sanitizedFee = `$${fee}`
     }
     return sanitizedFee
 }
@@ -98,14 +99,14 @@ const paymentInfo = (order) => {
 const infoColumns = {
     small: ["auto"],
     medium: ["1/3", "1/3", "1/3"],
-    large: ["auto"],
+    large: ["1/3", "1/3", "1/3"],
     xlarge: ["auto"],
 }
 
 const infoRows = {
     small: ["auto", "auto", "auto"],
     medium: ["auto"],
-    large: ["auto", "auto", "auto"],
+    large: ["auto"],
     xlarge: ["auto", "auto", "auto"],
 }
 
@@ -122,8 +123,8 @@ const infoAreas = {
     ],
     large: [
         { name: "reciever", start: [0, 0], end: [0, 0] },
-        { name: "delivery", start: [0, 1], end: [0, 1] },
-        { name: "payment", start: [0, 2], end: [0, 2] },
+        { name: "delivery", start: [1, 0], end: [1, 0] },
+        { name: "payment", start: [2, 0], end: [2, 0] },
     ],
     xlarge: [
         { name: "reciever", start: [0, 0], end: [0, 0] },
@@ -146,7 +147,6 @@ const infoSection = (order, size) => {
             responsive={true}
             rows={infoRows[size]}
             columns={infoColumns[size]}
-            gap="small"
             areas={infoAreas[size]}
         >
             {infoComponents[size]}
@@ -155,10 +155,13 @@ const infoSection = (order, size) => {
 }
 const productSection = (order) => {
     return (
-        <Box 
-        key={`productSection-${order._id}`}
+        <Box
+            key={`productSection-${order._id}`}
+            pad="small"
             background="light-2"
-        ></Box>
+        >
+            <CartItems locked={true} productsArray={order.products} />
+        </Box>
     )
 }
 

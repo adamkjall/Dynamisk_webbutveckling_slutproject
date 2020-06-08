@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import { Accordion, AccordionPanel, Box, Text, Heading } from "grommet"
 import OrderCard from "./order-card"
 
@@ -42,41 +42,46 @@ const boxMargins = {
 }
 
 const OrderList = (props: IProps) => {
-    const {orders, gridArea, size} = props
+    const { orders, gridArea, size } = props
 
     return (
-        (!orders)
-            ? null
-            : <Accordion 
-                gridArea={gridArea}
-                margin={{
-                    "horizontal": ".8rem"
-                }}
-            >
-                {orders.map((order) =>
-                    <AccordionPanel
-                        key={`Item-${order._id}`}
-                        header={
-                            <Box
-                                gap="small"
-                                margin={boxMargins[size]}
-                            >
-                                <Heading level="3" margin="xxsmall">
-                                    {`Order: ${order._id}`}
-                                </Heading>
-                                <Text size="medium">
-                                    {`Order placed: ${getOrderDate(order.timeStamp)}`}
-                                </Text>
-                                <Text size="medium">
-                                    {`Status: ${getOrderStatus(order.orderStatus)}`}
-                                </Text>
-                            </Box>
-                        }
+        <>
+            {
+                !orders ? null
+                : orders.status === "error" ? <Heading level="3"> Something went wrong </Heading>
+                :
+                    <Accordion
+                        gridArea={gridArea}
+                        margin={{
+                            "horizontal": ".8rem"
+                        }}
                     >
-                        <OrderCard order={order} size={size} />
-                    </AccordionPanel>
-                )}
-            </Accordion>
+                        {orders.map((order) =>
+                            <AccordionPanel
+                                key={`Item-${order._id}`}
+                                header={
+                                    <Box
+                                        gap="small"
+                                        margin={boxMargins[size]}
+                                    >
+                                        <Heading level="3" margin="xxsmall">
+                                            {`Order: ${order._id}`}
+                                        </Heading>
+                                        <Text size="medium">
+                                            {`Order placed: ${getOrderDate(order.timeStamp)}`}
+                                        </Text>
+                                        <Text size="medium">
+                                            {`Status: ${getOrderStatus(order.orderStatus)}`}
+                                        </Text>
+                                    </Box>
+                                }
+                            >
+                                <OrderCard order={order} size={size} />
+                            </AccordionPanel>
+                        )}
+                    </Accordion>
+            }
+        </>
     )
 }
 
