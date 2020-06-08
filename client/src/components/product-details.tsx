@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Button, Text, Heading, Image, ResponsiveContext } from "grommet";
 
 import CartContext from "../contexts/cart-context/context";
@@ -9,7 +9,8 @@ interface Iprops {
   product: IProduct;
 }
 
-const ItemDetails = ({ product }: Iprops) => {
+const ProductDetails = ({ product }: Iprops) => {
+  const [size, setSize] = useState(null);
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -54,20 +55,23 @@ const ItemDetails = ({ product }: Iprops) => {
           <Text style={{ fontWeight: "bold" }}>Sizes: </Text>
           <Box margin={{ vertical: "small" }}>
             <Text>
-              {/* {props.item.size.map((sizeUnit: any, index: any) => (
-                <Text
-                  key={index}
-                  style={{
-                    backgroundColor: "#e0e0e0",
-                    padding: responsive === "small" ? "0.1rem" : "0.3rem",
-                    border: "1px solid black",
-                    color: "black",
-                    marginRight: "0.3rem",
-                  }}
-                >
-                  {sizeUnit}
-                </Text>
-              ))} */}
+              {product.sizes.map((size, index) =>
+                size.stock > 0 ? (
+                  <Text
+                    key={index}
+                    style={{
+                      backgroundColor: "#e0e0e0",
+                      padding: responsive === "small" ? "0.1rem" : "0.3rem",
+                      border: "1px solid black",
+                      color: "black",
+                      marginRight: "0.3rem",
+                    }}
+                    onClick={() => setSize(size.size)}
+                  >
+                    {size.size}
+                  </Text>
+                ) : null
+              )}
             </Text>
           </Box>
           <Text style={{ fontWeight: "bold" }}>Seasons: </Text>
@@ -93,28 +97,30 @@ const ItemDetails = ({ product }: Iprops) => {
             <span style={{ fontWeight: "bold" }}>Description: </span>
             {responsive === "small" ? product.desc.slice(0, 50) : product.desc}
           </Text>
-          <Button
-            primary
-            onClick={(event: any) => {
-              addItemToCart(product);
-              const itemComponent = event.target;
-              itemComponent.innerText = "Item added";
-              itemComponent.style.backgroundColor = "#76FEB3";
-              itemComponent.style.color = "#373737";
-              setTimeout(() => {
-                itemComponent.innerText = "Add to cart";
-                itemComponent.style.backgroundColor = "#373737";
-                itemComponent.style.color = "#FEFEFE";
-              }, 4000);
-            }}
-            label="Add to cart"
-            margin="small"
-            color="buttonBg"
-          />
+          {size ? (
+            <Button
+              primary
+              onClick={(event: any) => {
+                addItemToCart(product, size);
+                const itemComponent = event.target;
+                itemComponent.innerText = "Item added";
+                itemComponent.style.backgroundColor = "#76FEB3";
+                itemComponent.style.color = "#373737";
+                setTimeout(() => {
+                  itemComponent.innerText = "Add to cart";
+                  itemComponent.style.backgroundColor = "#373737";
+                  itemComponent.style.color = "#FEFEFE";
+                }, 4000);
+              }}
+              label="Add to cart"
+              margin="small"
+              color="buttonBg"
+            />
+          ) : null}
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default ItemDetails;
+export default ProductDetails;

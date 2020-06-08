@@ -4,34 +4,9 @@ const { UserSchema } = require("./user.model.js");
 const { ProductSchema } = require("./product.model.js");
 const { ShipmentSchema } = require("./shipment.model.js");
 const { PaymentSchema } = require("./payment.model.js");
+const { UserSchema } = require("./user.model.js");
 
 const Schema = mongoose.Schema;
-// const userSubSchema = new mongoose.Schema({
-//   firstName: {
-//     type: String,
-//     required: true,
-//   },
-//   lastName: {
-//     type: String,
-//     required: true,
-//   },
-//   phoneNumber: {
-//     type: Number,
-//     required: true,
-//   },
-//   streetAddress: {
-//     type: String,
-//     required: true,
-//   },
-//   zipCode: {
-//     type: Number,
-//     required: true,
-//   },
-//   city: {
-//     type: String,
-//     required: true,
-//   }
-// })
 
 const OrderSchema = new Schema({
   user: {
@@ -56,7 +31,7 @@ const OrderSchema = new Schema({
   timeStamp: {
     type: Date,
     required: true,
-    default: Date.now
+    default: Date.now,
   },
   orderStatus: {
     type: Boolean,

@@ -33,71 +33,81 @@ const CartContextProvider: FC<IProps> = (props) => {
   );
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
 
+  console.log("cart", cart);
+
   // runs when component mounts
   useEffect(() => {
     fetch("http://localhost:8080/api/shipments", { credentials: "include" })
       .then((res) => res.json())
       .then((data) => {
         setShippingMethods(data);
-        setShippingMethod(data[0]);
+        if (Array.isArray(data)) {
+          setShippingMethod(data[0]);
+        }
       });
-  }, []);
 
-  useEffect(() => {
     fetch("http://localhost:8080/api/payments", { credentials: "include" }) // Fetch payment data
       .then((res) => res.json()) // Convert to json
       .then((data) => {
         setPaymentMethods(data);
-        setPaymentMethod(data[0]);
+        if (Array.isArray(data)) {
+          setPaymentMethod(data[0]);
+        }
       });
   }, []);
 
-  const addItemToCart = (product: IProduct) => {
-    const existing = cart.find((cartItem) => cartItem._id === product._id);
-
-    if (existing) {
-      const newCart = cart.map((cartItem) => {
-        if (cartItem._id === product._id) {
-          return {
-            ...cartItem,
-            quantity: cartItem.quantity ? cartItem.quantity + 1 : 1,
-          };
-        } else return cartItem;
-      });
-      setCart(newCart);
+  const addItemToCart = (productToAdd: IProduct, size: string) => {
+    const existing = cart.find(
+      (product) => product.id === productToAdd._id + "-" + size
+    );
+    if (!existing) {
+      setCart([
+        ...cart,
+        {
+          ...productToAdd,
+          selectedSize: size,
+          quantity: 1,
+          id: productToAdd._id + "-" + size,
+        },
+      ]);
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      existing.quantity++;
+      setCart([...cart]); // force re-render
     }
   };
 
   const removeItemFromCart = (itemId: string) => {
-    const existing = cart.find((cartItem) => cartItem._id === itemId);
-
+    const existing = cart.find((cartItem) => cartItem.id === itemId);
     if (existing) {
-      if (existing.quantity === 1) {
-        const newCart = cart.filter((item) => item._id !== itemId);
-        setCart(newCart);
+      if (existing.quantity > 1) {
+        existing.quantity--;
+        setCart([...cart]); // force re-render
       } else {
-        const newCart = cart.map((cartItem) => {
-          if (cartItem._id === itemId) {
-            return {
-              ...cartItem,
-              quantity: cartItem.quantity ? cartItem.quantity - 1 : 1,
-            };
-          } else return cartItem;
-        });
-        setCart(newCart);
+        const index = cart.findIndex((cartItem) => cartItem.id === itemId);
+        const updatedCart = [
+          ...cart.slice(0, index),
+          ...cart.slice(index + 1, cart.length),
+        ];
+        setCart(updatedCart);
       }
     }
   };
 
   const clearItemFromCart = (itemId: string) => {
     setCart((prevCart) =>
-      prevCart.filter((cartItem) => cartItem._id !== itemId)
+      prevCart.filter((cartItem) => cartItem.id !== itemId)
     );
   };
 
   const clearCart = () => setCart([]);
+
+  const calcCartTotal = () =>
+    cart.reduce(
+      (total, product) => total + product.price * product.quantity,
+      0
+    );
+
+  const totalWithVat = () => calcCartTotal() * 1.25;
 
   const setShipping = (method: ShippingMethod) => setShippingMethod(method);
 
@@ -111,13 +121,15 @@ const CartContextProvider: FC<IProps> = (props) => {
         shippingMethods,
         paymentMethods,
         shippingMethod,
-        setShippingMethod: setShipping,
+        setShipping,
         paymentMethod,
-        setPaymentMethod: setPayment,
+        setPayment,
         addItemToCart,
         removeItemFromCart,
         clearItemFromCart,
         clearCart,
+        totalWithVat,
+        calcCartTotal,
       }}
     />
   );

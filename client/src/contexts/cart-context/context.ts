@@ -3,31 +3,33 @@ import { createContext } from "react";
 import { IProduct } from "../../components/product";
 
 export interface ShippingMethod {
-  company: string
-  deliveryTime: number
-  desc: string
-  price: number
-  type: string
+  company: string;
+  deliveryTime: number;
+  desc: string;
+  price: number;
+  type: string;
 }
 
 export interface PaymentMethod {
-  type: string
-  desc: string
-  price: number
+  type: string;
+  desc: string;
+  price: number;
 }
 
 interface IContext {
   cart: IProduct[];
-  shippingMethods: ShippingMethod[],
-  paymentMethods: PaymentMethod[]
+  shippingMethods: ShippingMethod[];
+  paymentMethods: PaymentMethod[];
   shippingMethod: ShippingMethod;
-  setShippingMethod: (method: ShippingMethod) => void;
+  setShipping: (method: ShippingMethod) => void;
   paymentMethod: PaymentMethod;
-  setPaymentMethod: (method: PaymentMethod) => void;
-  addItemToCart: (item: IProduct) => void;
+  setPayment: (method: PaymentMethod) => void;
+  addItemToCart: (item: IProduct, size: string) => void;
   removeItemFromCart: (itemId: string) => void;
   clearItemFromCart: (itemId: string) => void;
   clearCart: () => void;
+  calcCartTotal: () => number;
+  totalWithVat: () => number;
 }
 
 export default createContext<IContext>({
@@ -35,11 +37,13 @@ export default createContext<IContext>({
   shippingMethods: [],
   paymentMethods: [],
   shippingMethod: null,
-  setShippingMethod: () => {},
+  setShipping: () => {},
   paymentMethod: null,
-  setPaymentMethod: () => {},
+  setPayment: () => {},
   addItemToCart: () => {},
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
   clearCart: () => {},
+  calcCartTotal: () => 0,
+  totalWithVat: () => 0,
 });

@@ -14,6 +14,7 @@ const {
   getOrder,
   createOrder,
 } = require("../handlers/order.handler");
+const { checkProductStock } = require("../handlers/product.handler");
 
 /* ENDPOINTS */
 
@@ -54,9 +55,15 @@ router.get(
 );
 
 //POST ORDER
-router.post("/", isAuthenticated, createOrder, (req, res) => {
-  res.status(200).json(res.newOrder);
-});
+router.post(
+  "/",
+  isAuthenticated,
+  checkProductStock,
+  createOrder,
+  (req, res, error) => {
+    res.status(200).json(res.newOrder);
+  }
+);
 
 //UPDATE ORDER
 router.put("/:id", isAuthenticated, (req, res) => {

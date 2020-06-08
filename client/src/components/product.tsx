@@ -19,6 +19,8 @@ export interface IProduct {
     stock: number;
   }[];
   desc: string;
+  id?: string;
+  selectedSize?: string;
   quantity?: number;
 }
 
