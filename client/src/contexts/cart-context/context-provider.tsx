@@ -34,8 +34,6 @@ const CartContextProvider: FC<IProps> = (props) => {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
 
   console.log("cart", cart);
-  console.log("shipping", shippingMethod);
-  console.log("payymeny", paymentMethod);
 
   // runs when component mounts
   useEffect(() => {

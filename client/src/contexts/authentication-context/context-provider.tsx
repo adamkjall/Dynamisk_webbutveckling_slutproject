@@ -8,8 +8,6 @@ const AuthenticationContextProvider: FC<Props> = (props) => {
   const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  console.log("user", user);
-
   // check if user already as an authentication session
   useEffect(() => {
     const options: RequestInit = {
