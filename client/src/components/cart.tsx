@@ -16,7 +16,7 @@ interface Iprops {
 }
 
 const MyCart = (props: Iprops) => {
-  
+
   const [showModal, setShowModal] = useState(false)
   const [isDisableButton, setDisableButton] = useState(false)
   const { isAuthenticated } = useContext(AuthenticationContext);
@@ -26,8 +26,7 @@ const MyCart = (props: Iprops) => {
     checkCart();
   });
 
-  const checkSession = () => {
-    
+  const checkSession = () => {  
     if(!isAuthenticated){
       setShowModal(true)
     }else{
@@ -53,28 +52,26 @@ const MyCart = (props: Iprops) => {
           <Box width="large" pad="medium">
             <CartItems />
           </Box>         
-        </Box>
-        
+        </Box>       
         {isAuthenticated? 
-        <>
-        {isDisableButton? <p style = {{margin: "0 0 0 3rem"}}>Your Cart is empty</p>:null}
-        <Link to="/Checkout">
-        
+          <>
+            {isDisableButton? <p style = {{margin: "0 0 0 3rem"}}>Your Cart is empty</p>:null}
+            <Link to="/Checkout">       
+              <Button
+                margin="medium"
+                primary
+                label="Proceed to checkout"
+                onClick={checkSession}
+                disabled = {isDisableButton}
+              />
+            </Link>
+          </>:
           <Button
-            margin="medium"
-            primary
-            label="Proceed to checkout"
-            onClick={checkSession}
-            disabled = {isDisableButton}
-          />
-        </Link>
-        </>:
-        <Button
-            margin="medium"
-            primary
-            label="Log in or register here to proceed to checkout"
-            onClick={checkSession}
-          />}
+              margin="medium"
+              primary
+              label="Log in or register here to proceed to checkout"
+              onClick={checkSession}
+            />}
       </Box>
       {showModal && !isAuthenticated && (
       <Box >    
