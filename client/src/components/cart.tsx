@@ -1,8 +1,9 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useEffect} from "react";
 
 import { Link } from "react-router-dom";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
+import CartContext from "../contexts/cart-context/context"
 
 import { Box, Button, Heading, Layer } from "grommet";
 import { Close } from "grommet-icons";
@@ -17,7 +18,13 @@ interface Iprops {
 const MyCart = (props: Iprops) => {
   
   const [showModal, setShowModal] = useState(false)
+  const [isDisableButton, setDisableButton] = useState(false)
   const { isAuthenticated } = useContext(AuthenticationContext);
+  const { cart } = useContext(CartContext);
+
+  useEffect(() => {
+    checkCart();
+  });
 
   const checkSession = () => {
     
@@ -26,6 +33,12 @@ const MyCart = (props: Iprops) => {
     }else{
       setShowModal(false)
       props.closeCart()
+    }
+  }
+
+  const checkCart = () => {
+    if(cart.length <= 0){
+      setDisableButton(true)
     }
   }
 
@@ -39,16 +52,23 @@ const MyCart = (props: Iprops) => {
           </Heading>
           <Box width="large" pad="medium">
             <CartItems />
-          </Box>
+          </Box>         
         </Box>
-        {isAuthenticated? <Link to="/Checkout">
+        
+        {isAuthenticated? 
+        <>
+        {isDisableButton? <p style = {{margin: "0 0 0 3rem"}}>Your Cart is empty</p>:null}
+        <Link to="/Checkout">
+        
           <Button
             margin="medium"
             primary
             label="Proceed to checkout"
             onClick={checkSession}
+            disabled = {isDisableButton}
           />
-        </Link>:
+        </Link>
+        </>:
         <Button
             margin="medium"
             primary
