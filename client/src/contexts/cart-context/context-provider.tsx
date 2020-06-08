@@ -34,6 +34,8 @@ const CartContextProvider: FC<IProps> = (props) => {
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
 
   console.log("cart", cart);
+  console.log("shipping", shippingMethod);
+  console.log("payymeny", paymentMethod);
 
   // runs when component mounts
   useEffect(() => {
@@ -43,9 +45,7 @@ const CartContextProvider: FC<IProps> = (props) => {
         setShippingMethods(data);
         setShippingMethod(data[0]);
       });
-  }, []);
 
-  useEffect(() => {
     fetch("http://localhost:8080/api/payments", { credentials: "include" }) // Fetch payment data
       .then((res) => res.json()) // Convert to json
       .then((data) => {
@@ -54,45 +54,54 @@ const CartContextProvider: FC<IProps> = (props) => {
       });
   }, []);
 
-  const addItemToCart = (product: IProduct, size: string) => {
-    const index = cart.findIndex((cartItem) => cartItem._id === product._id);
-    if (index === -1) {
+  const addItemToCart = (productToAdd: IProduct, size: string) => {
+    const existing = cart.find(
+      (product) => product.id === productToAdd._id + "-" + size
+    );
+    if (!existing) {
       setCart([
         ...cart,
-        { ...product, selectedSize: [{ size: size, quantity: 1 }] },
+        {
+          ...productToAdd,
+          selectedSize: size,
+          quantity: 1,
+          id: productToAdd._id + "-" + size,
+        },
       ]);
     } else {
-      const findIndex = product;
-      setCart([...cart, { ...product, selectedSize: size }]);
+      existing.quantity++;
     }
   };
 
   const removeItemFromCart = (itemId: string) => {
-    const index = cart.findIndex((cartItem) => cartItem._id === itemId);
-    const updatedCart = [
-      ...cart.slice(0, index),
-      ...cart.slice(index + 1, cart.length),
-    ];
-    setCart(updatedCart);
+    const existing = cart.find((cartItem) => cartItem.id === itemId);
+    if (existing) {
+      if (existing.quantity > 0) {
+        existing.quantity--;
+      } else {
+        const index = cart.findIndex((cartItem) => cartItem.id === itemId);
+        const updatedCart = [
+          ...cart.slice(0, index),
+          ...cart.slice(index + 1, cart.length),
+        ];
+        setCart(updatedCart);
+      }
+    }
   };
 
   const clearItemFromCart = (itemId: string) => {
     setCart((prevCart) =>
-      prevCart.filter((cartItem) => cartItem._id !== itemId)
+      prevCart.filter((cartItem) => cartItem.id !== itemId)
     );
   };
 
   const clearCart = () => setCart([]);
 
-  const getProductQuantity = (productToCheck: IProduct) =>
+  const calcCartTotal = () =>
     cart.reduce(
-      (quantity, product) =>
-        productToCheck === product ? quantity + 1 : quantity,
+      (total, product) => total + product.price * product.quantity,
       0
     );
-
-  const calcCartTotal = () =>
-    cart.reduce((total, product) => total + product.price, 0);
 
   const totalWithVat = () => calcCartTotal() * 1.25;
 
@@ -115,7 +124,6 @@ const CartContextProvider: FC<IProps> = (props) => {
         removeItemFromCart,
         clearItemFromCart,
         clearCart,
-        getProductQuantity,
         totalWithVat,
         calcCartTotal,
       }}

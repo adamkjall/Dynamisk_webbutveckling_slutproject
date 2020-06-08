@@ -72,8 +72,8 @@ const updateProduct = (req, res, next) => {
     req.body,
     { new: true },
     (error, product) => {
+      if (error) next(error);
       try {
-        if (error) next(error);
         if (!product) {
           throw new ErrorHandler(404, "Couldn't find product to update");
         } else {
@@ -102,6 +102,47 @@ const deleteProduct = (req, res, next) => {
   });
 };
 
+const checkProductStock = async (req, res, next) => {
+  const products = req.body.products;
+
+  /* 
+    TODO make sure we throw error if one of the products is out of stock
+  */
+  try {
+    for await (const product of products) {
+      const res = await Product.findById(product._id, (error, doc) => {
+        if (error) next(error);
+
+        const indexOfSize = doc.sizes.findIndex(
+          (el) => el.size === product.selectedSize
+        );
+
+        // if product will be less than 0 after purchase throw error
+        if (doc.sizes[indexOfSize].stock - product.quantity < 0) {
+          throw new ErrorHandler(404, "Product is out of stock");
+        }
+      });
+    }
+  } catch (error) {
+    next(error);
+  }
+  next();
+};
+
+const decrementProductStock = (products) => {
+  products.forEach((product) => {
+    Product.findById(product._id, (error, doc) => {
+      if (error) throw new ErrorHandler(400, "Couldn't find product");
+
+      const index = doc.sizes.findIndex(
+        (el) => el.size === product.selectedSize
+      );
+      doc.sizes[index].stock -= product.quantity;
+      doc.save();
+    });
+  });
+};
+
 module.exports = {
   getAllProducts,
   getProductsById,
@@ -109,4 +150,6 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  checkProductStock,
+  decrementProductStock,
 };

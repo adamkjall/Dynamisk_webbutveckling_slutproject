@@ -27,7 +27,6 @@ const CartItems = ({ locked = false }: Props) => {
     addItemToCart,
     clearItemFromCart,
     shippingMethod,
-    getProductQuantity,
     calcCartTotal,
     totalWithVat,
   } = useContext(CartContext);
@@ -43,6 +42,9 @@ const CartItems = ({ locked = false }: Props) => {
             ) : null}
             <TableCell scope="col" border="bottom">
               Name
+            </TableCell>
+            <TableCell scope="col" border="bottom">
+              Size
             </TableCell>
             <TableCell scope="col" border="bottom">
               Price
@@ -70,11 +72,12 @@ const CartItems = ({ locked = false }: Props) => {
                 </TableCell>
               ) : null}
               <TableCell>{product.title}</TableCell>
+              <TableCell>{product.selectedSize}</TableCell>
               <TableCell>${product.price}</TableCell>
               {!locked && (
                 <>
                   <TableCell flex direction="row" align="center">
-                    {getProductQuantity(product) > 1 ? (
+                    {product.quantity > 1 ? (
                       <Button
                         icon={<SubtractCircle />}
                         style={{
@@ -87,7 +90,7 @@ const CartItems = ({ locked = false }: Props) => {
                       <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
                       // "\u00a0\u00a0" // for empty space
                     )}
-                    <span>{getProductQuantity(product)}</span>
+                    <span>{product.quantity}</span>
                     <Button
                       size="small"
                       style={{

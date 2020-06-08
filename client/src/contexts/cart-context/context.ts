@@ -28,7 +28,6 @@ interface IContext {
   removeItemFromCart: (itemId: string) => void;
   clearItemFromCart: (itemId: string) => void;
   clearCart: () => void;
-  getProductQuantity: (product: IProduct) => number;
   calcCartTotal: () => number;
   totalWithVat: () => number;
 }
@@ -45,7 +44,6 @@ export default createContext<IContext>({
   removeItemFromCart: () => {},
   clearItemFromCart: () => {},
   clearCart: () => {},
-  getProductQuantity: () => 0,
   calcCartTotal: () => 0,
   totalWithVat: () => 0,
 });

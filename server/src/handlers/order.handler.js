@@ -1,6 +1,7 @@
 const Order = require("../models/order.model");
 const { Product } = require("../models/product.model");
 const { ErrorHandler } = require("../helpers/error.helpers");
+const { decrementProductStock } = require("../handlers/product.handler");
 
 const getAllOrders = (req, res, next) => {
   Order.find({}, (error, allOrders) => {
@@ -46,39 +47,27 @@ const getOrder = (req, res, next) => {
 };
 
 const createOrder = (req, res, next) => {
-  const orderData = {
-    ...req.body,
-    orderStatus: false,
-  };
-  const products = orderData.products;
+  try {
+    const orderData = {
+      ...req.body,
+      orderStatus: false,
+    };
 
-  products.forEach((product) => {
-    Product.findById(product._id, (err, doc) => {
-      const index = doc.sizes.findIndex(
-        (el) => el.size === product.selectedSize
-      );
+    Order.create(orderData, (error, newOrder) => {
+      try {
+        if (error) next(error);
+        if (!newOrder) throw new ErrorHandler(400, "Couldn't create order");
 
-      if (doc.sizes[index].stock > 0) {
-        doc.sizes[index].stock--;
-        doc.save();
-      } else {
-        // TODO
-        // out of stock
-        // Throw error?
+        decrementProductStock(orderData.products);
+        res.newOrder = newOrder;
+        next();
+      } catch (error) {
+        next(error);
       }
     });
-  });
-
-  Order.create(orderData, (error, newOrder) => {
-    try {
-      if (error) next(error);
-      if (!newOrder) throw new ErrorHandler(400, "Couldn't create order");
-      res.newOrder = newOrder;
-      next();
-    } catch (error) {
-      next(error);
-    }
-  });
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = { getAllOrders, getAllOrdersFromAUser, getOrder, createOrder };
