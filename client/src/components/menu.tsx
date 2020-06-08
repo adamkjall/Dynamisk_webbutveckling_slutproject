@@ -91,7 +91,7 @@ const MyMenu = () => {
           </Link>
         ) : (
             <Link className="link" to="/login">
-              <Text size="medium">Login</Text>
+              <Text size="medium">Login/Register</Text>
             </Link>
           )}
       </Nav>

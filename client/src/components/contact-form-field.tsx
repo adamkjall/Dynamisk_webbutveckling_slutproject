@@ -51,9 +51,9 @@ const ContactFormField = (props: IProps) => {
         value={user.phoneNumber}
         onChange={handleOnChange}
         validate={[
-          { regexp: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/ },
+          { regexp: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/},
           name => {
-            if (!name.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)) return "Not a valid phone number";
+            if (!name.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)) return "Not a valid phone number";
             return undefined;
           }
         ]}
@@ -74,9 +74,9 @@ const ContactFormField = (props: IProps) => {
         value={user.email}
         onChange={handleOnChange}
         validate={[
-          { regexp: /^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/ },
+          { regexp: /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ },
           name => {
-            if (!name.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/)) return "Not a valid e-mail";
+            if (!name.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)) return "Not a valid e-mail";
             return undefined;
           }
         ]}
