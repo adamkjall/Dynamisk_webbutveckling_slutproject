@@ -35,6 +35,17 @@ const SignUp = ({ toggleView }) => {
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
   const { register } = useContext(AuthenticationContext);
+  
+  const [isFirstNameOK, setFirstNameOK] = useState(true)
+  const [isLastNameOK, setLastNameOK] = useState(true)
+  const [isStreetAddressOK, setStreetAddressOK] = useState(true)
+  const [isCityOK, setCityOK] = useState(true)
+  const [isZipCodeOK, setZipCodeOK] = useState(true)
+  const [isEmailOK, setEmailOK] = useState(true)
+  const [isPhoneNumberOK, setPhoneNumberOK] = useState(true)
+  const [isPasswordOK, setPasswordOK] = useState(true)
+  const [isConfirmOK, setConfirmOK] = useState(true)
+  const [isEmailTaken, setEmailTaken] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return; // lock input during loading
@@ -49,26 +60,66 @@ const SignUp = ({ toggleView }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (inputs.password !== inputs.confirmPassword) {
-      alert("Passwords don't match!");
-      return;
+    const handleValidationMessages = () => {
+      if(inputs.firstName.length >= 2){
+        setFirstNameOK(true)
+      }else{setFirstNameOK(false)}
+
+      if(inputs.lastName.length >= 2){
+        setLastNameOK(true)
+      }else{setLastNameOK(false)}
+
+      if(inputs.streetAddress.length >= 4){
+        setStreetAddressOK(true)
+      }else{setStreetAddressOK(false)}
+
+      if(inputs.zipCode.match(/^\d{5}$/)){
+        setZipCodeOK(true)
+      }else{setZipCodeOK(false)}
+
+      if(inputs.city.length >= 1){
+        setCityOK(true)
+      }else{setCityOK(false)}
+
+      if(inputs.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/)){
+        setEmailOK(true)
+      }else{setEmailOK(false)}
+
+      if(inputs.phoneNumber.match(
+        /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+      )){
+        setPhoneNumberOK(true)
+      }else{setPhoneNumberOK(false)}
+
+      if(inputs.password.length >= 6){
+        setPasswordOK(true)
+      }else{setPasswordOK(false)}
+
+      if(inputs.confirmPassword === inputs.password){
+        setConfirmOK(true)
+      }else{setConfirmOK(false)}
     }
 
     try {
-      // TODO validate inputs
-      const fakeValidate =
-        inputs.firstName.length &&
-        inputs.lastName.length &&
-        inputs.email.length &&
-        inputs.phoneNumber.length &&
-        inputs.streetAddress.length &&
-        inputs.zipCode.length &&
-        inputs.city.length &&
-        inputs.password.length &&
-        inputs.confirmPassword.length;
+      const validateInputs =
+        inputs.firstName.length >= 2 &&
+        inputs.firstName.match(/[A-Ö]/gi) &&
+        inputs.lastName.length >= 2 &&
+        inputs.lastName.match(/[A-Ö]/gi) &&
+        inputs.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) &&
+        inputs.phoneNumber.match(
+          /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+        ) &&
+        inputs.streetAddress.length >= 4 &&
+        inputs.city.length >= 1 &&
+        inputs.zipCode.match(/^\d{5}$/) &&
+        inputs.password.length >= 6 &&
+        inputs.confirmPassword === inputs.password;
 
-      if (!fakeValidate) {
+      if (!validateInputs) {
+        handleValidationMessages()
         setShakeComponent(true);
+        setEmailTaken(false)
         setTimeout(() => setShakeComponent(false), 820);
         return;
       }
@@ -83,9 +134,11 @@ const SignUp = ({ toggleView }) => {
       const message = await register(userToRegister);
       // TODO view message to user in a nicer way
       if (message !== "Authenticated") {
-        alert(message);
-        setInputs(INITIAL_STATE);
+        //alert(message);
+        console.log(message)
+        //setInputs(INITIAL_STATE);
         setLoading(false);
+        setEmailTaken(true)
       }
     } catch (error) {
       // TODO handle error
@@ -105,6 +158,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"First name"}
           required
+          validate = {isFirstNameOK}
+          validateText = {"Not a valid name"}
         />
         <FormInput
           className="last"
@@ -114,6 +169,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Last name"}
           required
+          validate = {isLastNameOK}
+          validateText = {"Not a valid name"}
         />
         <FormInput
           className="email"
@@ -123,6 +180,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Email"}
           required
+          validate = {isEmailOK}
+          validateText = {"Not a valid e-mail"}
         />
         <FormInput
           className="phone"
@@ -132,6 +191,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Phone number"}
           required
+          validate = {isPhoneNumberOK}
+          validateText = {"Not a valid phone number"}
         />
         <FormInput
           className="address"
@@ -141,6 +202,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Street address"}
           required
+          validate = {isStreetAddressOK}
+          validateText = {"Not a valid street address"}
         />
         <FormInput
           className="zip"
@@ -150,6 +213,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Zip code"}
           required
+          validate = {isZipCodeOK}
+          validateText = {"Not a valid zip code"}
         />
         <FormInput
           className="city"
@@ -159,6 +224,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"City"}
           required
+          validate = {isCityOK}
+          validateText = {"Not a valid city"}
         />
         <FormInput
           className="password"
@@ -168,6 +235,8 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Password"}
           required
+          validate = {isPasswordOK}
+          validateText = {"Not a valid password"}
         />
         <FormInput
           className="confirm"
@@ -177,14 +246,18 @@ const SignUp = ({ toggleView }) => {
           handleChange={handleChange}
           label={"Confirm password"}
           required
+          validate = {isConfirmOK}
+          validateText = {"Doesn't match the password"}
         />
-        <p>
+        <p style = {{fontSize: "1.1rem"}}>
           Already have an account?{" "}
           <span className="emphasis" onClick={toggleView}>
             Login here!
           </span>
         </p>
-        <div className="buttons">
+        
+        <div className="buttons" style = {{display:"flex", flexDirection:"column"}}>
+          {isEmailTaken? <p style = {{fontSize: "1.5rem", marginBottom: "0.5rem"}} >e-mail is already taken</p>:null} 
           <CustomButton loading={loading} type="submit">
             Register
           </CustomButton>
