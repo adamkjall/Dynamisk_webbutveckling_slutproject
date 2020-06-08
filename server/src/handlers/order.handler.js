@@ -50,12 +50,21 @@ const createOrder = (req, res, next) => {
     ...req.body,
     orderStatus: false,
   };
-  //   const products = orderData.products;
+  const products = orderData.products;
 
-  // //   products.forEach((product) => {
-  // //     const update = { sizes: }
-  // //     Product.findByIdAndUpdate( product._id, {$set: `sizes.size`} );
-  // //   });
+  products.forEach((product) => {
+    Product.findById(product._id, (err, doc) => {
+      console.log("doc", doc);
+
+      const index = doc.sizes.findIndex(
+        (el) => el.size === product.selectedSize
+      );
+      console.log("index", index);
+
+      doc.sizes[index].stock--;
+      doc.save();
+    });
+  });
 
   Order.create(orderData, (error, newOrder) => {
     try {
