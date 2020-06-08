@@ -31,7 +31,7 @@ const MyCheckOut = () => {
     user.firstName.match(/[A-Ö]/gi) &&
     user.lastName.length > 1 &&
     user.lastName.match(/[A-Ö]/gi) &&
-    user.email.match(/^\w+([.-]?w+)*@\w+([.-]?w+)*(\.\w{2,3})+$/) &&
+    user.email.match(/^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/) &&
     user.phoneNumber.match(
       /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
     ) &&

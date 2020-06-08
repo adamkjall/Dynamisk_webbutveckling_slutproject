@@ -43,14 +43,18 @@ const CartContextProvider: FC<IProps> = (props) => {
       .then((res) => res.json())
       .then((data) => {
         setShippingMethods(data);
-        setShippingMethod(data[0]);
+        if (Array.isArray(data)) {
+          setShippingMethod(data[0]);
+        }
       });
 
     fetch("http://localhost:8080/api/payments", { credentials: "include" }) // Fetch payment data
       .then((res) => res.json()) // Convert to json
       .then((data) => {
         setPaymentMethods(data);
-        setPaymentMethod(data[0]);
+        if (Array.isArray(data)) {
+          setPaymentMethod(data[0]);
+        }
       });
   }, []);
 
@@ -70,14 +74,16 @@ const CartContextProvider: FC<IProps> = (props) => {
       ]);
     } else {
       existing.quantity++;
+      setCart([...cart]); // force re-render
     }
   };
 
   const removeItemFromCart = (itemId: string) => {
     const existing = cart.find((cartItem) => cartItem.id === itemId);
     if (existing) {
-      if (existing.quantity > 0) {
+      if (existing.quantity > 1) {
         existing.quantity--;
+        setCart([...cart]); // force re-render
       } else {
         const index = cart.findIndex((cartItem) => cartItem.id === itemId);
         const updatedCart = [

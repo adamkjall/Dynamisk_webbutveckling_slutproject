@@ -84,7 +84,7 @@ const CartItems = ({ locked = false }: Props) => {
                           padding:
                             responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                         }}
-                        onClick={() => removeItemFromCart(product._id)}
+                        onClick={() => removeItemFromCart(product.id)}
                       />
                     ) : (
                       <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>

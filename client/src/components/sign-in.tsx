@@ -12,6 +12,7 @@ const SignIn = ({ toggleView }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
+  const [isLogInOK, setLogInOK] = useState(true)
   const { login } = useContext(AuthenticationContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,21 +27,22 @@ const SignIn = ({ toggleView }) => {
     event.preventDefault();
 
     try {
-      // TODO validate inputs
-      const fakeValidate = email.length && password.length;
+      const validateInputs = email.length && password.length;
 
-      if (!fakeValidate) {
+      if (!validateInputs) {
         setShakeComponent(true);
+        setLogInOK(false);
         setTimeout(() => setShakeComponent(false), 820);
         return;
       }
 
       setLoading(true);
       const message = await login(email, password);
-      // TODO view message to user in a nicer way
       if (message != "Authenticated") {
-        alert(message);
+        setLogInOK(false)
         setLoading(false);
+        setShakeComponent(true);
+        setTimeout(() => setShakeComponent(false), 820);
         setEmail("");
         setPassword("");
       }
@@ -76,6 +78,7 @@ const SignIn = ({ toggleView }) => {
             Register here
           </span>
         </p>
+        {isLogInOK? null: <p style = {{fontWeight:"bold"}}> Username and/or Password is wrong </p>}
         <div className="buttons">
           <CustomButton loading={loading} type="submit">
             Login
@@ -150,11 +153,11 @@ const StyledSignIn = styled.div`
   p {
     margin: 0;
     color: #dedeee;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     text-align: center;
 
     .emphasis {
-      font-weight: bold;
+      font-weight: bolder;
       cursor: pointer;
       color: #232323;
       transition: font-size 0.3s ease;

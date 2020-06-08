@@ -57,8 +57,9 @@ const MyCart = (props: Iprops) => {
           />}
       </Box>
       {showModal && !isAuthenticated && (
-      <Box>    
+      <Box >    
         <Layer
+          style = {{overflow: "auto"}}
           onEsc={() => setShowModal(false)}
           onClickOutside={() => setShowModal(false)}
         >
