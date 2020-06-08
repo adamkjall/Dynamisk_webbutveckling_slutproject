@@ -45,6 +45,7 @@ const SignUp = ({ toggleView }) => {
   const [isPhoneNumberOK, setPhoneNumberOK] = useState(true)
   const [isPasswordOK, setPasswordOK] = useState(true)
   const [isConfirmOK, setConfirmOK] = useState(true)
+  const [isEmailTaken, setEmailTaken] = useState(false)
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (loading) return; // lock input during loading
@@ -118,6 +119,7 @@ const SignUp = ({ toggleView }) => {
       if (!validateInputs) {
         handleValidationMessages()
         setShakeComponent(true);
+        setEmailTaken(false)
         setTimeout(() => setShakeComponent(false), 820);
         return;
       }
@@ -132,9 +134,11 @@ const SignUp = ({ toggleView }) => {
       const message = await register(userToRegister);
       // TODO view message to user in a nicer way
       if (message !== "Authenticated") {
-        alert(message);
-        setInputs(INITIAL_STATE);
+        //alert(message);
+        console.log(message)
+        //setInputs(INITIAL_STATE);
         setLoading(false);
+        setEmailTaken(true)
       }
     } catch (error) {
       // TODO handle error
@@ -251,7 +255,9 @@ const SignUp = ({ toggleView }) => {
             Login here!
           </span>
         </p>
-        <div className="buttons">
+        
+        <div className="buttons" style = {{display:"flex", flexDirection:"column"}}>
+          {isEmailTaken? <p style = {{fontSize: "1.5rem", marginBottom: "0.5rem"}} >e-mail is already taken</p>:null} 
           <CustomButton loading={loading} type="submit">
             Register
           </CustomButton>
