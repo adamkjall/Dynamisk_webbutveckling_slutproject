@@ -21,7 +21,9 @@ const MyCheckOut = () => {
   const [isPayMailValid, setIsPayMailValid] = useState(true);
   const [isPayPhoneValid, setIsPayPhoneValid] = useState(true);
   const { user } = useContext(AuthenticationContext);
-  const { clearCart, paymentMethod } = useContext(CartContext);
+  const { clearCart, paymentMethod, cart, shippingMethod } = useContext(
+    CartContext
+  );
   const history = useHistory();
 
   const validUserInformation = () =>
@@ -45,7 +47,28 @@ const MyCheckOut = () => {
 
   const pay = async () => {
     setLoading(true);
-    await payWithApi();
+    const order = {
+      user,
+      products: cart.map((prod) => {
+        delete prod.imageURL;
+        delete prod.sizes;
+        return { ...prod };
+      }),
+      shippingMethod,
+      paymentMethod,
+      toAddress: user.streetAddress,
+      toZipCode: user.zipCode,
+      toCity: user.city,
+    };
+
+    console.log("hej order", order);
+
+    const response = await payWithApi(order);
+    setLoading(false);
+    // TODO handle error
+    // if (response.status === "error") {
+
+    // }
     setShowModal(true);
   };
 

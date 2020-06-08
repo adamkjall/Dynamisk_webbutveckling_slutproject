@@ -4,6 +4,7 @@ import { Box, Button } from "grommet";
 import { Close } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
+import { IProduct } from "./product";
 
 import styled from "styled-components";
 
@@ -12,7 +13,7 @@ interface IProps {
 }
 
 const OrderConfirmation = (props: IProps) => {
-  const { cart, shippingMethod, paymentMethod } = useContext(
+  const { cart, shippingMethod, paymentMethod, totalWithVat } = useContext(
     CartContext
   );
 
@@ -37,22 +38,14 @@ const OrderConfirmation = (props: IProps) => {
       </StyledGrid>
       <h4>Items</h4>
 
-      {cart.map((item) => (
-        <StyledItemRow key={item._id}>
-          <span>{item.title}</span>
-          <span>
-            ${item.price} x {item.quantity || 1}
-          </span>
+      {cart.map((product) => (
+        <StyledItemRow key={product._id + "-" + product.selectedSize}>
+          <span>{product.title}</span>
+          <span>${product.price + " x " + product.quantity}</span>
         </StyledItemRow>
       ))}
 
-      <h4>
-        Total: $
-        {cart.reduce(
-          (acc, item) => acc + item.price * (item.quantity || 1),
-          0
-        ) + shippingMethod.price}
-      </h4>
+      <h4>Total: ${totalWithVat() + shippingMethod.price}</h4>
 
       <Button primary margin="medium" onClick={props.closeModal} label="Okay" />
     </Box>

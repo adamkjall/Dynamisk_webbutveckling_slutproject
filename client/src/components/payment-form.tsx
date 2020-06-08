@@ -16,9 +16,7 @@ interface IProps {
 
 const PaymentForm = (props: IProps) => {
   const { user, updateUser } = useContext(AuthenticationContext);
-  const { paymentMethod, paymentMethods, setPaymentMethod } = useContext(
-    CartContext
-  );
+  const { paymentMethod, paymentMethods, setPayment } = useContext(CartContext);
 
   //const [cardOwner, setCardOwner] = useState(`${user.firstName} ${user.lastName}`)
   const [cardNumber, setCardNumber] = useState("");
@@ -81,11 +79,10 @@ const PaymentForm = (props: IProps) => {
         options={transformMethodsToGrommetRadioButton()}
         value={paymentMethod.type}
         onChange={(e) => {
-          setPaymentMethod(
+          setPayment(
             paymentMethods.find((method) => method.type === e.target.value)
-            )
-          }
-        }
+          );
+        }}
       />
       {paymentMethod.type === "INVOICE" ? (
         <FormField
@@ -143,7 +140,7 @@ const PaymentForm = (props: IProps) => {
         />
       ) : (
         <>
-                    {/* <FormField
+          {/* <FormField
               //key={3}
               name="CardOwner"
               autoComplete = "ccname"

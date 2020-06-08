@@ -24,7 +24,7 @@ Content-Type: application/json
     "image" : "fin bild",
     "price" : "5000",
     "category" : "stor",
-    "sizes" : [{
+    "sizes" : {[{
             "size" : "S",
             "stock" : "0"
         },
@@ -35,7 +35,7 @@ Content-Type: application/json
         {
             "size" : "L",
             "stock" : "100"
-        }]
+        }]}
 }
 
 ###

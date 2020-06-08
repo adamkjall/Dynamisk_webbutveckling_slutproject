@@ -21,18 +21,21 @@ Content-Type: application/json
 {
     "user" : {
         "_id" : "5ece3997cfd4241588e1a861",
+        "email": "adam@gmail.se",
+        "password": "123kjhsakjdh123",
         "firstName" : "Hans2",
         "lastName" : "Jansson",
         "phoneNumber" : "07007007070",
         "streetAddress" : "Hansons gata 1",
         "zipCode" : "12345",
-        "city" : "Hjo"
+        "city" : "Hjo",
+        "isAdmin": false
     },
     "products" : [{
         "_id" : "5ece411c56e2613c4c3b0d44",
         "title": "fina produkten",
         "desc": "fin produkt",
-        "image": "fun.jpg",
+        "image": "5ed6084e8eb04037a0db00b7",
         "price": "2",
         "category": "fina produkter",
         "sizes": [{
