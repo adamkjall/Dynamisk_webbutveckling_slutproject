@@ -47,6 +47,9 @@ const getOrder = (req, res, next) => {
 };
 
 const createOrder = (req, res, next) => {
+
+  /* TODO: Kolla om det går att återskapa konstigt error */
+  
   try {
     const orderData = {
       ...req.body,
