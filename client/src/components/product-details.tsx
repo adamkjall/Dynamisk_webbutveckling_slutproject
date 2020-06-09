@@ -11,8 +11,14 @@ interface Iprops {
 
 const ProductDetails = ({ product }: Iprops) => {
   const [size, setSize] = useState(null);
+  const [disableButton, setDisableButton] = useState(true)
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
+
+  const handleClick = (size) => {
+    setSize(size.size)
+    if (size) setDisableButton(false)
+  }
 
   return (
     <Box
@@ -66,7 +72,7 @@ const ProductDetails = ({ product }: Iprops) => {
                       color: "black",
                       marginRight: "0.3rem",
                     }}
-                    onClick={() => setSize(size.size)}
+                    onClick={(event) => handleClick(size)}
                   >
                     {size.size}
                   </Text>
@@ -74,7 +80,7 @@ const ProductDetails = ({ product }: Iprops) => {
               )}
             </Text>
           </Box>
-          <Text style={{ fontWeight: "bold" }}>Seasons: </Text>
+{/*           <Text style={{ fontWeight: "bold" }}>Seasons: </Text> */}
           <Box margin={{ vertical: "small" }}>
             <Text>
               {/* {props.item.season.map((seasonUnit: any, index: any) => (
@@ -97,7 +103,7 @@ const ProductDetails = ({ product }: Iprops) => {
             <span style={{ fontWeight: "bold" }}>Description: </span>
             {responsive === "small" ? product.desc.slice(0, 50) : product.desc}
           </Text>
-          {size ? (
+          {/* {size ? ( */}
             <Button
               primary
               onClick={(event: any) => {
@@ -115,8 +121,9 @@ const ProductDetails = ({ product }: Iprops) => {
               label="Add to cart"
               margin="small"
               color="buttonBg"
+              disabled = {disableButton}
             />
-          ) : null}
+          {/* ) : null} */}
         </Box>
       </Box>
     </Box>
