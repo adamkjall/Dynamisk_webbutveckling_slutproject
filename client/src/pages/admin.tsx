@@ -14,6 +14,8 @@ import {
 } from "grommet";
 import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
 
+import useFetch from "../hooks/useFetch";
+import { IProduct } from "../components/product";
 import FormFieldLabel from "../components/form-field-label";
 
 // import { Collection, Product } from "../shop.data";
@@ -27,12 +29,38 @@ const initialInputs = {
 };
 
 const Admin = () => {
-  // const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<[IProduct[]]>(null);
   const [open, setOpen] = useState(false);
   // const [category, setCategory] = useState("none");
   // const [itemToEdit, setItemToEdit] = useState<Product>();
   // const [inputs, setInputs] = useState(initialInputs);
   // const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
+
+  const { response: products, error, loading } = useFetch(
+    "http://localhost:8080/api/products",
+    {},
+    []
+  );
+  console.log("prod", products);
+
+  useEffect(() => {
+    if (!products) return;
+    const collectionsObj = {};
+    products.forEach((product: IProduct) => {
+      if (!collectionsObj[product.category]) {
+        collectionsObj[product.category] = [product];
+      } else {
+        collectionsObj[product.category] = [
+          ...collectionsObj[product.category],
+          product,
+        ];
+      }
+    });
+    const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
+    setCollections(collectionsMatrix);
+
+    const toCollectionsMatrix = products.reduce((matrix, product) => {}, []);
+  }, [products]);
 
   const onOpen = () => setOpen(true);
 
@@ -136,123 +164,128 @@ const Admin = () => {
 
   return (
     <Main>
-      {/* <Box direction="row" justify="evenly">
-        {collections.map((collection: Collection) => (
-          <Box key={collection.id}>
-            <Heading size="small">
-              {collection.title}
-              <Button
-                icon={
-                  <AddCircle
-                    onClick={() => {
-                      setEditOrAdd("add");
-                      setCategory(collection.routeName);
-                      setInputs(initialInputs);
-                      onOpen();
-                    }}
-                  />
-                }
-              />
-            </Heading>
+      <Box direction="row" justify="evenly">
+        {!error &&
+          collections &&
+          collections.map((collection, index) => (
+            <Box key={index}>
+              <Heading size="small">
+                {collection[0].category}
+                <Button
+                  icon={
+                    <AddCircle
+                      onClick={() => {
+                        // setEditOrAdd("add");
+                        // setCategory(collection.routeName);
+                        // setInputs(initialInputs);
+                        // onOpen();
+                      }}
+                    />
+                  }
+                />
+              </Heading>
 
-            {collection.items.map((item: Product) => (
-              <Box key={item.id}>
-                <Box direction="row" align="center">
-                  <Button
-                    icon={<SubtractCircle />}
-                    onClick={() => removeFromCollection(item.id)}
-                  />
-                  <Button
-                    icon={<FormEdit />}
-                    onClick={() => {
-                      setEditOrAdd("edit");
-                      setInputsToItemData(item);
-                      setItemToEdit(item);
-                      onOpen();
-                    }}
-                  />
+              {!error &&
+                products &&
+                collection.map((product: IProduct) => (
+                  <Box key={product._id}>
+                    <Box direction="row" align="center">
+                      <Button
+                        icon={<SubtractCircle />}
+                        // onClick={() => removeFromCollection(product._id)}
+                      />
+                      <Button
+                        icon={<FormEdit />}
+                        onClick={() => {
+                          // setEditOrAdd("edit");
+                          // setInputsToItemData(product);
+                          // setItemToEdit(product);
+                          onOpen();
+                        }}
+                      />
 
-                  <Image
-                    src={item.imageUrl}
-                    style={{ width: "3rem", marginTop: "1rem" }}
-                  ></Image>
-                  <Text weight="bold" margin={{ left: "small" }}>
-                    {item.name}
-                  </Text>
-                </Box>
-              </Box>
-            ))}
-          </Box>
-        ))}
-      </Box>
-      {open && (
-        <Layer position="center" onClickOutside={onClose}>
-          <Box width="large" height="large">
-            <Form validate="blur">
-              <Box
-                background="light-3"
-                width="large"
-                pad="medium"
-                justify="between"
-                height="large"
-              >
-                <Heading size="xsmall">{category}</Heading>
-                <Text>ID: {calculateNextItemId()}</Text>
-                <FormFieldLabel
-                  name="ProductName"
-                  label="Product name"
-                  required
-                  type="text"
-                  value={inputs.name}
-                  onChange={(e) => handleInputs("name", e.target.value)}
-                />
-                <FormFieldLabel
-                  name="Price"
-                  label="Price"
-                  required
-                  type="text"
-                  value={inputs.price}
-                  onChange={(e) => handleInputs("price", e.target.value)}
-                />
-                <FormFieldLabel
-                  name="ImageUrl"
-                  label="Image URL"
-                  required
-                  type="text"
-                  value={inputs.imageUrl}
-                  onChange={(e) => handleInputs("imageUrl", e.target.value)}
-                />
-                <Text>Sizes</Text>
-                <Box direction="row">
-                  <CheckBox label="small" />
-                  <CheckBox label="medium" onChange={() => {}} />
-                  <CheckBox label="large" onChange={() => {}} />
-                  <CheckBox label="xlarge" onChange={() => {}} />
-                </Box>
-                <Text>Seasons</Text>
-                <Box direction="row">
-                  <CheckBox label="spring" onChange={() => {}} />
-                  <CheckBox label="summer" onChange={() => {}} />
-                  <CheckBox label="autumn" onChange={() => {}} />
-                  <CheckBox label="winter" onChange={() => {}} />
-                </Box>
-                <Text>Description</Text>
-                <TextArea
-                  value={inputs.description}
-                  name="Description"
-                  required
-                  onChange={(e) => handleInputs("description", e.target.value)}
-                />
-                {editOrAdd === "add" ? (
+                      <Image
+                        src={product.imageURL}
+                        style={{ width: "3rem", marginTop: "1rem" }}
+                      ></Image>
+                      <Text weight="bold" margin={{ left: "small" }}>
+                        {product.title}
+                      </Text>
+                    </Box>
+                  </Box>
+                ))}
+            </Box>
+          ))}
+        {/* </Box> */}
+        {open && (
+          <Layer position="center" onClickOutside={onClose}>
+            <Box width="large" height="large">
+              <Form validate="blur">
+                <Box
+                  background="light-3"
+                  width="large"
+                  pad="medium"
+                  justify="between"
+                  height="large"
+                >
+                  {/* <Heading size="xsmall">{category}</Heading> */}
+                  {/* <Text>ID: {calculateNextItemId()}</Text> */}
+                  <FormFieldLabel
+                    name="ProductName"
+                    label="Product name"
+                    required
+                    type="text"
+                    // value={inputs.name}
+                    // onChange={(e) => handleInputs("name", e.target.value)}
+                  />
+                  <FormFieldLabel
+                    name="Price"
+                    label="Price"
+                    required
+                    type="text"
+                    // value={inputs.price}
+                    // onChange={(e) => handleInputs("price", e.target.value)}
+                  />
+                  <FormFieldLabel
+                    name="ImageUrl"
+                    label="Image URL"
+                    required
+                    type="text"
+                    // value={inputs.imageUrl}
+                    // onChange={(e) => handleInputs("imageUrl", e.target.value)}
+                  />
+                  <Text>Sizes</Text>
+                  <Box direction="row">
+                    <CheckBox label="small" />
+                    <CheckBox label="medium" onChange={() => {}} />
+                    <CheckBox label="large" onChange={() => {}} />
+                    <CheckBox label="xlarge" onChange={() => {}} />
+                  </Box>
+                  <Text>Seasons</Text>
+                  <Box direction="row">
+                    <CheckBox label="spring" onChange={() => {}} />
+                    <CheckBox label="summer" onChange={() => {}} />
+                    <CheckBox label="autumn" onChange={() => {}} />
+                    <CheckBox label="winter" onChange={() => {}} />
+                  </Box>
+                  <Text>Description</Text>
+                  <TextArea
+                    // value={inputs.description}
+                    name="Description"
+                    required
+                    // onChange={(e) => handleInputs("description", e.target.value)}
+                  />
+                  {/* {editOrAdd === "add" ? (
                   <Button onClick={addToCollection} label="Add to collection" />
                 ) : (
                   <Button onClick={editItem} label="Submit edit" />
-                )}
-              </Box>
-            </Form>
-          </Box>
-        </Layer>
-      )} */}
+                )} */}
+                </Box>
+              </Form>
+            </Box>
+          </Layer>
+        )}
+      </Box>
     </Main>
   );
 };
