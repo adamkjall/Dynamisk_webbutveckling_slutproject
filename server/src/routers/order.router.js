@@ -22,8 +22,8 @@ const { checkProductStock } = require("../handlers/product.handler");
 router.get(
   "/",
   isAuthenticated,
-  // getSessionUser,
-  // isAdmin,
+  getSessionUser,
+  isAdmin,
   getAllOrders,
   (req, res) => {
     res.status(200).json(res.allOrders);
@@ -35,7 +35,6 @@ router.get(
   "/user/:id",
   isAuthenticated,
   getSessionUser,
-  isAdmin,
   getAllOrdersFromAUser,
   (req, res) => {
     res.status(200).json(res.allUserOrders);

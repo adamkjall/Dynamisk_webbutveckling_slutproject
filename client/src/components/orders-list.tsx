@@ -7,12 +7,13 @@ interface IProps {
     orders: any | null
     gridArea: string
     size: "small" | "medium" | "large" | "xlarge"
+    adminControls: boolean
 }
 
 const getOrderStatus = (orderStatus) => {
     let status = "Not sent"
     if (orderStatus) {
-        status = "Send"
+        status = "Delivered"
     }
     return status
 }
@@ -42,13 +43,13 @@ const boxMargins = {
 }
 
 const OrderList = (props: IProps) => {
-    const { orders, gridArea, size } = props
+    const { orders, gridArea, size, adminControls } = props
 
     return (
         <>
             {
                 !orders ? null
-                : orders.status === "error" ? <Heading level="3"> Something went wrong </Heading>
+                : orders.status === "error" ? <Heading level="3" alignSelf="center"> Something went wrong </Heading>
                 :
                     <Accordion
                         gridArea={gridArea}
@@ -76,7 +77,7 @@ const OrderList = (props: IProps) => {
                                     </Box>
                                 }
                             >
-                                <OrderCard order={order} size={size} />
+                                <OrderCard adminControls={adminControls} order={order} size={size} />
                             </AccordionPanel>
                         )}
                     </Accordion>

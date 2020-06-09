@@ -1,10 +1,18 @@
 import React from "react"
-import { Box, Text, Grid, Heading } from "grommet"
+import { Box, Text, Grid, Heading, Button } from "grommet"
 import CartItems from "./cart-items"
+import styled from "styled-components"
+
+const StyledDeliveryButton = styled(Button) `
+    width: 100%;
+    max-width: 30rem;
+    align-self: center;
+`
 
 interface IProps {
     order: any
     size: "small" | "medium" | "large" | "xlarge"
+    adminControls: boolean
 }
 
 const columns = {
@@ -166,7 +174,7 @@ const productSection = (order) => {
 }
 
 const OrderCard = (props: IProps) => {
-    const { order, size } = props
+    const { order, size, adminControls } = props
     const components = {
         small: [infoSection(order, size), productSection(order)],
         medium: [infoSection(order, size), productSection(order)],
@@ -175,18 +183,29 @@ const OrderCard = (props: IProps) => {
     }
 
     return (
-        <Grid
-            fill
-            responsive={true}
-            rows={rows[size]}
-            columns={columns[size]}
-            areas={areas[size]}
-            margin={{
-                "bottom": ".6rem"
-            }}
-        >
-            {components[size]}
-        </Grid>
+        <>
+            {
+                adminControls &&
+                <StyledDeliveryButton 
+                    margin="small" 
+                    primary 
+                    label="Mark as delivered" 
+                    color=""
+                />
+            }
+            <Grid
+                fill
+                responsive={true}
+                rows={rows[size]}
+                columns={columns[size]}
+                areas={areas[size]}
+                margin={{
+                    "bottom": ".6rem"
+                }}
+            >
+                {components[size]}
+            </Grid>
+        </>
     )
 }
 
