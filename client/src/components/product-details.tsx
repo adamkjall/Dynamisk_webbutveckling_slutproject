@@ -15,6 +15,7 @@ const ProductDetails = ({ product }: Iprops) => {
   const [activeButton, setActiveButton] = useState(null)
   const [isActive, setActive] = useState(false)
   const [disableButton, setDisableButton] = useState(true)
+  const [disableSizeButton, setDisableSizeButton] = useState(false)
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
@@ -76,7 +77,7 @@ const ProductDetails = ({ product }: Iprops) => {
           <Box margin={{ vertical: "small" }}>
             <Text style = {{display: "flex"}}>
               {product.sizes.map((size, index) =>
-                size.stock > 0 ? (
+                //size.stock > 0 ? (
                   <div key={index} style = {{display: "flex", flexDirection: "column", alignItems: "center"}}>
                   <Button
                     
@@ -90,14 +91,15 @@ const ProductDetails = ({ product }: Iprops) => {
                       width: "5rem",
                       textAlign: "center"
                     }}
+                    disabled = {size.stock <= 0? true:false}
                     active = {isActive}
                     onClick={(event) => handleClick(event, size)}
                   >
                     {size.size}
                   </Button>
-                  <p style = {{fontSize: "0.8rem", margin: "0"}}>{`In Stock: ${size.stock}`}</p>
+                  <p style = {{fontSize: "0.8rem", margin: "0"}}>{`In Stock: ${size.stock <= 0? "0" : size.stock }`}</p>
                   </div>
-                ) : null
+                //) 
               )}
             </Text>
           </Box>
