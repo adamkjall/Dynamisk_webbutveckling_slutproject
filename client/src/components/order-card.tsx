@@ -13,6 +13,7 @@ interface IProps {
     order: any
     size: "small" | "medium" | "large" | "xlarge"
     adminControls: boolean
+    updateStatus?: (order: any) => void
 }
 
 const columns = {
@@ -57,6 +58,12 @@ const getPaymentFee = (fee) => {
     }
     return sanitizedFee
 }
+
+// const updateDelivery = (order) => {
+//     console.log(order);
+//     console.log("hello");
+    
+// }
 
 const recieverInfo = (order) => {
     return (
@@ -174,7 +181,7 @@ const productSection = (order) => {
 }
 
 const OrderCard = (props: IProps) => {
-    const { order, size, adminControls } = props
+    const { order, size, adminControls, updateStatus } = props
     const components = {
         small: [infoSection(order, size), productSection(order)],
         medium: [infoSection(order, size), productSection(order)],
@@ -185,12 +192,17 @@ const OrderCard = (props: IProps) => {
     return (
         <>
             {
-                adminControls &&
+                (adminControls && updateStatus) &&
                 <StyledDeliveryButton 
                     margin="small" 
                     primary 
-                    label="Mark as delivered" 
+                    label={
+                        order.orderStatus 
+                        ? "Undo delivery"
+                        : "Mark as delivered"
+                    } 
                     color=""
+                    onClick={() => updateStatus(order)}
                 />
             }
             <Grid

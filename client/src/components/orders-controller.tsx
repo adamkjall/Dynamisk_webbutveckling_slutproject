@@ -5,10 +5,11 @@ import OrderList from "../components/orders-list"
 interface IProps {
     orders: any | null
     adminControls: boolean
+    updateStatus?: (order: any) => void
 }
 
 const OrdersController = (props: IProps) => {
-    const { orders, adminControls } = props
+    const { orders, adminControls, updateStatus } = props
 
     const size = useContext(ResponsiveContext) as
         | "small"
@@ -51,7 +52,7 @@ const OrdersController = (props: IProps) => {
         ],
     }
 
-    const mainSection = <OrderList key="0" adminControls={adminControls} gridArea="main" orders={orders} size={size} />
+    const mainSection = <OrderList key="0" updateStatus={updateStatus} adminControls={adminControls} gridArea="main" orders={orders} size={size} />
     const leftSection = <Box key="1" gridArea="left" />
     const rightSection = <Box key="2" gridArea="right" />
 
