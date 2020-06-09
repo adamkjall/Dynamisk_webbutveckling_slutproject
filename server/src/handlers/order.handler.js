@@ -1,5 +1,4 @@
 const Order = require("../models/order.model");
-const { Product } = require("../models/product.model");
 const { ErrorHandler } = require("../helpers/error.helpers");
 const { decrementProductStock } = require("../handlers/product.handler");
 
@@ -46,10 +45,25 @@ const getOrder = (req, res, next) => {
   });
 };
 
-const createOrder = (req, res, next) => {
+const updateOrder = (req, res, next) => {
+  Order.findOneAndUpdate(
+    { _id: req.params.id },
+    req.body,
+    { new: true },
+    (error, updatedOrder) => {
+      try {
+        if (error) next(error)
+        if (!updatedOrder) throw new ErrorHandler(400, "Couldn't perform order update")
+        res.updatedOrder = updatedOrder
+        next()
+      } catch (error) {
+        next(error)
+      }
+    }
+  )
+}
 
-  /* TODO: Kolla om det går att återskapa konstigt error */
-  
+const createOrder = (req, res, next) => {
   try {
     const orderData = {
       ...req.body,
@@ -73,4 +87,10 @@ const createOrder = (req, res, next) => {
   }
 };
 
-module.exports = { getAllOrders, getAllOrdersFromAUser, getOrder, createOrder };
+module.exports = {
+  getAllOrders,
+  getAllOrdersFromAUser,
+  getOrder,
+  updateOrder,
+  createOrder
+};

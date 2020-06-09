@@ -12,6 +12,7 @@ const {
   getAllOrders,
   getAllOrdersFromAUser,
   getOrder,
+  updateOrder,
   createOrder,
 } = require("../handlers/order.handler");
 const { checkProductStock } = require("../handlers/product.handler");
@@ -22,8 +23,8 @@ const { checkProductStock } = require("../handlers/product.handler");
 router.get(
   "/",
   isAuthenticated,
-  // getSessionUser,
-  // isAdmin,
+  getSessionUser,
+  isAdmin,
   getAllOrders,
   (req, res) => {
     res.status(200).json(res.allOrders);
@@ -35,7 +36,6 @@ router.get(
   "/user/:id",
   isAuthenticated,
   getSessionUser,
-  isAdmin,
   getAllOrdersFromAUser,
   (req, res) => {
     res.status(200).json(res.allUserOrders);
@@ -66,13 +66,14 @@ router.post(
 );
 
 //UPDATE ORDER
-router.put("/:id", isAuthenticated, (req, res) => {
-  res.status(200).json({
-    message: "endpoint: Update specific order by id",
-    devInfo: "Will this get used?",
-    params: req.params,
-    body: req.body,
+router.put(
+  "/:id",
+  isAuthenticated,
+  getSessionUser,
+  isAdmin,
+  updateOrder,
+  (req, res) => {
+    res.status(200).json(res.updatedOrder)
   });
-});
 
 module.exports = router;

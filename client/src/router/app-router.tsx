@@ -10,7 +10,8 @@ import Shop from "../pages/shop";
 import Checkout from "../pages/checkout";
 import Admin from "../pages/admin";
 import SignInSignUp from "../pages/sign-in-sign-up";
-import UserOrders from "../pages/user-orders"
+import OrdersAll from "../pages/orders-all"
+import OrdersUser from "../pages/orders-user"
 import UserSettings from "../pages/user-settings"
 
 /**
@@ -35,7 +36,8 @@ const AppRouter = () => {
           isAuthenticated ? <Redirect to="/" /> : <SignInSignUp />
         }
       />
-      <ProtectedRoute exact path="/orders" component={UserOrders} />
+      <ProtectedRoute exact path="/orders" component={OrdersUser} />
+      <ProtectedRoute exact path="/orders-all" component={OrdersAll} />
       <ProtectedRoute exact path="/settings" component={UserSettings} />
       <ProtectedRoute exact path="/checkout" component={Checkout} />
       <ProtectedRoute exact admin path="/admin" component={Admin} />

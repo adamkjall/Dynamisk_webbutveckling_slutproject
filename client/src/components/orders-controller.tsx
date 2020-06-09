@@ -1,17 +1,15 @@
 import React, { useContext } from "react"
-import { Box, Grid, ResponsiveContext, Heading } from "grommet"
-import useFetch from "../hooks/useFetch"
+import { Main, Box, Grid, ResponsiveContext, Heading } from "grommet"
 import OrderList from "../components/orders-list"
 
-const UserOrders = () => {
-    let {
-        response: orders,
-        loading,
-    } = useFetch(
-        `http://localhost:8080/api/orders`,
-        { credentials: "include" },
-        []
-    )
+interface IProps {
+    orders: any | null
+    adminControls: boolean
+    updateStatus?: (order: any) => void
+}
+
+const OrdersController = (props: IProps) => {
+    const { orders, adminControls, updateStatus } = props
 
     const size = useContext(ResponsiveContext) as
         | "small"
@@ -54,9 +52,7 @@ const UserOrders = () => {
         ],
     }
 
-    console.log(orders)
-
-    const mainSection = <OrderList key="0" gridArea="main" orders={orders} size={size} />
+    const mainSection = <OrderList key="0" updateStatus={updateStatus} adminControls={adminControls} gridArea="main" orders={orders} size={size} />
     const leftSection = <Box key="1" gridArea="left" />
     const rightSection = <Box key="2" gridArea="right" />
 
@@ -71,23 +67,23 @@ const UserOrders = () => {
         <>
             {
                 orders ?
-                    <Grid
-                        fill
-                        responsive={true}
-                        rows={rows[size]}
-                        columns={columns[size]}
-                        gap="medium"
-                        areas={areas[size]}
-                        style={{
-                            overflowY: "scroll",
-                        }}
-                    >
-                        {components[size]}
+                        <Grid
+                            fill
+                            responsive={true}
+                            rows={rows[size]}
+                            columns={columns[size]}
+                            gap="medium"
+                            areas={areas[size]}
+                            style={{
+                                overflowY: "scroll",
+                            }}
+                        >
+                            {components[size]}
                     </Grid >
-        : <Heading level="3"> Nothing to see here... </Heading>
-        }
+                    : <Heading level="3" alignSelf="center"> Nothing to see here... </Heading>
+            }
         </>
     )
 }
 
-export default UserOrders
+export default OrdersController
