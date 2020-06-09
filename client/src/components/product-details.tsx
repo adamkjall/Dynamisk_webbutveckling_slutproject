@@ -11,13 +11,27 @@ interface Iprops {
 
 const ProductDetails = ({ product }: Iprops) => {
   const [size, setSize] = useState(null);
+  const [buttonColor, setButtonColor] = useState("#e0e0e0")
+  const [activeButton, setActiveButton] = useState(null)
+  const [isActive, setActive] = useState(false)
   const [disableButton, setDisableButton] = useState(true)
   const { addItemToCart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
 
-  const handleClick = (size) => {
+  const handleClick = (event, size) => {
     setSize(size.size)
     if (size) setDisableButton(false)
+    //setActiveButton(event.target.value)
+
+/*     if(activeButton === event.target.value){
+      setActive(true)
+    }else{
+      setActive(false)
+    } */
+    console.log(event)
+    //setButtonColor("#949494")
+    //console.log(handle)
+
   }
 
   return (
@@ -60,22 +74,29 @@ const ProductDetails = ({ product }: Iprops) => {
         <Box justify="between">
           <Text style={{ fontWeight: "bold" }}>Sizes: </Text>
           <Box margin={{ vertical: "small" }}>
-            <Text>
+            <Text style = {{display: "flex"}}>
               {product.sizes.map((size, index) =>
                 size.stock > 0 ? (
-                  <Text
-                    key={index}
-                    style={{
-                      backgroundColor: "#e0e0e0",
-                      padding: responsive === "small" ? "0.1rem" : "0.3rem",
+                  <div key={index} style = {{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                  <Button
+                    
+                     style={{
+                      backgroundColor: buttonColor,
+                      padding: responsive === "small" ? "0.3rem" : "0.5rem",
                       border: "1px solid black",
                       color: "black",
-                      marginRight: "0.3rem",
+                      margin: "0.3rem",
+                      cursor: "pointer",
+                      width: "5rem",
+                      textAlign: "center"
                     }}
-                    onClick={(event) => handleClick(size)}
+                    active = {isActive}
+                    onClick={(event) => handleClick(event, size)}
                   >
                     {size.size}
-                  </Text>
+                  </Button>
+                  <p style = {{fontSize: "0.8rem", margin: "0"}}>{`In Stock: ${size.stock}`}</p>
+                  </div>
                 ) : null
               )}
             </Text>
