@@ -61,7 +61,7 @@ const OrderList = (props: IProps) => {
         <>
             {
                 !orders ? null
-                    : orders.status === "error" ? <Heading level="3" alignSelf="center"> Something went wrong </Heading>
+                    : orders.status === "error" ? <Heading level="3" alignSelf="center"> Couldn't find any orders! </Heading>
                         :
                         <Accordion
                             gridArea={gridArea}
