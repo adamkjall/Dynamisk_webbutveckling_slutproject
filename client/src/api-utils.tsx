@@ -2,7 +2,7 @@ import { User } from "./contexts/authentication-context/context";
 import { IProduct } from "./components/product";
 import { ShippingMethod, PaymentMethod } from "./contexts/cart-context/context";
 
-interface IOrder {
+interface INewOrder {
   user: User;
   products: IProduct[];
   shippingMethod: ShippingMethod;
@@ -12,7 +12,15 @@ interface IOrder {
   toCity: string;
 }
 
-export const payWithApi = async (order: IOrder) => {
+interface IOrder extends INewOrder {
+  _id: string;
+  orderStatus: boolean;
+  timeStamp: Date;
+}
+
+const orderAPI = "http://localhost:8080/api/orders/"
+
+export const payWithApi = async (order: INewOrder) => {
   const options: RequestInit = {
     method: "Post",
     headers: {
@@ -22,7 +30,22 @@ export const payWithApi = async (order: IOrder) => {
     body: JSON.stringify(order),
   };
 
-  const res = await fetch("http://localhost:8080/api/orders/", options);
+  const res = await fetch(orderAPI, options);
   const json = await res.json();
   return json;
 };
+
+export const updateOrderStatus = async (order: IOrder) => {
+  const options: RequestInit = {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify(order)
+  };
+
+  const res = await fetch(orderAPI + order._id, options);
+  const json = await res.json();
+  return json
+}
