@@ -46,8 +46,8 @@ function App() {
     <ErrorBoundary>
       <Grommet theme={deepMerge(grommet, myTheme)} full>
         <Header /> {/* height 8vh */}
-        <Menu /> {/* height 5vh */}
-        <Box height="87vh">
+        <Menu /> {/* height 6.5vh */}
+        <Box height="85.5vh">
           <AppRouter />
         </Box>
       </Grommet>

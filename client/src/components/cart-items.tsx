@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import {
   Button,
@@ -14,23 +14,39 @@ import {
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
-import { IProduct } from "./product";
+import product, { IProduct } from "./product";
 
 interface Props {
+  productsArray: IProduct[]
   locked?: boolean; // lock cart from changes
 }
 
-const CartItems = ({ locked = false }: Props) => {
+const CartItems = (props: Props) => {
+  const { locked, productsArray } = props
+  const [ total, setTotal ] = useState(0)
   const {
-    cart,
     removeItemFromCart,
     addItemToCart,
     clearItemFromCart,
     shippingMethod,
-    calcCartTotal,
-    totalWithVat,
+    // calcCartTotal,
+    // totalWithVat,
   } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
+
+  useEffect(() => {
+    let newTotal = productsArray.reduce(
+      (prevValue, currProduct) => prevValue + currProduct.price * currProduct.quantity,
+      0)
+      newTotal += shippingMethod.price
+      setTotal(newTotal)
+      // console.log(newTotal);
+      
+  }, [productsArray])
+
+  const calcTotalWithVAT = () => {
+    return total * 1.25
+  }
 
   return (
     <Box responsive>
@@ -61,7 +77,7 @@ const CartItems = ({ locked = false }: Props) => {
         </TableHeader>
         <TableBody>
           {/* Removes duplicate products */}
-          {Array.from(new Set(cart)).map((product, index) => (
+          {productsArray.map((product, index) => (
             <TableRow key={index}>
               {responsive !== "small" ? (
                 <TableCell>
@@ -71,7 +87,12 @@ const CartItems = ({ locked = false }: Props) => {
                   ></Image>
                 </TableCell>
               ) : null}
-              <TableCell>{product.title}</TableCell>
+              <TableCell>
+                { locked ?
+              `${product.quantity} x ${product.title}`
+              : product.title
+              }
+              </TableCell>
               <TableCell>{product.selectedSize}</TableCell>
               <TableCell>${product.price}</TableCell>
               {!locked && (
@@ -127,7 +148,8 @@ const CartItems = ({ locked = false }: Props) => {
               <strong>Total</strong>
             </TableCell>
             <TableCell>
-              <strong>${calcCartTotal()}</strong>
+              {/* <strong>${calcCartTotal()}</strong> */}
+              <strong>${total}</strong>
             </TableCell>
           </TableRow>
 
@@ -136,7 +158,7 @@ const CartItems = ({ locked = false }: Props) => {
               <em>VAT included</em>
             </TableCell>
             <TableCell>
-              <em>${totalWithVat()}</em>
+              <em>${calcTotalWithVAT()}</em>
             </TableCell>
           </TableRow>
         </TableBody>

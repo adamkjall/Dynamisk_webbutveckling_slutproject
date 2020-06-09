@@ -105,28 +105,52 @@ const deleteProduct = (req, res, next) => {
 const checkProductStock = async (req, res, next) => {
   const products = req.body.products;
 
+  try {
+    for (const product of products) {
+      const dbProduct = await Product.findById(product._id, (error, doc) => {
+        if (error) next(error)
+        return doc
+      })
+      if (!dbProduct) {
+        throw new ErrorHandler(500, "Product is no longer available on site")
+      }
+      const indexOfSize = dbProduct.sizes.findIndex(
+        el => el.size === product.selectedSize
+      )
+      if (indexOfSize === -1) {
+        throw new ErrorHandler(500, "Product size is no longer available on site")
+      }
+      if (dbProduct.sizes[indexOfSize].stock - product.quantity < 0) {
+        throw new ErrorHandler(500, "Product is no longer in stock")
+      }
+    }
+  } catch (error) {
+    next(error)
+  }
+
+  next()
   /* 
     TODO make sure we throw error if one of the products is out of stock
   */
-  try {
-    for await (const product of products) {
-      const res = await Product.findById(product._id, (error, doc) => {
-        if (error) next(error);
+  // try {
+  //   for await (const product of products) {
+  //     const res = await Product.findById(product._id, (error, doc) => {
+  //       if (error) next(error);
 
-        const indexOfSize = doc.sizes.findIndex(
-          (el) => el.size === product.selectedSize
-        );
+  //       const indexOfSize = doc.sizes.findIndex(
+  //         (el) => el.size === product.selectedSize
+  //       );
 
-        // if product will be less than 0 after purchase throw error
-        if (doc.sizes[indexOfSize].stock - product.quantity < 0) {
-          throw new ErrorHandler(404, "Product is out of stock");
-        }
-      });
-    }
-  } catch (error) {
-    next(error);
-  }
-  next();
+  //       // if product will be less than 0 after purchase throw error
+  //       if (doc.sizes[indexOfSize].stock - product.quantity < 0) {
+  //         throw new ErrorHandler(404, "Product is out of stock");
+  //       }
+  //     });
+  //   }
+  // } catch (error) {
+  //   next(error);
+  // }
+  // next();
 };
 
 const decrementProductStock = (products) => {

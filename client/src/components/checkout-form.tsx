@@ -61,9 +61,11 @@ const MyCheckOut = () => {
       toCity: user.city,
     };
 
-    console.log("hej order", order);
+    // console.log("hej order", order);
 
     const response = await payWithApi(order);
+    console.log(response);
+    
     setLoading(false);
     // TODO handle error
     // if (response.status === "error") {

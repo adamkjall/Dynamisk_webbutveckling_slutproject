@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
+const { UserSchema } = require("./user.model.js");
 const { ProductSchema } = require("./product.model.js");
 const { ShipmentSchema } = require("./shipment.model.js");
 const { PaymentSchema } = require("./payment.model.js");
-const { UserSchema } = require("./user.model.js");
 
 const Schema = mongoose.Schema;
 
