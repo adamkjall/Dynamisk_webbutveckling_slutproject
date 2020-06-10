@@ -60,7 +60,7 @@ const Header = () => {
               weight="bold"
               size={responsive === "small" ? "small" : "medium"}
             >
-              {cart.length}
+              {cart ? cart.length : 0}
             </Text>
           </Box>
         </Stack>
