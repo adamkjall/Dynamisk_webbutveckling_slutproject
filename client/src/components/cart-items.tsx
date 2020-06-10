@@ -49,7 +49,7 @@ const CartItems = (props: Props) => {
   }
 
   return (
-    <Box responsive>
+    <Box responsive style = {{fontSize: responsive === "small" ? "1rem": "1.5rem"}}>
       <Table>
         <TableHeader>
           <TableRow>
@@ -70,7 +70,7 @@ const CartItems = (props: Props) => {
                 <TableCell scope="col" border="bottom">
                   Quantity
                 </TableCell>
-                <TableCell scope="col" border="bottom"></TableCell>
+                {responsive === "small"? null: <TableCell scope="col" border="bottom"></TableCell>}
               </>
             )}
           </TableRow>
@@ -78,7 +78,7 @@ const CartItems = (props: Props) => {
         <TableBody>
           {/* Removes duplicate products */}
           {productsArray.map((product, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} style = {{borderBottom: "1px solid black", padding: "0.5rem 0", margin: "0.5rem"}}>
               {responsive !== "small" ? (
                 <TableCell>
                   <Image
@@ -108,15 +108,21 @@ const CartItems = (props: Props) => {
                         onClick={() => removeItemFromCart(product.id)}
                       />
                     ) : (
-                      <div>{"\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0"}</div>
-                      // "\u00a0\u00a0" // for empty space
+                      <Button
+                      icon={<SubtractCircle />}
+                      style={{
+                        padding:
+                          responsive === "small" ? "0 0.2rem" : "0 0.4rem",
+                      }}
+                      onClick = {() => clearItemFromCart(product.id)}
+                    />
                     )}
                     <span>{product.quantity}</span>
                     <Button
                       size="small"
                       style={{
                         padding:
-                          responsive === "small" ? "0 0.2rem" : "0 0.4rem",
+                          responsive === "small" ? "0 0.2rem" : "0 0.4rem"
                       }}
                       icon={<AddCircle />}
                       onClick={() =>
@@ -124,16 +130,19 @@ const CartItems = (props: Props) => {
                       }
                     />
                   </TableCell>
-                  <TableCell align="center">
-                    <Button
-                      size="small"
-                      style={{
-                        padding: responsive === "small" ? "0" : "0",
-                      }}
-                      onClick={() => clearItemFromCart(product.id)}
-                      icon={<Close />}
-                    />
-                  </TableCell>
+                  {responsive === "small"? 
+                    null:
+                    <TableCell align="center">
+                      <Button
+                        size="small"
+                        style={{
+                          padding: responsive === "small" ? "0" : "0"
+                        }}
+                        onClick={() => clearItemFromCart(product.id)}
+                        icon={<Close/>}
+                      />
+                    </TableCell>
+                  }
                 </>
               )}
             </TableRow>
@@ -148,11 +157,9 @@ const CartItems = (props: Props) => {
               <strong>Total</strong>
             </TableCell>
             <TableCell>
-              {/* <strong>${calcCartTotal()}</strong> */}
               <strong>${total}</strong>
             </TableCell>
           </TableRow>
-
           <TableRow>
             <TableCell scope="row">
               <em>VAT included</em>

@@ -325,13 +325,13 @@ const Admin = () => {
                     alt=""
                     style={{ width: "4rem" }}
                   />
-{/*                   <input
+                  <input
                     name="image"
                     type="file"
                     accept="image/*"
                     onChange={(e) => setFile(e.target.files[0])}
-                  /> */}
-                  <input 
+                  />
+{/*                   <input 
                         accept="image/*" 
                         type="file" 
                         id="fileupload"
@@ -341,7 +341,7 @@ const Admin = () => {
                     <label htmlFor="fileupload">                      
                             <Camera 
                             style = {{fontSize: "4rem", margin: "1rem"}}/>
-                    </label>
+                    </label> */}
                   <FormFieldLabel
                     name="price"
                     label="Price"

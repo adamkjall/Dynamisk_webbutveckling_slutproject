@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import AuthenticationContext from "../contexts/authentication-context/context";
 import CartContext from "../contexts/cart-context/context"
 
-import { Box, Button, Heading, Layer } from "grommet";
+import { Box, Button, Heading, Layer, } from "grommet";
 import { Close } from "grommet-icons";
 
 import CartItems from "./cart-items";
