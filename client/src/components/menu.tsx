@@ -10,6 +10,10 @@ import AccountMenu from "./account-menu";
 const StyledGrommetMenu = styled(Menu)`
   min-width: 5.5rem;
 `
+const StyledBox = styled(Box)`
+  min-height: 3rem;
+  max-height: 6.5vh;
+`
 
 const MyMenu = () => {
   const history = useHistory();
@@ -62,8 +66,7 @@ const MyMenu = () => {
   }
 
   return (
-    <Box
-      height="6.5vh"
+    <StyledBox
       direction="row"
       justify="between"
       align="center"
@@ -97,20 +100,20 @@ const MyMenu = () => {
         }
       </ResponsiveContext.Consumer>
       <Nav direction="row">
-        {isAdmin() && (
+        {/* {isAdmin() && (
           <Link className="link" to="/admin">
             <Text size="medium">Admin</Text>
           </Link>
-        )}
+        )} */}
         {isAuthenticated ? (
-          <AccountMenu logout={logout} />
+          <AccountMenu logout={logout} isAdmin={isAdmin} />
         ) : (
             <Link className="link" to="/login">
               <Text size="medium">Login/Register</Text>
             </Link>
           )}
       </Nav>
-    </Box>
+    </StyledBox>
   );
 };
 
