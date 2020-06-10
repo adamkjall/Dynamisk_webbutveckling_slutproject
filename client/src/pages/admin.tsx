@@ -21,8 +21,6 @@ import useFetch from "../hooks/useFetch";
 import { IProduct } from "../components/product";
 import FormFieldLabel from "../components/form-field-label";
 
-// import { Collection, Product } from "../shop.data";
-
 const initialInputs: IProduct = {
   title: "",
   image: "",
@@ -59,8 +57,6 @@ const Admin = () => {
     {},
     []
   );
-  console.log("itemToEdit", itemToEdit);
-  console.log("prod", products);
 
   // post selected image and update inputs with imageId
   useEffect(() => {
@@ -144,6 +140,32 @@ const Admin = () => {
     });
     setCollections(updatedCollections);
     setOpen(false);
+    setFile(null);
+  };
+
+  const editItem = async () => {
+    const product = transformInputsToProduct();
+    const options: RequestInit = {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    };
+    const res = await fetch(API_PRODUCTS_URL + "/" + itemToEdit._id, options);
+    const data = await res.json();
+    const updatedCollections = collections.map((collection) => {
+      if (collection[0].category === data.category) {
+        return collection.map((item) =>
+          item._id === itemToEdit._id ? product : item
+        );
+      }
+      return collection;
+    });
+    setCollections(updatedCollections);
+    setOpen(false);
+    setFile(null);
   };
 
   const removeFromCollection = (productToRemove: IProduct) => {
@@ -160,22 +182,6 @@ const Admin = () => {
       .then(console.log);
   };
 
-  const editItem = () => {
-    const product = transformInputsToProduct();
-    const options: RequestInit = {
-      method: "PUT",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    };
-    fetch(API_PRODUCTS_URL + "/" + itemToEdit._id, options)
-      .then((res) => res.json())
-      .then(console.log);
-    setOpen(false);
-  };
-
   const handleInputs = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -185,8 +191,7 @@ const Admin = () => {
 
   const setInputsToItemData = (product: IProduct) => {
     const productCopy = Object.assign({}, product);
-    delete productCopy.imageURL;
-    delete productCopy._id;
+
     setSizes({
       small: product.sizes.find((el) => el.size === "small")
         ? product.sizes.find((el) => el.size === "small").stock
@@ -200,7 +205,6 @@ const Admin = () => {
     });
     setInputs(productCopy);
   };
-  console.log("inputs", inputs);
 
   return (
     <Main>
@@ -270,7 +274,13 @@ const Admin = () => {
         )}
 
         {open && (
-          <Layer position="center" onClickOutside={() => setOpen(false)}>
+          <Layer
+            position="center"
+            onClickOutside={() => {
+              setFile(null);
+              setOpen(false);
+            }}
+          >
             <Box>
               <Form validate="blur">
                 <Box

@@ -44,6 +44,7 @@ const ProductDetails = ({ product }: Iprops) => {
           width={responsive === "small" ? "small" : "xlarge"}
           height={responsive === "small" ? "small" : "auto"}
           margin={responsive === "small" ? "0" : "1rem"}
+          style={{ maxHeight: "100%" }}
         >
           <Image
             fit="cover"
