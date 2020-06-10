@@ -212,8 +212,18 @@ const Admin = () => {
   };
 
   return (
-    <Main>
-      <Box direction="row" justify="evenly" fill>
+    <Main pad={{ horizontal: "2rem" }}>
+      <Box
+        direction="row"
+        justify="center"
+        // wrap
+        style={{
+          minHeight: "unset",
+          display: "grid",
+          gridTemplateColumns: "repeat( auto-fit, minmax(280px, 1fr))",
+          gap: "4rem",
+        }}
+      >
         {loading ? (
           <Loader
             className="loader"
@@ -227,7 +237,7 @@ const Admin = () => {
           !error &&
           collections &&
           collections.map((collection, index) => (
-            <Box key={index}>
+            <Box key={index} width="large" style={{ minHeight: "unset" }}>
               <Heading size="small">
                 {collection[0].category}
                 <Button
@@ -247,30 +257,55 @@ const Admin = () => {
               {!error &&
                 products &&
                 collection.map((product: IProduct) => (
-                  <Box key={product._id}>
-                    <Box direction="row" align="center">
-                      <Button
-                        icon={<SubtractCircle />}
-                        onClick={() => removeFromCollection(product)}
-                      />
-                      <Button
-                        icon={<FormEdit />}
-                        onClick={() => {
-                          setEditOrAdd("edit");
-                          setCategory(collection[0].category);
-                          setItemToEdit(product);
-                          setInputsToItemData(product);
-                          setOpen(true);
-                        }}
-                      />
-
+                  <Box
+                    key={product._id}
+                    style={{
+                      borderBottom: "1px solid gray",
+                      padding: "0.5rem 0",
+                      minHeight: "100px",
+                    }}
+                  >
+                    <Box
+                      direction="row"
+                      align="center"
+                      alignContent="between"
+                      fill="vertical"
+                    >
                       <Image
                         src={product.imageURL}
                         style={{ width: "3rem", marginTop: "1rem" }}
                       ></Image>
-                      <Text weight="bold" margin={{ left: "small" }}>
+                      <Text
+                        weight="bold"
+                        margin={{ left: "small" }}
+                        style={{ minWidth: "45%" }}
+                      >
                         {product.title}
                       </Text>
+
+                      <Box
+                        direction="row"
+                        align="center"
+                        justify="end"
+                        fill="horizontal"
+                      >
+                        <Button
+                          icon={<SubtractCircle />}
+                          onClick={() => removeFromCollection(product)}
+                          style={{ padding: "0.4rem" }}
+                        />
+                        <Button
+                          icon={<FormEdit />}
+                          onClick={() => {
+                            setEditOrAdd("edit");
+                            setCategory(collection[0].category);
+                            setItemToEdit(product);
+                            setInputsToItemData(product);
+                            setOpen(true);
+                          }}
+                          style={{ padding: "0.4rem" }}
+                        />
+                      </Box>
                     </Box>
                   </Box>
                 ))}
@@ -287,7 +322,7 @@ const Admin = () => {
             }}
           >
             <Box>
-              <Form validate="blur">
+              <Form validate="blur" style={{ overflowY: "scroll" }}>
                 <Box
                   background="light-3"
                   width="large"
