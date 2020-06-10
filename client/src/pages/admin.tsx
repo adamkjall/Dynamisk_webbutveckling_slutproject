@@ -12,7 +12,7 @@ import {
   TextArea,
   TextInput,
 } from "grommet";
-import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
+import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
 
 import Loader from "react-loader-spinner";
 
@@ -280,6 +280,7 @@ const Admin = () => {
 
         {open && (
           <Layer
+            style = {{overflow: "auto"}}
             position="center"
             onClickOutside={() => {
               setFile(null);
@@ -294,7 +295,13 @@ const Admin = () => {
                   pad="medium"
                   justify="between"
                 >
+                <Button 
+                  alignSelf="end" 
+                  icon={<Close />} 
+                  onClick={() => setOpen(false)} 
+                />
                   <Heading size="xsmall">{category}</Heading>
+
                   <FormFieldLabel
                     name="title"
                     label="Product name"
