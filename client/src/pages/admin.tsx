@@ -348,7 +348,17 @@ const Admin = () => {
                     }
                     onChange={handleInputs}
                   />
+                  <FormFieldLabel
+                    name="price"
+                    label="Price"
+                    required
+                    type="number"
+                    value={inputs.price.toString()}
+                    onChange={handleInputs}
+                  />
+                  <Heading level="3">Image</Heading>
                   <Image
+                    margin={{ bottom: "small" }}
                     src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
                     alt=""
                     style={{ width: "4rem" }}
@@ -359,61 +369,61 @@ const Admin = () => {
                     accept="image/*"
                     onChange={(e) => setFile(e.target.files[0])}
                   />
-                  <FormFieldLabel
-                    name="price"
-                    label="Price"
-                    required
-                    type="number"
-                    value={inputs.price.toString()}
-                    onChange={handleInputs}
-                  />
-                  <Text>Sizes</Text>
-                  <Box direction="row">
-                    <label className="size-label" htmlFor="small">
-                      Small
-                    </label>
-                    <TextInput
-                      name="small"
-                      placeholder="stock"
-                      type="number"
-                      value={sizes.small}
-                      onChange={() =>
-                        setSizes({ ...sizes, small: sizes.small + 1 })
-                      }
-                    />
-                    <label className="size-label" htmlFor="medium">
-                      Medium
-                    </label>
-                    <TextInput
-                      name="medium"
-                      placeholder="stock"
-                      type="number"
-                      value={sizes.medium}
-                      onChange={() =>
-                        setSizes({ ...sizes, medium: sizes.medium + 1 })
-                      }
-                    />
-                    <label className="size-label" htmlFor="large">
-                      Large
-                    </label>
-                    <TextInput
-                      name="large"
-                      placeholder="stock"
-                      type="number"
-                      value={sizes.large}
-                      onChange={() =>
-                        setSizes({ ...sizes, large: sizes.large + 1 })
-                      }
+                  <Heading level="3">Sizes</Heading>
+                  <Box direction="row" align="center">
+                    <Box direction="column">
+                      <label className="size-label" htmlFor="small">
+                        Small
+                      </label>
+                      <TextInput
+                        name="small"
+                        placeholder="stock"
+                        type="number"
+                        value={sizes.small}
+                        onChange={() =>
+                          setSizes({ ...sizes, small: sizes.small + 1 })
+                        }
+                      />
+                    </Box>
+                    <Box direction="column" style={{ margin: "1rem" }}>
+                      <label className="size-label" htmlFor="medium">
+                        Medium
+                      </label>
+                      <TextInput
+                        name="medium"
+                        placeholder="stock"
+                        type="number"
+                        value={sizes.medium}
+                        onChange={() =>
+                          setSizes({ ...sizes, medium: sizes.medium + 1 })
+                        }
+                      />
+                    </Box>
+                    <Box direction="column">
+                      <label className="size-label" htmlFor="large">
+                        Large
+                      </label>
+                      <TextInput
+                        name="large"
+                        placeholder="stock"
+                        type="number"
+                        value={sizes.large}
+                        onChange={() =>
+                          setSizes({ ...sizes, large: sizes.large + 1 })
+                        }
+                      />
+                    </Box>
+                  </Box>
+                  <Box pad={{ bottom: "medium" }}>
+                    <Heading level="3">Description</Heading>
+                    <TextArea
+                      name="desc"
+                      required
+                      value={inputs.desc}
+                      rows={10}
+                      onChange={handleInputs}
                     />
                   </Box>
-                  <Text>Description</Text>
-                  <TextArea
-                    name="desc"
-                    required
-                    value={inputs.desc}
-                    rows={10}
-                    onChange={handleInputs}
-                  />
                   {editOrAdd === "add" ? (
                     <Button
                       onClick={() => addToCollection()}
