@@ -38,7 +38,7 @@ const SignIn = ({ toggleView }) => {
 
       setLoading(true);
       const message = await login(email, password);
-      if (message != "Authenticated") {
+      if (message !== "Authenticated") {
         setLogInOK(false)
         setLoading(false);
         setShakeComponent(true);
