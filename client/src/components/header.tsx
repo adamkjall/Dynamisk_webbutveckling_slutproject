@@ -60,7 +60,9 @@ const Header = () => {
               weight="bold"
               size={responsive === "small" ? "small" : "medium"}
             >
-              {cart.reduce((total, item) => total + item.quantity, 0)}
+              {cart
+                ? cart.reduce((total, item) => total + item.quantity, 0)
+                : 0}
             </Text>
           </Box>
         </Stack>

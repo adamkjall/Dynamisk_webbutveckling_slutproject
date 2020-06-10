@@ -80,7 +80,7 @@ const OrdersController = (props: IProps) => {
                         >
                             {components[size]}
                     </Grid >
-                    : <Heading level="3" alignSelf="center"> Nothing to see here... </Heading>
+                    : <Heading level="3" alignSelf="center"> Loading your orders... </Heading>
             }
         </>
     )
