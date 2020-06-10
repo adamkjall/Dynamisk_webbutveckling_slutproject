@@ -3,23 +3,26 @@ const router = express.Router();
 
 /* MIDDLEWARES */
 const isAuthenticated = require("../middlewares/isAuthenticated");
+const isAdmin = require("../middlewares/isAdmin");
 
 /* HANDLERS */
 const {
   getAllShipments,
-  createNewShipping
+  createNewShipping,
 } = require("../handlers/shipment.handler");
 
 /* ENDPOINTS */
 
 //GET SHIPPING METHODS
-router.get("/", isAuthenticated, getAllShipments, (req, res) => {
+router.get("/", getAllShipments, (req, res) => {
   res.status(200).json(res.allShipments);
 });
 
 //POST NEW SHIPPING METHOD
-router.post("/", createNewShipping, (req, res) => {
-  res.status(200).json({ message: "New shipment created", body: res.newShipment })
-})
+router.post("/", isAuthenticated, isAdmin, createNewShipping, (req, res) => {
+  res
+    .status(200)
+    .json({ message: "New shipment created", body: res.newShipment });
+});
 
 module.exports = router;
