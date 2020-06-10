@@ -12,7 +12,7 @@ import {
   TextArea,
   TextInput,
 } from "grommet";
-import { AddCircle, Close, Camera, SubtractCircle, FormEdit } from "grommet-icons";
+import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
 
 import Loader from "react-loader-spinner";
 
@@ -117,6 +117,11 @@ const Admin = () => {
     };
     return completeProduct;
   };
+
+  const validateInputs = 
+    inputs.title.length >= 1 &&
+    inputs.price &&
+    inputs.category.length
 
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
@@ -434,13 +439,20 @@ const Admin = () => {
                       onChange={handleInputs}
                     />
                   </Box>
+                  {validateInputs? null : <p style = {{alignSelf: 'center'}}>Remember to fill all <span style = {{color: 'red'}}>required* </span>fields</p>}
                   {editOrAdd === "add" ? (
                     <Button
+                      primary 
+                      disabled = {validateInputs? false:true}
                       onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (
-                    <Button onClick={() => editItem()} label="Submit edit" />
+                    <Button 
+                      primary 
+                      disabled = {validateInputs? false:true} 
+                      onClick={() => editItem()} 
+                      label="Submit edit" />
                   )}
                 </Box>
               </Form>
