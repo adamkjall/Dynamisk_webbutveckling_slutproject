@@ -11,7 +11,6 @@ import {
   Form,
   TextArea,
   TextInput,
-  CheckBox,
 } from "grommet";
 import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
 
@@ -81,6 +80,7 @@ const Admin = () => {
       .catch(console.log);
   }, [file]);
 
+  // converts fetched products in to collection matrix
   useEffect(() => {
     if (!products) return;
 
@@ -101,6 +101,7 @@ const Admin = () => {
     setCollections(collectionsMatrix);
   }, [products]);
 
+  // transforms inputs to an IProduct
   const transformInputsToProduct = () => {
     const transformedSizes = Object.entries(sizes)
       .map((entry) => ({
@@ -117,6 +118,7 @@ const Admin = () => {
     return completeProduct;
   };
 
+  // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
     const product = transformInputsToProduct();
 
@@ -143,6 +145,7 @@ const Admin = () => {
     setFile(null);
   };
 
+  //  requests api to edit a product in the database and updated the edited product in the collection matrix
   const editItem = async () => {
     const product = transformInputsToProduct();
     const options: RequestInit = {
@@ -168,6 +171,7 @@ const Admin = () => {
     setFile(null);
   };
 
+  //  requests api to remove a product in the database and updates the collection matrix
   const removeFromCollection = (productToRemove: IProduct) => {
     const updatedCollection = collections.map((collection) =>
       collection.filter((product) => product._id !== productToRemove._id)
@@ -189,6 +193,7 @@ const Admin = () => {
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
+  // takes the product data and sets the input state
   const setInputsToItemData = (product: IProduct) => {
     const productCopy = Object.assign({}, product);
 
