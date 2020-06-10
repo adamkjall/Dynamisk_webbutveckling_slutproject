@@ -364,13 +364,16 @@ const Admin = () => {
                     onChange={handleInputs}
                   />
                   <Heading level="3">Image</Heading>
-                  <Image
-                    margin={{ bottom: "small" }}
-                    src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
-                    alt=""
-                    style={{ width: "4rem" }}
-                  />
+                  <label htmlFor = "imageUpload" style = {{width: "4rem", cursor: "pointer" }}>
+                    <Image
+                      margin={{ bottom: "small" }}
+                      src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
+                      alt=""
+                      style={{ width: "4rem"}}
+                    />
+                  </label>
                   <input
+                    id="imageUpload"
                     name="image"
                     type="file"
                     accept="image/*"
