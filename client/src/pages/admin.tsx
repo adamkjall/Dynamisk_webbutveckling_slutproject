@@ -12,7 +12,7 @@ import {
   TextArea,
   TextInput,
 } from "grommet";
-import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
+import { AddCircle, Close, Camera, SubtractCircle, FormEdit } from "grommet-icons";
 
 import Loader from "react-loader-spinner";
 
@@ -325,12 +325,23 @@ const Admin = () => {
                     alt=""
                     style={{ width: "4rem" }}
                   />
-                  <input
+{/*                   <input
                     name="image"
                     type="file"
                     accept="image/*"
                     onChange={(e) => setFile(e.target.files[0])}
-                  />
+                  /> */}
+                  <input 
+                        accept="image/*" 
+                        type="file" 
+                        id="fileupload"
+                        style = {{display: 'none'}}
+                        onChange={(e) => setFile(e.target.files[0])}                      
+                    />
+                    <label htmlFor="fileupload">                      
+                            <Camera 
+                            style = {{fontSize: "4rem", margin: "1rem"}}/>
+                    </label>
                   <FormFieldLabel
                     name="price"
                     label="Price"
