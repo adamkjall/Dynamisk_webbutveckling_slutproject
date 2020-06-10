@@ -9,8 +9,8 @@ import {
   Button,
   Layer,
   Form,
+  FormField,
   TextArea,
-  TextInput,
 } from "grommet";
 import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
 
@@ -119,9 +119,9 @@ const Admin = () => {
   };
 
   const validateInputs = 
-    inputs.title.length >= 1 &&
-    inputs.price &&
-    inputs.category.length
+    inputs.title.length >= 2 &&
+    inputs.price > 0 &&
+    inputs.category.length >= 1
 
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
@@ -350,9 +350,13 @@ const Admin = () => {
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="category"
-                    label="Category"
+                    label={
+                      <Box direction="row">
+                        <Text>Category</Text>
+                        <Text color="status-critical">*</Text>
+                      </Box>}
                     required
                     type="text"
                     value={
@@ -360,14 +364,20 @@ const Admin = () => {
                     }
                     onChange={handleInputs}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="price"
-                    label="Price"
+                    label={
+                      <Box direction="row">
+                        <Text>Price</Text>
+                        <Text color="status-critical">*</Text>
+                      </Box>}
                     required
                     type="number"
+                    min="1"
                     value={inputs.price.toString()}
                     onChange={handleInputs}
                   />
+                  {inputs.price <= 0? <p style = {{color: "red"}}>Price can't be 0 or negative</p>:null}
                   <Heading level="3">Image</Heading>
                   <label htmlFor = "imageUpload" style = {{width: "4rem", cursor: "pointer" }}>
                     <Image
@@ -378,6 +388,7 @@ const Admin = () => {
                     />
                   </label>
                   <input
+                    required
                     id="imageUpload"
                     name="image"
                     type="file"
@@ -390,42 +401,48 @@ const Admin = () => {
                       <label className="size-label" htmlFor="small">
                         Small
                       </label>
-                      <TextInput
+                      <FormField
                         name="small"
                         placeholder="stock"
                         type="number"
+                        min = "0"
                         value={sizes.small}
-                        onChange={() =>
-                          setSizes({ ...sizes, small: sizes.small + 1 })
+                        onChange={(event) =>
+                          setSizes({ ...sizes, small: parseInt(event.target.value)})
                         }
+                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
                       />
                     </Box>
                     <Box direction="column" style={{ margin: "1rem" }}>
                       <label className="size-label" htmlFor="medium">
                         Medium
                       </label>
-                      <TextInput
+                      <FormField
                         name="medium"
                         placeholder="stock"
                         type="number"
+                        min = "0"
                         value={sizes.medium}
-                        onChange={() =>
-                          setSizes({ ...sizes, medium: sizes.medium + 1 })
+                        onChange={(event) =>
+                          setSizes({ ...sizes, medium: parseInt(event.target.value)})
                         }
+                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
                       />
                     </Box>
                     <Box direction="column">
                       <label className="size-label" htmlFor="large">
                         Large
                       </label>
-                      <TextInput
+                      <FormField
                         name="large"
                         placeholder="stock"
                         type="number"
+                        min = "0"
                         value={sizes.large}
-                        onChange={() =>
-                          setSizes({ ...sizes, large: sizes.large + 1 })
+                        onChange={(event) =>
+                          setSizes({ ...sizes, large: parseInt(event.target.value)})
                         }
+                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
                       />
                     </Box>
                   </Box>
