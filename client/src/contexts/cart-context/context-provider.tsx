@@ -21,7 +21,8 @@ const INIT_PAYMENT_METHOD = {
 };
 
 const CartContextProvider: FC<IProps> = (props) => {
-  const [cart, setCart] = useState<IProduct[]>([]);
+  const savedCart = JSON.parse(localStorage.getItem("cart")) || []
+  const [cart, setCart] = useState<IProduct[]>(savedCart);
   const [shippingMethod, setShippingMethod] = useState<ShippingMethod>(
     INIT_SHIPPING_METHOD
   );
@@ -33,7 +34,9 @@ const CartContextProvider: FC<IProps> = (props) => {
   );
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>(null);
 
-  console.log("cart", cart);
+  useEffect(() => {
+      localStorage.setItem("cart", JSON.stringify(cart))
+  }, [cart])
 
   // runs when component mounts
   useEffect(() => {
