@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useParams, useHistory } from "react-router-dom";
+import React from "react";
+import { useParams } from "react-router-dom";
 
 import useFetch from "../hooks/useFetch";
 
@@ -7,7 +7,6 @@ import { Box } from "grommet";
 import Product, { IProduct } from "../components/product";
 
 const Shop = () => {
-  const history = useHistory();
   const { category, query } = useParams();
   let {
     response: products,
@@ -29,12 +28,6 @@ const Shop = () => {
     }
     return true;
   };
-
-  useEffect(() => {
-    if (products && products.status && products.status === "error") {
-      history.push("/shop/all");
-    }
-  }, [products]);
 
   return (
     <Box
