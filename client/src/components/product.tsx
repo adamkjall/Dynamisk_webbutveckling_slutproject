@@ -8,11 +8,11 @@ import { Close } from "grommet-icons";
 import ProductDetails from "./product-details";
 
 export interface IProduct {
-  _id: string;
+  _id?: string;
   category: string;
   title: string;
-  image: string;
-  imageURL: string;
+  image: any;
+  imageURL?: string;
   price: number;
   sizes: {
     size: string;
@@ -97,7 +97,7 @@ const Product = ({ product, history, match, location }: Iprops) => {
 
       {showItemDetails && (
         <Layer onEsc={closeModal} onClickOutside={closeModal}>
-          <Box background="light-3">
+          <Box background="light-3" width="large" height="large">
             <Button
               primary
               alignSelf="end"

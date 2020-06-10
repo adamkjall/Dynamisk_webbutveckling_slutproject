@@ -60,7 +60,7 @@ const ProductSchema = new Schema(
     quantity: {
       type: Number,
       required: false,
-    }
+    },
   },
   {
     id: false,

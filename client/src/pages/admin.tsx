@@ -10,249 +10,389 @@ import {
   Layer,
   Form,
   TextArea,
-  CheckBox,
+  TextInput,
 } from "grommet";
 import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
 
+import Loader from "react-loader-spinner";
+
+import useFetch from "../hooks/useFetch";
+import { IProduct } from "../components/product";
 import FormFieldLabel from "../components/form-field-label";
 
-// import { Collection, Product } from "../shop.data";
-
-const initialInputs = {
+const initialInputs: IProduct = {
   title: "",
   image: "",
-  price: "",
-  size: [""],
+  price: 0,
+  sizes: [
+    {
+      size: "",
+      stock: 0,
+    },
+  ],
   desc: "",
+  category: "",
 };
 
+const API_PRODUCTS_URL = "http://localhost:8080/api/products";
+const API_IMAGE_URL = "http://localhost:8080/api/files";
+
 const Admin = () => {
-  // const [collections, setCollections] = useState<Collection[]>([]);
+  const [collections, setCollections] = useState<IProduct[][]>(null);
+  const [inputs, setInputs] = useState(initialInputs);
+  const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
-  // const [category, setCategory] = useState("none");
-  // const [itemToEdit, setItemToEdit] = useState<Product>();
-  // const [inputs, setInputs] = useState(initialInputs);
-  // const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
+  const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
+  const [itemToEdit, setItemToEdit] = useState<IProduct>(null);
+  const [category, setCategory] = useState(null);
+  const [sizes, setSizes] = useState({
+    small: 0,
+    medium: 0,
+    large: 0,
+  });
 
-  const onOpen = () => setOpen(true);
+  const { response: products, error, loading } = useFetch(
+    API_PRODUCTS_URL,
+    {},
+    []
+  );
 
-  const onClose = () => setOpen(false);
+  // post selected image and update inputs with imageId
+  useEffect(() => {
+    if (!file) return;
 
-  useEffect(() => {}, []);
+    const formData = new FormData();
+    formData.append("image", file);
 
-  // const addToCollection = () => {
-  //   const item: Product = {
-  //     id: calculateNextItemId(),
-  //     title: inputs.title,
-  //     image: inputs.image,
-  //     price: Number(inputs.price),
-  //     size: inputs.size,
-  //     desc: inputs.desc,
-  //   };
+    const options: RequestInit = {
+      method: "POST",
+      credentials: "include",
+      body: formData,
+    };
 
-  //   const updatedCollections = collections.map((collection) => {
-  //     if (collection.routeName === category) {
-  //       return {
-  //         ...collection,
-  //         items: [...collection.items, item],
-  //       };
-  //     } else {
-  //       return { ...collection };
-  //     }
-  //   });
+    fetch(API_IMAGE_URL, options)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.message === "success") {
+          setInputs((prev) => ({ ...prev, image: data.id }));
+        }
+      })
+      .catch(console.log);
+  }, [file]);
 
-  //   setCollections(updatedCollections);
-  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
-  //   onClose();
-  // };
+  // converts fetched products in to collection matrix
+  useEffect(() => {
+    if (!products) return;
 
-  // const removeFromCollection = (itemId: string) => {
-  //   const updatedCollections = collections.map((collection) => ({
-  //     ...collection,
-  //     items: collection.items.filter((item) => item._id !== itemId),
-  //   }));
+    const collectionsObj = {};
 
-  //   setCollections(updatedCollections);
-  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
-  // };
+    products.forEach((product: IProduct) => {
+      if (!collectionsObj[product.category]) {
+        collectionsObj[product.category] = [product];
+      } else {
+        collectionsObj[product.category] = [
+          ...collectionsObj[product.category],
+          product,
+        ];
+      }
+    });
 
-  // const editItem = () => {
-  //   const updatedCollections = collections.map((collection) => {
-  //     if (itemToEdit !== undefined) {
-  //       let itemIndex = collection.items.findIndex(
-  //         (item) => item._id === itemToEdit._id
-  //       );
+    const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
+    setCollections(collectionsMatrix);
+  }, [products]);
 
-  //       if (itemIndex !== -1) {
-  //         // if we found the index of the item
-  //         collection.items[itemIndex] = {
-  //           ...itemToEdit,
-  //           title: inputs.title,
-  //           image: inputs.image,
-  //           price: Number(inputs.price),
-  //           sizes: [
-  //             {
-  //               size: "small",
-  //               stock: 1,
-  //             },
-  //           ],
-  //           desc: inputs.desc,
-  //         };
-  //       }
-  //     }
-  //     return collection;
-  //   });
+  // transforms inputs to an IProduct
+  const transformInputsToProduct = () => {
+    const transformedSizes = Object.entries(sizes)
+      .map((entry) => ({
+        size: entry[0],
+        stock: entry[1],
+      }))
+      .filter((sizeObj) => sizeObj.stock !== 0);
 
-  //   setCollections(updatedCollections);
-  //   localStorage.setItem("collection", JSON.stringify(updatedCollections));
-  //   onClose();
-  // };
+    const completeProduct: IProduct = {
+      ...inputs,
+      category: inputs.category.length ? inputs.category : category,
+      sizes: transformedSizes,
+    };
+    return completeProduct;
+  };
 
-  // const calculateNextItemId = () => {
-  //   let highestId =
-  //     collections
-  //       .map((collection) => collection.items.map((item) => item._id))
-  //       .flat()
-  //       .sort((a, b) => a - b)
-  //       .pop() || 0;
+  // requests api to add new product to database and adds new product to the collection matrix
+  const addToCollection = async () => {
+    const product = transformInputsToProduct();
 
-  //   return highestId + 1;
-  // };
+    const options: RequestInit = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    };
 
-  // const handleInputs = (name: string, value: string) => {
-  //   setInputs((prev) => ({ ...prev, [name]: value }));
-  // };
+    const res = await fetch(API_PRODUCTS_URL, options);
+    const data = await res.json();
 
-  // const setInputsToItemData = (item: Product) => {
-  //   setInputs({
-  //     name: item.title,
-  //     imageUrl: item.image,
-  //     price: item.price + "",
-  //     size: item.size,
-  //     // season: item.season,
-  //     description: item.desc,
-  //   });
-  // };
+    const updatedCollections = collections.map((collection) => {
+      if (collection[0].category === data.category) {
+        return [...collection, data];
+      }
+      return collection;
+    });
+    setCollections(updatedCollections);
+    setOpen(false);
+    setFile(null);
+  };
+
+  //  requests api to edit a product in the database and updated the edited product in the collection matrix
+  const editItem = async () => {
+    const product = transformInputsToProduct();
+    const options: RequestInit = {
+      method: "PUT",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    };
+    const res = await fetch(API_PRODUCTS_URL + "/" + itemToEdit._id, options);
+    const data = await res.json();
+    const updatedCollections = collections.map((collection) => {
+      if (collection[0].category === data.category) {
+        return collection.map((item) =>
+          item._id === itemToEdit._id ? product : item
+        );
+      }
+      return collection;
+    });
+    setCollections(updatedCollections);
+    setOpen(false);
+    setFile(null);
+  };
+
+  //  requests api to remove a product in the database and updates the collection matrix
+  const removeFromCollection = (productToRemove: IProduct) => {
+    const updatedCollection = collections.map((collection) =>
+      collection.filter((product) => product._id !== productToRemove._id)
+    );
+    setCollections(updatedCollection);
+    const options: RequestInit = {
+      method: "DELETE",
+      credentials: "include",
+    };
+    fetch(API_PRODUCTS_URL + "/" + productToRemove._id, options)
+      .then((res) => res.json)
+      .then(console.log);
+  };
+
+  const handleInputs = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = event.target;
+    setInputs((prev) => ({ ...prev, [name]: value }));
+  };
+
+  // takes the product data and sets the input state
+  const setInputsToItemData = (product: IProduct) => {
+    const productCopy = Object.assign({}, product);
+
+    setSizes({
+      small: product.sizes.find((el) => el.size === "small")
+        ? product.sizes.find((el) => el.size === "small").stock
+        : 0,
+      medium: product.sizes.find((el) => el.size === "medium")
+        ? product.sizes.find((el) => el.size === "medium").stock
+        : 0,
+      large: product.sizes.find((el) => el.size === "large")
+        ? product.sizes.find((el) => el.size === "large").stock
+        : 0,
+    });
+    setInputs(productCopy);
+  };
 
   return (
     <Main>
-      {/* <Box direction="row" justify="evenly">
-        {collections.map((collection: Collection) => (
-          <Box key={collection.id}>
-            <Heading size="small">
-              {collection.title}
-              <Button
-                icon={
-                  <AddCircle
-                    onClick={() => {
-                      setEditOrAdd("add");
-                      setCategory(collection.routeName);
-                      setInputs(initialInputs);
-                      onOpen();
-                    }}
-                  />
-                }
-              />
-            </Heading>
+      <Box direction="row" justify="evenly" fill>
+        {loading ? (
+          <Loader
+            className="loader"
+            type="Oval"
+            color="black"
+            height={75}
+            width={75}
+            style={{ display: "grid", placeItems: "center", height: "100%" }}
+          />
+        ) : (
+          !error &&
+          collections &&
+          collections.map((collection, index) => (
+            <Box key={index}>
+              <Heading size="small">
+                {collection[0].category}
+                <Button
+                  icon={
+                    <AddCircle
+                      onClick={() => {
+                        setEditOrAdd("add");
+                        setCategory(collection[0].category);
+                        setInputs(initialInputs);
+                        setOpen(true);
+                      }}
+                    />
+                  }
+                />
+              </Heading>
 
-            {collection.items.map((item: Product) => (
-              <Box key={item.id}>
-                <Box direction="row" align="center">
-                  <Button
-                    icon={<SubtractCircle />}
-                    onClick={() => removeFromCollection(item.id)}
-                  />
-                  <Button
-                    icon={<FormEdit />}
-                    onClick={() => {
-                      setEditOrAdd("edit");
-                      setInputsToItemData(item);
-                      setItemToEdit(item);
-                      onOpen();
-                    }}
-                  />
+              {!error &&
+                products &&
+                collection.map((product: IProduct) => (
+                  <Box key={product._id}>
+                    <Box direction="row" align="center">
+                      <Button
+                        icon={<SubtractCircle />}
+                        onClick={() => removeFromCollection(product)}
+                      />
+                      <Button
+                        icon={<FormEdit />}
+                        onClick={() => {
+                          setEditOrAdd("edit");
+                          setCategory(collection[0].category);
+                          setItemToEdit(product);
+                          setInputsToItemData(product);
+                          setOpen(true);
+                        }}
+                      />
 
+                      <Image
+                        src={product.imageURL}
+                        style={{ width: "3rem", marginTop: "1rem" }}
+                      ></Image>
+                      <Text weight="bold" margin={{ left: "small" }}>
+                        {product.title}
+                      </Text>
+                    </Box>
+                  </Box>
+                ))}
+            </Box>
+          ))
+        )}
+
+        {open && (
+          <Layer
+            position="center"
+            onClickOutside={() => {
+              setFile(null);
+              setOpen(false);
+            }}
+          >
+            <Box>
+              <Form validate="blur">
+                <Box
+                  background="light-3"
+                  width="large"
+                  pad="medium"
+                  justify="between"
+                >
+                  <Heading size="xsmall">{category}</Heading>
+                  <FormFieldLabel
+                    name="title"
+                    label="Product name"
+                    required
+                    type="text"
+                    value={inputs.title}
+                    onChange={handleInputs}
+                  />
+                  <FormFieldLabel
+                    name="category"
+                    label="Category"
+                    required
+                    type="text"
+                    value={
+                      inputs.category.length > 1 ? inputs.category : category
+                    }
+                    onChange={handleInputs}
+                  />
                   <Image
-                    src={item.imageUrl}
-                    style={{ width: "3rem", marginTop: "1rem" }}
-                  ></Image>
-                  <Text weight="bold" margin={{ left: "small" }}>
-                    {item.name}
-                  </Text>
+                    src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
+                    alt=""
+                    style={{ width: "4rem" }}
+                  />
+                  <input
+                    name="image"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFile(e.target.files[0])}
+                  />
+                  <FormFieldLabel
+                    name="price"
+                    label="Price"
+                    required
+                    type="number"
+                    value={inputs.price.toString()}
+                    onChange={handleInputs}
+                  />
+                  <Text>Sizes</Text>
+                  <Box direction="row">
+                    <label className="size-label" htmlFor="small">
+                      Small
+                    </label>
+                    <TextInput
+                      name="small"
+                      placeholder="stock"
+                      type="number"
+                      value={sizes.small}
+                      onChange={() =>
+                        setSizes({ ...sizes, small: sizes.small + 1 })
+                      }
+                    />
+                    <label className="size-label" htmlFor="medium">
+                      Medium
+                    </label>
+                    <TextInput
+                      name="medium"
+                      placeholder="stock"
+                      type="number"
+                      value={sizes.medium}
+                      onChange={() =>
+                        setSizes({ ...sizes, medium: sizes.medium + 1 })
+                      }
+                    />
+                    <label className="size-label" htmlFor="large">
+                      Large
+                    </label>
+                    <TextInput
+                      name="large"
+                      placeholder="stock"
+                      type="number"
+                      value={sizes.large}
+                      onChange={() =>
+                        setSizes({ ...sizes, large: sizes.large + 1 })
+                      }
+                    />
+                  </Box>
+                  <Text>Description</Text>
+                  <TextArea
+                    name="desc"
+                    required
+                    value={inputs.desc}
+                    rows={10}
+                    onChange={handleInputs}
+                  />
+                  {editOrAdd === "add" ? (
+                    <Button
+                      onClick={() => addToCollection()}
+                      label="Add to collection"
+                    />
+                  ) : (
+                    <Button onClick={() => editItem()} label="Submit edit" />
+                  )}
                 </Box>
-              </Box>
-            ))}
-          </Box>
-        ))}
+              </Form>
+            </Box>
+          </Layer>
+        )}
       </Box>
-      {open && (
-        <Layer position="center" onClickOutside={onClose}>
-          <Box width="large" height="large">
-            <Form validate="blur">
-              <Box
-                background="light-3"
-                width="large"
-                pad="medium"
-                justify="between"
-                height="large"
-              >
-                <Heading size="xsmall">{category}</Heading>
-                <Text>ID: {calculateNextItemId()}</Text>
-                <FormFieldLabel
-                  name="ProductName"
-                  label="Product name"
-                  required
-                  type="text"
-                  value={inputs.name}
-                  onChange={(e) => handleInputs("name", e.target.value)}
-                />
-                <FormFieldLabel
-                  name="Price"
-                  label="Price"
-                  required
-                  type="text"
-                  value={inputs.price}
-                  onChange={(e) => handleInputs("price", e.target.value)}
-                />
-                <FormFieldLabel
-                  name="ImageUrl"
-                  label="Image URL"
-                  required
-                  type="text"
-                  value={inputs.imageUrl}
-                  onChange={(e) => handleInputs("imageUrl", e.target.value)}
-                />
-                <Text>Sizes</Text>
-                <Box direction="row">
-                  <CheckBox label="small" />
-                  <CheckBox label="medium" onChange={() => {}} />
-                  <CheckBox label="large" onChange={() => {}} />
-                  <CheckBox label="xlarge" onChange={() => {}} />
-                </Box>
-                <Text>Seasons</Text>
-                <Box direction="row">
-                  <CheckBox label="spring" onChange={() => {}} />
-                  <CheckBox label="summer" onChange={() => {}} />
-                  <CheckBox label="autumn" onChange={() => {}} />
-                  <CheckBox label="winter" onChange={() => {}} />
-                </Box>
-                <Text>Description</Text>
-                <TextArea
-                  value={inputs.description}
-                  name="Description"
-                  required
-                  onChange={(e) => handleInputs("description", e.target.value)}
-                />
-                {editOrAdd === "add" ? (
-                  <Button onClick={addToCollection} label="Add to collection" />
-                ) : (
-                  <Button onClick={editItem} label="Submit edit" />
-                )}
-              </Box>
-            </Form>
-          </Box>
-        </Layer>
-      )} */}
     </Main>
   );
 };

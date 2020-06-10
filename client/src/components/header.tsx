@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components"
+import styled from "styled-components";
 
 import { Box, Heading, Layer, Stack, Text, ResponsiveContext } from "grommet";
 import { Cart } from "grommet-icons";
@@ -11,8 +11,8 @@ import SearchBar from "./search-bar";
 import CartContext from "../contexts/cart-context/context";
 
 const StyledHeader = styled(Box)`
-  min-height: 4rem
-`
+  min-height: 4rem;
+`;
 
 const Header = () => {
   const { cart } = useContext(CartContext);
@@ -60,7 +60,9 @@ const Header = () => {
               weight="bold"
               size={responsive === "small" ? "small" : "medium"}
             >
-              {cart ? cart.length : 0}
+              {cart
+                ? cart.reduce((total, item) => total + item.quantity, 0)
+                : 0}
             </Text>
           </Box>
         </Stack>
