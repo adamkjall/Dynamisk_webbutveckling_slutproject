@@ -75,7 +75,7 @@ const Admin = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data && data.message === "success") {
-          setInputs({ ...inputs, image: data.id });
+          setInputs((prev) => ({ ...prev, image: data.id }));
         }
       })
       .catch(console.log);
@@ -288,7 +288,6 @@ const Admin = () => {
                   width="large"
                   pad="medium"
                   justify="between"
-                  height="large"
                 >
                   <Heading size="xsmall">{category}</Heading>
                   <FormFieldLabel
@@ -310,9 +309,9 @@ const Admin = () => {
                     onChange={handleInputs}
                   />
                   <Image
-                    src={file ? URL.createObjectURL(file) : ""}
+                    src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
                     alt=""
-                    style={{ width: "5rem" }}
+                    style={{ width: "4rem" }}
                   />
                   <input
                     name="image"
@@ -330,29 +329,38 @@ const Admin = () => {
                   />
                   <Text>Sizes</Text>
                   <Box direction="row">
-                    <CheckBox label="small" />
+                    <label className="size-label" htmlFor="small">
+                      Small
+                    </label>
                     <TextInput
+                      name="small"
                       placeholder="stock"
                       type="number"
-                      value={sizes.small.toString()}
+                      value={sizes.small}
                       onChange={() =>
                         setSizes({ ...sizes, small: sizes.small + 1 })
                       }
                     />
-                    <CheckBox label="medium" onChange={() => {}} />
+                    <label className="size-label" htmlFor="medium">
+                      Medium
+                    </label>
                     <TextInput
+                      name="medium"
                       placeholder="stock"
                       type="number"
-                      value={sizes.medium.toString()}
+                      value={sizes.medium}
                       onChange={() =>
                         setSizes({ ...sizes, medium: sizes.medium + 1 })
                       }
                     />
-                    <CheckBox label="large" onChange={() => {}} />
+                    <label className="size-label" htmlFor="large">
+                      Large
+                    </label>
                     <TextInput
+                      name="large"
                       placeholder="stock"
                       type="number"
-                      value={sizes.large.toString()}
+                      value={sizes.large}
                       onChange={() =>
                         setSizes({ ...sizes, large: sizes.large + 1 })
                       }
