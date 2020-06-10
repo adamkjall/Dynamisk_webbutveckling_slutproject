@@ -8,11 +8,11 @@ import { Close } from "grommet-icons";
 import ProductDetails from "./product-details";
 
 export interface IProduct {
-  _id: string;
+  _id?: string;
   category: string;
   title: string;
-  image: string;
-  imageURL: string;
+  image: any;
+  imageURL?: string;
   price: number;
   sizes: {
     size: string;
