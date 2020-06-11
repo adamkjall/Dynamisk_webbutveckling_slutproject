@@ -115,6 +115,7 @@ No :bug: only features
 - man kan inte ta sig till checkout om carten är tom
 - protected routes
 - error boundarys och spinners
+- Man kan se en produkts current stock i produkt-detaljvyn, om en produkts storlek är slut är storleken inte valbar.
 
 ## Available Scripts
 
