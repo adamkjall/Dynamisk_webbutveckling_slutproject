@@ -118,13 +118,6 @@ const Admin = () => {
     return completeProduct;
   };
 
-  const validateInputs = 
-    inputs.title.length >= 2 &&
-    inputs.price > 0 &&
-    inputs.category.length >= 1 &&
-    (editOrAdd === 'add'? file:true )
-    
-
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
     const product = transformInputsToProduct();
@@ -199,6 +192,12 @@ const Admin = () => {
     const { name, value } = event.target;
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
+
+  const validateInputs = 
+  inputs.title.length >= 2 &&
+  inputs.price > 0 &&
+  inputs.category.length >= 1 &&
+  (editOrAdd === 'add'? file:true )
 
   // takes the product data and sets the input state
   const setInputsToItemData = (product: IProduct) => {
