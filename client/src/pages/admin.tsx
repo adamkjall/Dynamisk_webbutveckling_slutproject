@@ -84,6 +84,11 @@ const Admin = () => {
   useEffect(() => {
     if (!products) return;
 
+    const collections = productsToCollection(products);
+    setCollections(collections);
+  }, [products]);
+
+  const productsToCollection = (products: IProduct[]) => {
     const collectionsObj = {};
 
     products.forEach((product: IProduct) => {
@@ -98,8 +103,8 @@ const Admin = () => {
     });
 
     const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
-    setCollections(collectionsMatrix);
-  }, [products]);
+    return collectionsMatrix;
+  };
 
   // transforms inputs to an IProduct
   const transformInputsToProduct = () => {
@@ -137,6 +142,7 @@ const Admin = () => {
     const res = await fetch(API_PRODUCTS_URL, options);
     const data = await res.json();
 
+    // const newCategory = true;
     const updatedCollections = collections.map((collection) => {
       if (collection[0].category === data.category) {
         return [...collection, data];

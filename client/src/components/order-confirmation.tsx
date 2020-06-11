@@ -4,7 +4,6 @@ import { Box, Button } from "grommet";
 import { Close } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
-import { IProduct } from "./product";
 
 import styled from "styled-components";
 

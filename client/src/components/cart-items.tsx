@@ -14,16 +14,16 @@ import {
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
-import product, { IProduct } from "./product";
+import { IProduct } from "./product";
 
 interface Props {
-  productsArray: IProduct[]
+  productsArray: IProduct[];
   locked?: boolean; // lock cart from changes
 }
 
 const CartItems = (props: Props) => {
-  const { locked, productsArray } = props
-  const [ total, setTotal ] = useState(0)
+  const { locked, productsArray } = props;
+  const [total, setTotal] = useState(0);
   const {
     removeItemFromCart,
     addItemToCart,
@@ -36,41 +36,71 @@ const CartItems = (props: Props) => {
 
   useEffect(() => {
     let newTotal = productsArray.reduce(
-      (prevValue, currProduct) => prevValue + currProduct.price * currProduct.quantity,
-      0)
-      newTotal += shippingMethod.price
-      setTotal(newTotal)
-      // console.log(newTotal);
-      
-  }, [productsArray])
+      (prevValue, currProduct) =>
+        prevValue + currProduct.price * currProduct.quantity,
+      0
+    );
+    newTotal += shippingMethod.price;
+    setTotal(newTotal);
+    // console.log(newTotal);
+  }, [productsArray, shippingMethod.price]);
 
   const calcTotalWithVAT = () => {
-    return total * 1.25
-  }
+    return total * 1.25;
+  };
 
   return (
-    <Box responsive style = {{fontSize: responsive === "small" ? "1rem": "1.5rem"}}>
+    <Box
+      responsive
+      style={{ fontSize: responsive === "small" ? "1rem" : "1.5rem" }}
+    >
       <Table>
         <TableHeader>
           <TableRow>
             {responsive !== "small" ? (
-              <TableCell scope="col" border="bottom"></TableCell>
+              <TableCell
+                style={{ paddingLeft: "0px" }}
+                scope="col"
+                border="bottom"
+              ></TableCell>
             ) : null}
-            <TableCell scope="col" border="bottom">
+            <TableCell
+              pad={{ left: "0", vertical: "1rem" }}
+              scope="col"
+              border="bottom"
+            >
               Name
             </TableCell>
-            <TableCell scope="col" border="bottom">
+            <TableCell
+              pad={{ left: "0", vertical: "1rem" }}
+              scope="col"
+              border="bottom"
+            >
               Size
             </TableCell>
-            <TableCell scope="col" border="bottom">
+            <TableCell
+              pad={{ left: "0", vertical: "1rem" }}
+              scope="col"
+              border="bottom"
+            >
               Price
             </TableCell>
             {!locked && (
               <>
-                <TableCell scope="col" border="bottom">
+                <TableCell
+                  pad={{ left: "0", vertical: "1rem" }}
+                  scope="col"
+                  border="bottom"
+                >
                   Quantity
                 </TableCell>
-                {responsive === "small"? null: <TableCell scope="col" border="bottom"></TableCell>}
+                {responsive === "small" ? null : (
+                  <TableCell
+                    pad={{ left: "0", vertical: "1rem" }}
+                    scope="col"
+                    border="bottom"
+                  ></TableCell>
+                )}
               </>
             )}
           </TableRow>
@@ -78,26 +108,41 @@ const CartItems = (props: Props) => {
         <TableBody>
           {/* Removes duplicate products */}
           {productsArray.map((product, index) => (
-            <TableRow key={index} style = {{borderBottom: "1px solid black", padding: "0.5rem 0", margin: "0.5rem"}}>
+            <TableRow
+              key={index}
+              style={{
+                borderBottom: "1px solid black",
+                padding: "0.5rem 0",
+                margin: "0.5rem",
+              }}
+            >
               {responsive !== "small" ? (
-                <TableCell>
+                <TableCell pad={{ left: "0", vertical: "1rem" }}>
                   <Image
                     src={`${product.imageURL}`}
                     style={{ width: "4rem" }}
                   ></Image>
                 </TableCell>
               ) : null}
-              <TableCell>
-                { locked ?
-              `${product.quantity} x ${product.title}`
-              : product.title
-              }
+              <TableCell pad={{ left: "0", vertical: "1rem" }}>
+                {locked
+                  ? `${product.quantity} x ${product.title}`
+                  : product.title}
               </TableCell>
-              <TableCell>{product.selectedSize}</TableCell>
-              <TableCell>${product.price}</TableCell>
+              <TableCell pad={{ left: "0", vertical: "1rem" }}>
+                {product.selectedSize}
+              </TableCell>
+              <TableCell pad={{ left: "0", vertical: "1rem" }}>
+                ${product.price}
+              </TableCell>
               {!locked && (
                 <>
-                  <TableCell flex direction="row" align="center">
+                  <TableCell
+                    pad={{ left: "0", vertical: "1rem" }}
+                    flex
+                    direction="row"
+                    align="center"
+                  >
                     {product.quantity > 1 ? (
                       <Button
                         icon={<SubtractCircle />}
@@ -109,20 +154,20 @@ const CartItems = (props: Props) => {
                       />
                     ) : (
                       <Button
-                      icon={<SubtractCircle />}
-                      style={{
-                        padding:
-                          responsive === "small" ? "0 0.2rem" : "0 0.4rem",
-                      }}
-                      onClick = {() => clearItemFromCart(product.id)}
-                    />
+                        icon={<SubtractCircle />}
+                        style={{
+                          padding:
+                            responsive === "small" ? "0 0.2rem" : "0 0.4rem",
+                        }}
+                        onClick={() => clearItemFromCart(product.id)}
+                      />
                     )}
                     <span>{product.quantity}</span>
                     <Button
                       size="small"
                       style={{
                         padding:
-                          responsive === "small" ? "0 0.2rem" : "0 0.4rem"
+                          responsive === "small" ? "0 0.2rem" : "0 0.4rem",
                       }}
                       icon={<AddCircle />}
                       onClick={() =>
@@ -130,23 +175,23 @@ const CartItems = (props: Props) => {
                       }
                     />
                   </TableCell>
-                  {responsive === "small"? 
-                    null:
+                  {responsive === "small" ? null : (
                     <TableCell align="center">
                       <Button
                         size="small"
                         style={{
-                          padding: responsive === "small" ? "0" : "0"
+                          padding: responsive === "small" ? "0" : "0",
                         }}
                         onClick={() => clearItemFromCart(product.id)}
-                        icon={<Close/>}
+                        icon={<Close />}
                       />
                     </TableCell>
-                  }
+                  )}
                 </>
               )}
             </TableRow>
           ))}
+
           <TableRow>
             <TableCell scope="row">Shipping</TableCell>
             <TableCell>${shippingMethod.price}</TableCell>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 import { Grommet, Box, grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
@@ -7,8 +7,6 @@ import ErrorBoundary from "./components/error-boundary";
 import AppRouter from "./router/app-router";
 import Header from "./components/header";
 import Menu from "./components/menu";
-
-// import SHOP_DATA from "./shop.data";
 
 const myTheme = {
   global: {
@@ -31,17 +29,6 @@ const myTheme = {
 };
 
 function App() {
-  // useEffect(() => {
-  //   syncWithLocalStorage();
-  // }, []);
-
-  const syncWithLocalStorage = () => {
-    // const localstorageCollections = localStorage.getItem("collection");
-    // if (!localstorageCollections) {
-    //   localStorage.setItem("collection", JSON.stringify(SHOP_DATA));
-    // }
-  };
-
   return (
     <ErrorBoundary>
       <Grommet theme={deepMerge(grommet, myTheme)} full>
