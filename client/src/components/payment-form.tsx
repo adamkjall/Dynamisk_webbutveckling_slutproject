@@ -82,7 +82,7 @@ const PaymentForm = (props: IProps) => {
           direction={
             size === "small" || size == "medium"
             ? "column"
-            : "row-responsive"
+            : "row"
           }
           name="radio"
           options={transformMethodsToGrommetRadioButton()}
