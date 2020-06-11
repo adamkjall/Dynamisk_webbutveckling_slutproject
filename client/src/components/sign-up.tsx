@@ -95,7 +95,7 @@ const SignUp = ({ toggleView }) => {
 
       if (
         inputs.email.match(
-          /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+          /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/
         )
       ) {
         setEmailOK({
@@ -138,7 +138,7 @@ const SignUp = ({ toggleView }) => {
       inputs.lastName.length >= 2 &&
       inputs.lastName.match(/[A-Ö]/gi) &&
       inputs.email.match(
-        /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/
+        /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/
       ) &&
       inputs.phoneNumber.match(
         /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
