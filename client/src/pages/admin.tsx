@@ -117,10 +117,6 @@ const Admin = () => {
     };
     return completeProduct;
   };
-
-  const validateInputs =
-    inputs.title.length >= 2 && inputs.price > 0 && inputs.category.length >= 1;
-
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
     const product = transformInputsToProduct();
@@ -195,6 +191,12 @@ const Admin = () => {
     const { name, value } = event.target;
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
+
+  const validateInputs = 
+  inputs.title.length >= 2 &&
+  inputs.price > 0 &&
+  inputs.category.length >= 1 &&
+  (editOrAdd === 'add'? file:true )
 
   // takes the product data and sets the input state
   const setInputsToItemData = (product: IProduct) => {
@@ -384,7 +386,7 @@ const Admin = () => {
                   {inputs.price <= 0 ? (
                     <p style={{ color: "red" }}>Price can't be 0 or negative</p>
                   ) : null}
-                  <Heading level="3">Image</Heading>
+                  <Heading level="3">Image{editOrAdd === 'add'? <span style = {{color:'red'}}>*</span> : null} </Heading>
                   <label
                     htmlFor="imageUpload"
                     style={{ width: "4rem", cursor: "pointer" }}
