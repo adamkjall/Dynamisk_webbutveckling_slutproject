@@ -48,4 +48,37 @@ export const updateOrderStatus = async (order: IOrder) => {
   const res = await fetch(orderAPI + order._id, options);
   const json = await res.json();
   return json
+};
+
+export const getAllOrdersAdmin = async () => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include"
+  };
+
+  const res = await fetch(orderAPI, options);
+  const json = await res.json();
+  return json
 }
+
+export const getAllOrdersUser = async (id: string) => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include"
+  };
+
+  const res = await fetch(`${orderAPI}/user/${id}`, options);
+  const json = await res.json();
+  return json
+}
+
+export const findOrderById = async (id: string) => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include"
+  };
+
+  const res = await fetch(orderAPI + id, options);
+  const json = await res.json();
+  return json
+};
