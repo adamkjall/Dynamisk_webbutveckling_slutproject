@@ -247,6 +247,7 @@ const Admin = () => {
                         setEditOrAdd("add");
                         setCategory(collection[0].category);
                         setInputs(initialInputs);
+                        setItemToEdit(null);
                         setOpen(true);
                       }}
                     />
@@ -359,7 +360,13 @@ const Admin = () => {
                   <Heading level="3">Image</Heading>
                   <Image
                     margin={{ bottom: "small" }}
-                    src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
+                    src={
+                      file
+                        ? URL.createObjectURL(file)
+                        : itemToEdit
+                        ? itemToEdit.imageURL
+                        : ""
+                    }
                     alt=""
                     style={{ width: "4rem" }}
                   />
