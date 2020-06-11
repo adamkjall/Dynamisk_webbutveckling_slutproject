@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 
-import { Box, Form, FormField, RadioButtonGroup, Text } from "grommet";
+import { Box, Form, FormField, RadioButtonGroup, Text, ResponsiveContext } from "grommet";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
 import CartContext, { PaymentMethod } from "../contexts/cart-context/context";
@@ -22,6 +22,12 @@ const PaymentForm = (props: IProps) => {
   const [cardNumber, setCardNumber] = useState("");
   const [cardExp, setCardExp] = useState("");
   const [cardCVC, setCardCVC] = useState("");
+
+  const size = useContext(ResponsiveContext) as
+        | "small"
+        | "medium"
+        | "large"
+        | "xlarge"
 
   useEffect(() => {
     checkCardValidation();
@@ -72,18 +78,24 @@ const PaymentForm = (props: IProps) => {
 
   return (
     <Form style={{ gridArea: "name" }} validate="blur">
-      <RadioButtonGroup
-        margin={{ vertical: "medium" }}
-        direction="row"
-        name="radio"
-        options={transformMethodsToGrommetRadioButton()}
-        value={paymentMethod.type}
-        onChange={(e) => {
-          setPayment(
-            paymentMethods.find((method) => method.type === e.target.value)
-          );
-        }}
-      />
+      <Box align="center">
+        <RadioButtonGroup
+          margin={{ vertical: "medium" }}
+          direction={
+            size === "small" || size == "medium"
+            ? "column"
+            : "row-responsive"
+          }
+          name="radio"
+          options={transformMethodsToGrommetRadioButton()}
+          value={paymentMethod.type}
+          onChange={(e) => {
+            setPayment(
+              paymentMethods.find((method) => method.type === e.target.value)
+            );
+          }}
+        />
+      </Box>
       {paymentMethod.type === "INVOICE" ? (
         <FormField
           key={1}
