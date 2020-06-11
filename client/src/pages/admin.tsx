@@ -9,10 +9,10 @@ import {
   Button,
   Layer,
   Form,
+  FormField,
   TextArea,
-  TextInput,
 } from "grommet";
-import { AddCircle, SubtractCircle, FormEdit } from "grommet-icons";
+import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
 
 import Loader from "react-loader-spinner";
 
@@ -117,7 +117,6 @@ const Admin = () => {
     };
     return completeProduct;
   };
-
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
     const product = transformInputsToProduct();
@@ -193,6 +192,12 @@ const Admin = () => {
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
+  const validateInputs = 
+  inputs.title.length >= 2 &&
+  inputs.price > 0 &&
+  inputs.category.length >= 1 &&
+  (editOrAdd === 'add'? file:true )
+
   // takes the product data and sets the input state
   const setInputsToItemData = (product: IProduct) => {
     const productCopy = Object.assign({}, product);
@@ -209,6 +214,11 @@ const Admin = () => {
         : 0,
     });
     setInputs(productCopy);
+  };
+
+  const closeModal = () => {
+    setFile(null);
+    setOpen(false);
   };
 
   return (
@@ -246,7 +256,11 @@ const Admin = () => {
                       onClick={() => {
                         setEditOrAdd("add");
                         setCategory(collection[0].category);
-                        setInputs(initialInputs);
+                        setItemToEdit(null);
+                        setInputs({
+                          ...initialInputs,
+                          category: collection[0].category,
+                        });
                         setOpen(true);
                       }}
                     />
@@ -315,11 +329,9 @@ const Admin = () => {
 
         {open && (
           <Layer
+            style={{ overflow: "auto" }}
             position="center"
-            onClickOutside={() => {
-              setFile(null);
-              setOpen(false);
-            }}
+            onClickOutside={closeModal}
           >
             <Box>
               <Form validate="blur" style={{ overflowY: "scroll" }}>
@@ -329,7 +341,13 @@ const Admin = () => {
                   pad="medium"
                   justify="between"
                 >
+                  <Button
+                    alignSelf="end"
+                    icon={<Close />}
+                    onClick={closeModal}
+                  />
                   <Heading size="xsmall">{category}</Heading>
+
                   <FormFieldLabel
                     name="title"
                     label="Product name"
@@ -338,32 +356,56 @@ const Admin = () => {
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="category"
-                    label="Category"
+                    label={
+                      <Box direction="row">
+                        <Text>Category</Text>
+                        <Text color="status-critical">*</Text>
+                      </Box>
+                    }
                     required
                     type="text"
-                    value={
-                      inputs.category.length > 1 ? inputs.category : category
-                    }
+                    value={inputs.category}
                     onChange={handleInputs}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="price"
-                    label="Price"
+                    label={
+                      <Box direction="row">
+                        <Text>Price</Text>
+                        <Text color="status-critical">*</Text>
+                      </Box>
+                    }
                     required
                     type="number"
+                    min="1"
                     value={inputs.price.toString()}
                     onChange={handleInputs}
                   />
-                  <Heading level="3">Image</Heading>
-                  <Image
-                    margin={{ bottom: "small" }}
-                    src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
-                    alt=""
-                    style={{ width: "4rem" }}
-                  />
+                  {inputs.price <= 0 ? (
+                    <p style={{ color: "red" }}>Price can't be 0 or negative</p>
+                  ) : null}
+                  <Heading level="3">Image{editOrAdd === 'add'? <span style = {{color:'red'}}>*</span> : null} </Heading>
+                  <label
+                    htmlFor="imageUpload"
+                    style={{ width: "4rem", cursor: "pointer" }}
+                  >
+                    <Image
+                      margin={{ bottom: "small" }}
+                      src={
+                        file
+                          ? URL.createObjectURL(file)
+                          : itemToEdit
+                          ? itemToEdit.imageURL
+                          : ""
+                      }
+                      alt=""
+                      style={{ width: "4rem" }}
+                    />
+                  </label>
                   <input
+                    id="imageUpload"
                     name="image"
                     type="file"
                     accept="image/*"
@@ -375,42 +417,66 @@ const Admin = () => {
                       <label className="size-label" htmlFor="small">
                         Small
                       </label>
-                      <TextInput
+                      <FormField
                         name="small"
                         placeholder="stock"
                         type="number"
+                        min="0"
                         value={sizes.small}
-                        onChange={() =>
-                          setSizes({ ...sizes, small: sizes.small + 1 })
+                        onChange={(event) =>
+                          setSizes({
+                            ...sizes,
+                            small: parseInt(event.target.value),
+                          })
                         }
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                     <Box direction="column" style={{ margin: "1rem" }}>
                       <label className="size-label" htmlFor="medium">
                         Medium
                       </label>
-                      <TextInput
+                      <FormField
                         name="medium"
                         placeholder="stock"
                         type="number"
+                        min="0"
                         value={sizes.medium}
-                        onChange={() =>
-                          setSizes({ ...sizes, medium: sizes.medium + 1 })
+                        onChange={(event) =>
+                          setSizes({
+                            ...sizes,
+                            medium: parseInt(event.target.value),
+                          })
                         }
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                     <Box direction="column">
                       <label className="size-label" htmlFor="large">
                         Large
                       </label>
-                      <TextInput
+                      <FormField
                         name="large"
                         placeholder="stock"
                         type="number"
+                        min="0"
                         value={sizes.large}
-                        onChange={() =>
-                          setSizes({ ...sizes, large: sizes.large + 1 })
+                        onChange={(event) =>
+                          setSizes({
+                            ...sizes,
+                            large: parseInt(event.target.value),
+                          })
                         }
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                   </Box>
@@ -424,13 +490,26 @@ const Admin = () => {
                       onChange={handleInputs}
                     />
                   </Box>
+                  {validateInputs ? null : (
+                    <p style={{ alignSelf: "center" }}>
+                      Remember to fill all{" "}
+                      <span style={{ color: "red" }}>required* </span>fields
+                    </p>
+                  )}
                   {editOrAdd === "add" ? (
                     <Button
+                      primary
+                      disabled={validateInputs ? false : true}
                       onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (
-                    <Button onClick={() => editItem()} label="Submit edit" />
+                    <Button
+                      primary
+                      disabled={validateInputs ? false : true}
+                      onClick={() => editItem()}
+                      label="Submit edit"
+                    />
                   )}
                 </Box>
               </Form>

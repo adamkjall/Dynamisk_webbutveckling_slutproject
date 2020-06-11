@@ -96,7 +96,7 @@ const Product = ({ product, history, match, location }: Iprops) => {
       </Box>
 
       {showItemDetails && (
-        <Layer onEsc={closeModal} onClickOutside={closeModal}>
+        <Layer onEsc={closeModal} onClickOutside={closeModal} style = {{overflow: "auto"}}>
           <Box background="light-3" width="large" height="large">
             <Button
               primary

@@ -18,7 +18,6 @@ const PaymentForm = (props: IProps) => {
   const { user, updateUser } = useContext(AuthenticationContext);
   const { paymentMethod, paymentMethods, setPayment } = useContext(CartContext);
 
-  //const [cardOwner, setCardOwner] = useState(`${user.firstName} ${user.lastName}`)
   const [cardNumber, setCardNumber] = useState("");
   const [cardExp, setCardExp] = useState("");
   const [cardCVC, setCardCVC] = useState("");
@@ -38,7 +37,6 @@ const PaymentForm = (props: IProps) => {
 
   const checkCardValidation = () => {
     if (
-      //cardOwner.length >= 4 &&
       cardNumber.match(cardnoMasterCard || cardnoVisa) &&
       cardExp.match(/^(0?[1-9]|1[012])[/-](?:202[0-5])/) &&
       cardCVC.match(/^\d{3}$/)
@@ -152,24 +150,6 @@ const PaymentForm = (props: IProps) => {
         />
       ) : (
         <>
-          {/* <FormField
-              //key={3}
-              name="CardOwner"
-              autoComplete = "ccname"
-              label= "Card Owner"
-              required
-              type="text"
-              value={`${user.firstName} ${user.lastName}`}
-              readOnly
-              onChange={(event) => setCardOwner(event.target.value)}
-              validate={[
-                { regexp: /^[A-Z][A-Z]/},
-                value => {
-                  if (value.length >= 4) return "Not a valid card owner";
-                  return undefined;
-                }
-              ]} 
-            /> */}
           <FormField
             key={3}
             name="cardNumber"
