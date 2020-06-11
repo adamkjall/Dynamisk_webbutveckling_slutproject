@@ -5,7 +5,6 @@ const { decrementProductStock } = require("../handlers/product.handler");
 const getAllOrders = (req, res, next) => {
   Order.find({}, (error, allOrders) => {
     try {
-      if (error) next(error);
       if (!allOrders || allOrders.length === 0) {
         throw new ErrorHandler(404, "Couldn't find any orders");
       }
@@ -20,7 +19,6 @@ const getAllOrders = (req, res, next) => {
 const getAllOrdersFromAUser = (req, res, next) => {
   Order.find({ "user._id": req.params.id }, (error, allUserOrders) => {
     try {
-      if (error) next(error);
       if (!allUserOrders || allUserOrders.length === 0) {
         throw new ErrorHandler(404, "Coundn't find user and/or orders");
       }
@@ -35,7 +33,6 @@ const getAllOrdersFromAUser = (req, res, next) => {
 const getOrder = (req, res, next) => {
   Order.findById(req.params.id, (error, order) => {
     try {
-      if (error) next(error);
       if (!order) throw new ErrorHandler(404, "Couldn't find order");
       res.order = order;
       next();
@@ -52,7 +49,6 @@ const updateOrder = (req, res, next) => {
     { new: true },
     (error, updatedOrder) => {
       try {
-        if (error) next(error)
         if (!updatedOrder) throw new ErrorHandler(400, "Couldn't perform order update")
         res.updatedOrder = updatedOrder
         next()
@@ -72,7 +68,6 @@ const createOrder = (req, res, next) => {
 
     Order.create(orderData, (error, newOrder) => {
       try {
-        if (error) next(error);
         if (!newOrder) throw new ErrorHandler(400, "Couldn't create order");
 
         decrementProductStock(orderData.products);
