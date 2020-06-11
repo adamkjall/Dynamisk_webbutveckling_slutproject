@@ -25,12 +25,15 @@ const Header = () => {
 
   const onClose = () => setOpen(false);
 
-  const handleSearch = (input: string, clearInput: (value: boolean) => void) => {
-    if(input) {
+  const handleSearch = (
+    input: string,
+    clearInput: (value: boolean) => void
+  ) => {
+    if (input) {
       history.push("/shop/search/" + input);
     }
-    clearInput(true)
-  }
+    clearInput(true);
+  };
 
   return (
     <StyledHeader

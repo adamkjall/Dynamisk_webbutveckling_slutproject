@@ -8,17 +8,17 @@ import CartContext from "../contexts/cart-context/context";
 import styled from "styled-components";
 
 interface ErrorResponse {
-  status: boolean
-  message: string
+  status: boolean;
+  message: string;
 }
 
 interface IProps {
   closeModal: (error: boolean) => void;
-  error: ErrorResponse
+  error: ErrorResponse;
 }
 
 const OrderConfirmation = (props: IProps) => {
-  const { closeModal, error } = props
+  const { closeModal, error } = props;
   const { cart, shippingMethod, paymentMethod, totalWithVat } = useContext(
     CartContext
   );
@@ -53,7 +53,12 @@ const OrderConfirmation = (props: IProps) => {
 
       <h4>Total: ${totalWithVat() + shippingMethod.price}</h4>
 
-      <Button primary margin="medium" onClick={() => closeModal(error.status)} label="Okay" />
+      <Button
+        primary
+        margin="medium"
+        onClick={() => closeModal(error.status)}
+        label="Okay"
+      />
     </Box>
   );
 };

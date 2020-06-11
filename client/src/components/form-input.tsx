@@ -24,7 +24,7 @@ const FormInput: React.FC<IProps> = ({
   className,
   rest,
   validate,
-  validateText
+  validateText,
 }) => (
   <>
     <StyledFormInput className={className}>
@@ -41,8 +41,19 @@ const FormInput: React.FC<IProps> = ({
           {label}
         </label>
       ) : null}
-      {validate? null : <p style = {{ backgroundColor: "#F55448", width: "100%", fontSize: ".8rem", color: "white"}}>{validateText}</p>}
-    </StyledFormInput>     
+      {validate ? null : (
+        <p
+          style={{
+            backgroundColor: "#F55448",
+            width: "100%",
+            fontSize: ".8rem",
+            color: "white",
+          }}
+        >
+          {validateText}
+        </p>
+      )}
+    </StyledFormInput>
   </>
 );
 

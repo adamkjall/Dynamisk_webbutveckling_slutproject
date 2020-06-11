@@ -39,46 +39,53 @@ const ContactFormField = (props: IProps) => {
       <FormField
         name="phoneNumber"
         label={
-          (
-            <Box direction="row">
-              <Text>Phone Number</Text>
-              <Text color="status-critical">*</Text>
-            </Box>
-          )
+          <Box direction="row">
+            <Text>Phone Number</Text>
+            <Text color="status-critical">*</Text>
+          </Box>
         }
         required
         type="text"
         value={user.phoneNumber}
         onChange={handleOnChange}
         validate={[
-          { regexp: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/},
-          name => {
-            if (!name.match(/^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/)) return "Not a valid phone number";
+          { regexp: /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/ },
+          (name) => {
+            if (
+              !name.match(
+                /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/
+              )
+            )
+              return "Not a valid phone number";
             return undefined;
-          }
+          },
         ]}
-        
       />
       <FormField
         name="email"
         label={
-          (
-            <Box direction="row">
-              <Text>E-Mail</Text>
-              <Text color="status-critical">*</Text>
-            </Box>
-          )
+          <Box direction="row">
+            <Text>E-Mail</Text>
+            <Text color="status-critical">*</Text>
+          </Box>
         }
         required
         type="email"
         value={user.email}
         onChange={handleOnChange}
         validate={[
-          { regexp: /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/ },
-          name => {
-            if (!name.match(/^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/)) return "Not a valid e-mail";
+          {
+            regexp: /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/,
+          },
+          (name) => {
+            if (
+              !name.match(
+                /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/
+              )
+            )
+              return "Not a valid e-mail";
             return undefined;
-          }
+          },
         ]}
       />
       <FormFieldLabel
@@ -92,12 +99,10 @@ const ContactFormField = (props: IProps) => {
       <FormField
         name="postCode"
         label={
-          (
-            <Box direction="row">
-              <Text>Post Code</Text>
-              <Text color="status-critical">*</Text>
-            </Box>
-          )
+          <Box direction="row">
+            <Text>Post Code</Text>
+            <Text color="status-critical">*</Text>
+          </Box>
         }
         required
         type="number"
@@ -105,10 +110,10 @@ const ContactFormField = (props: IProps) => {
         onChange={handleOnChange}
         validate={[
           { regexp: /^\d{5}$/ },
-          name => {
+          (name) => {
             if (!name.match(/^\d{5}$/)) return "Not a valid post number";
             return undefined;
-          }
+          },
         ]}
       />
       <FormFieldLabel
