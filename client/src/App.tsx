@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
+import styled from "styled-components"
 
 import { Grommet, Box, grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
@@ -7,8 +8,6 @@ import ErrorBoundary from "./components/error-boundary";
 import AppRouter from "./router/app-router";
 import Header from "./components/header";
 import Menu from "./components/menu";
-
-// import SHOP_DATA from "./shop.data";
 
 const myTheme = {
   global: {
@@ -30,24 +29,26 @@ const myTheme = {
   },
 };
 
-function App() {
-  // useEffect(() => {
-  //   syncWithLocalStorage();
-  // }, []);
+const FixedHeader = styled(Box)`
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+`
 
-  const syncWithLocalStorage = () => {
-    // const localstorageCollections = localStorage.getItem("collection");
-    // if (!localstorageCollections) {
-    //   localStorage.setItem("collection", JSON.stringify(SHOP_DATA));
-    // }
-  };
+function App() {
 
   return (
     <ErrorBoundary>
       <Grommet theme={deepMerge(grommet, myTheme)} full>
-        <Header /> {/* height 8vh */}
-        <Menu /> {/* height 6.5vh */}
-        <Box height="85.5vh">
+        <FixedHeader>
+          <Header />
+          <Menu />
+        </FixedHeader>
+        <Box pad="small" margin={{
+          "bottom": "1rem"
+        }}>
           <AppRouter />
         </Box>
       </Grommet>
