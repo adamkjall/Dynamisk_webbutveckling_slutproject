@@ -252,6 +252,7 @@ const Admin = () => {
                         setEditOrAdd("add");
                         setCategory(collection[0].category);
                         setInputs(initialInputs);
+                        setItemToEdit(null);
                         setOpen(true);
                       }}
                     />
@@ -382,9 +383,15 @@ const Admin = () => {
                   <label htmlFor = "imageUpload" style = {{width: "4rem", cursor: "pointer" }}>
                     <Image
                       margin={{ bottom: "small" }}
-                      src={file ? URL.createObjectURL(file) : itemToEdit.imageURL}
+                      src={
+                        file
+                          ? URL.createObjectURL(file)
+                          : itemToEdit
+                          ? itemToEdit.imageURL
+                          : ""
+                      }
                       alt=""
-                      style={{ width: "4rem"}}
+                      style={{ width: "4rem" }}
                     />
                   </label>
                   <input
