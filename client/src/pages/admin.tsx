@@ -117,7 +117,6 @@ const Admin = () => {
     };
     return completeProduct;
   };
-
   // requests api to add new product to database and adds new product to the collection matrix
   const addToCollection = async () => {
     const product = transformInputsToProduct();
@@ -217,6 +216,11 @@ const Admin = () => {
     setInputs(productCopy);
   };
 
+  const closeModal = () => {
+    setFile(null);
+    setOpen(false);
+  };
+
   return (
     <Main pad={{ horizontal: "2rem" }}>
       <Box
@@ -252,8 +256,11 @@ const Admin = () => {
                       onClick={() => {
                         setEditOrAdd("add");
                         setCategory(collection[0].category);
-                        setInputs(initialInputs);
                         setItemToEdit(null);
+                        setInputs({
+                          ...initialInputs,
+                          category: collection[0].category,
+                        });
                         setOpen(true);
                       }}
                     />
@@ -322,12 +329,9 @@ const Admin = () => {
 
         {open && (
           <Layer
-            style = {{overflow: "auto"}}
+            style={{ overflow: "auto" }}
             position="center"
-            onClickOutside={() => {
-              setFile(null);
-              setOpen(false);
-            }}
+            onClickOutside={closeModal}
           >
             <Box>
               <Form validate="blur" style={{ overflowY: "scroll" }}>
@@ -337,11 +341,11 @@ const Admin = () => {
                   pad="medium"
                   justify="between"
                 >
-                <Button 
-                  alignSelf="end" 
-                  icon={<Close />} 
-                  onClick={() => setOpen(false)} 
-                />
+                  <Button
+                    alignSelf="end"
+                    icon={<Close />}
+                    onClick={closeModal}
+                  />
                   <Heading size="xsmall">{category}</Heading>
 
                   <FormFieldLabel
@@ -358,12 +362,11 @@ const Admin = () => {
                       <Box direction="row">
                         <Text>Category</Text>
                         <Text color="status-critical">*</Text>
-                      </Box>}
+                      </Box>
+                    }
                     required
                     type="text"
-                    value={
-                      inputs.category.length > 1 ? inputs.category : category
-                    }
+                    value={inputs.category}
                     onChange={handleInputs}
                   />
                   <FormField
@@ -372,16 +375,22 @@ const Admin = () => {
                       <Box direction="row">
                         <Text>Price</Text>
                         <Text color="status-critical">*</Text>
-                      </Box>}
+                      </Box>
+                    }
                     required
                     type="number"
                     min="1"
                     value={inputs.price.toString()}
                     onChange={handleInputs}
                   />
-                  {inputs.price <= 0? <p style = {{color: "red"}}>Price can't be 0 or negative</p>:null}
-                    <Heading level="3">Image {editOrAdd === 'add'? <span style = {{color:'red'}}>*</span> : null}</Heading>
-                  <label htmlFor = "imageUpload" style = {{width: "4rem", cursor: "pointer" }}>
+                  {inputs.price <= 0 ? (
+                    <p style={{ color: "red" }}>Price can't be 0 or negative</p>
+                  ) : null}
+                  <Heading level="3">Image{editOrAdd === 'add'? <span style = {{color:'red'}}>*</span> : null} </Heading>
+                  <label
+                    htmlFor="imageUpload"
+                    style={{ width: "4rem", cursor: "pointer" }}
+                  >
                     <Image
                       margin={{ bottom: "small" }}
                       src={
@@ -412,12 +421,18 @@ const Admin = () => {
                         name="small"
                         placeholder="stock"
                         type="number"
-                        min = "0"
+                        min="0"
                         value={sizes.small}
                         onChange={(event) =>
-                          setSizes({ ...sizes, small: parseInt(event.target.value)})
+                          setSizes({
+                            ...sizes,
+                            small: parseInt(event.target.value),
+                          })
                         }
-                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                     <Box direction="column" style={{ margin: "1rem" }}>
@@ -428,12 +443,18 @@ const Admin = () => {
                         name="medium"
                         placeholder="stock"
                         type="number"
-                        min = "0"
+                        min="0"
                         value={sizes.medium}
                         onChange={(event) =>
-                          setSizes({ ...sizes, medium: parseInt(event.target.value)})
+                          setSizes({
+                            ...sizes,
+                            medium: parseInt(event.target.value),
+                          })
                         }
-                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                     <Box direction="column">
@@ -444,12 +465,18 @@ const Admin = () => {
                         name="large"
                         placeholder="stock"
                         type="number"
-                        min = "0"
+                        min="0"
                         value={sizes.large}
                         onChange={(event) =>
-                          setSizes({ ...sizes, large: parseInt(event.target.value)})
+                          setSizes({
+                            ...sizes,
+                            large: parseInt(event.target.value),
+                          })
                         }
-                        style = {{border: "0.5px solid black", borderRadius: "0.25rem"}}
+                        style={{
+                          border: "0.5px solid black",
+                          borderRadius: "0.25rem",
+                        }}
                       />
                     </Box>
                   </Box>
@@ -463,20 +490,26 @@ const Admin = () => {
                       onChange={handleInputs}
                     />
                   </Box>
-                  {validateInputs? null : <p style = {{alignSelf: 'center'}}>Remember to fill all <span style = {{color: 'red'}}>required* </span>fields</p>}
+                  {validateInputs ? null : (
+                    <p style={{ alignSelf: "center" }}>
+                      Remember to fill all{" "}
+                      <span style={{ color: "red" }}>required* </span>fields
+                    </p>
+                  )}
                   {editOrAdd === "add" ? (
                     <Button
-                      primary 
-                      disabled = {validateInputs? false:true}
+                      primary
+                      disabled={validateInputs ? false : true}
                       onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (
-                    <Button 
-                      primary 
-                      disabled = {validateInputs? false:true} 
-                      onClick={() => editItem()} 
-                      label="Submit edit" />
+                    <Button
+                      primary
+                      disabled={validateInputs ? false : true}
+                      onClick={() => editItem()}
+                      label="Submit edit"
+                    />
                   )}
                 </Box>
               </Form>
