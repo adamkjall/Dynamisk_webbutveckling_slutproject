@@ -13,100 +13,91 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Kravspec
 
-- Alla sidor skall vara responsiva. (G)
+- Alla sidor skall vara responsiva. (G) :heavy_check_mark:
 
-:heavy_check_mark: Uppfyllt ner till iphone 5
+Uppfyllt ner till iphone 5
 
-- Arbetet ska implementeras med en React frontend och en Express backend. (G)
+- Arbetet ska implementeras med en React frontend och en Express backend. (G) :heavy_check_mark:
 
-:heavy_check_mark: Vi har valt att stänga av typescript strict-mode, eftersom TypeScript inte var ett krav för uppgiften men inte ville bygga ett helt nytt front-end-projekt från grunden. 
+ Vi har valt att stänga av typescript strict-mode, eftersom TypeScript inte var ett krav för uppgiften men vi inte ville lägga energi på att bygga en helt ny front end från grunden.
 
-- Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G)
+- Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G) :heavy_check_mark:
 
-:heavy_check_mark:
+- Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G) :heavy_check_mark:
 
-- Beskriv er företagsidé i en kort textuell presentation, detta ska lämnas in vid idégodkännandet (G)
+- All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G) :heavy_check_mark: 
 
-:heavy_check_mark: Redan gjort
+Uppfylld (Cloud Atlas)
 
-- All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G)
+- Man ska kunna logga in som administratör i systemet (G) :heavy_check_mark: 
 
-:heavy_check_mark: Uppfyllt (Cloud Atlas)
-
-- Man ska kunna logga in som administratör i systemet (G)
-
-:heavy_check_mark: Uppfylld!
+Uppfylld!
  e-mail: **admin@email.se** lösenord: **password**
 
-- Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG)
+- Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG) :x: :heavy_check_mark:  
 
-:x: Man kan inte registrera sig som admin, :heavy_check_mark: men nya användare sparas i systemet
+Man kan inte registrera sig som admin, men nya användare sparas i systemet
 
-- En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG)
+- En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG) :x:
 
-:x: Icke Uppfylld
+- Inga Lösenord får sparas i klartext i databasen (G) :heavy_check_mark:
 
-- Inga Lösenord får sparas i klartext i databasen (G)
+ Uppfylld
 
-:heavy_check_mark: Uppfylld
+- En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G) :heavy_check_mark: 
 
-- En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G)
+När en order har godkänts och lagts uppdateras saldot. **En användare kan inte BESTÄLLA utöver lagersaldot**, ordern blir då inte godkänd.
 
-:heavy_check_mark: DONE! När en order har lagts uppdateras saldot. **En användare kan inte BESTÄLLA utöver lagersaldot**
+- Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G) :heavy_check_mark: 
 
-- Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G)
+Kirrad! **Admin kan även uppdatera allt annat med produkten** (förutom sizes, vi har bara S, M och L)
 
-:heavy_check_mark: Kirrad! **Admin kan även uppdatera allt annat med produkten** (förutom sizes, vi har bara S, M och L)
+- Administratörer ska kunna se en lista på alla gjorda beställningar (G) :heavy_check_mark: 
+ Genomförd, **Admin kan även söka på specifikt order-id**
 
-- Administratörer ska kunna se en lista på alla gjorda beställningar (G)
-:heavy_check_mark: Genomförd, **Admin kan även söka på specifikt order-id**
+- Administratörer ska kunna markera beställningar som skickade (VG) :heavy_check_mark:
+ Bemästrad, **Administratörer kan även avmarkera beställningar som inte skickade**
 
-- Administratörer ska kunna markera beställningar som skickade (VG)
-:heavy_check_mark: Bemästrad, **Administratörer kan även avmarkera beställningar som inte skickade**
+- Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G) :heavy_check_mark:
 
-- Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G)
-:heavy_check_mark: Man kan även tillskriva produkter en ny kategori som inte redan finns, men de nya kategorierna dyker tyvärr inte upp i menyn.
+ Man kan även tillskriva produkter en ny kategori som inte redan finns, men de nya kategorierna dyker tyvärr inte upp i header-menyn.
 
-- Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G)
-:heavy_check_mark: SUPERDONE!
+- Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G) :heavy_check_mark:
 
-- Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G)
-:heavy_check_mark:
+ SUPERDONE!
 
-- En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G)
+- Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G) :heavy_check_mark:
 
-:heavy_check_mark: Uppfylld! Man kan öppna sin cart, men inte gå till kassan utan att gå via en inlogg/registrerings-modal (om man inte redan är inloggad, då slipper man modalen)
+- En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G) :heavy_check_mark: 
 
-- När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG)
+Uppfylld! Man kan öppna sin cart, men inte gå till kassan utan att gå via en inlogg/registrerings-modal (om man inte redan är inloggad, då slipper man modalen)
 
-:heavy_check_mark: Kunden ser det i sin orderhistorik. **De kan även söka bland sina tidigare ordrar**
+- När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG) :heavy_check_mark: 
 
-- Besökare ska kunna välja ett av flera fraktalternativ (G)
+Kunden ser det i sin orderhistorik. **De kan även söka bland sina tidigare ordrar**
 
-:heavy_check_mark:
+- Besökare ska kunna välja ett av flera fraktalternativ (G) :heavy_check_mark:
 
-- Tillgängliga fraktalternativ ska vara hämtade från databasen (G)
+- Tillgängliga fraktalternativ ska vara hämtade från databasen (G) :heavy_check_mark:
 
-:heavy_check_mark:
+- Administratörer ska kunna redigera vilka kategorier en produkt tillhör (VG) :heavy_check_mark:
 
-Administratörer ska kunna redigera vilka kategorier en produkt tillhör (VG)
+Görs på samma ställe som admin kan redigera produkter.
 
-:heavy_check_mark:
+- Administratörer ska kunna lägga till och ta bort produkter (VG) :heavy_check_mark:
 
-Administratörer ska kunna lägga till och ta bort produkter (VG)
-
-:heavy_check_mark:
-
-Backendapplikationen måste ha en fungerande global felhantering (VG)
-
-:heavy_check_mark: definitivt!
-
-Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G)
-
-:heavy_check_mark: definitivt
+Görs under fliken "Edit Products". Där kan man lätt lägga till en produkt genom att klicka på plusset bredvid en av de färdiga kategorierna. Ta bort genom att trycka på minus för önskad produkt i produktöversikten.
 
 
-No :bug: only features
+
+- Backendapplikationen måste ha en fungerande global felhantering (VG) :heavy_check_mark: 
+
+definitivt!
+
+- Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G) :heavy_check_mark: 
+
+definitivt
+
 
 ### ANNAT STRÖSSEL (förutom fetmarkerade grejer i krav-specen)
 
@@ -116,6 +107,9 @@ No :bug: only features
 - protected routes
 - error boundarys och spinners
 - Man kan se en produkts current stock i produkt-detaljvyn, om en produkts storlek är slut är storleken inte valbar.
+
+
+No :bug: only features
 
 ## Available Scripts
 
