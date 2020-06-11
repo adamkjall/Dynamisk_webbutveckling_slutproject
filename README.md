@@ -15,12 +15,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 - Alla sidor skall vara responsiva. (G) :heavy_check_mark:
 
-Uppfyllt ner till iphone 5
+  Uppfyllt ner till iphone 5
 
 
 - Arbetet ska implementeras med en React frontend och en Express backend. (G) :heavy_check_mark:
 
- Vi har valt att stänga av typescript strict-mode, eftersom TypeScript inte var ett krav för uppgiften men vi inte ville lägga energi på att bygga en helt ny front end från grunden.
+   Vi har valt att stänga av typescript strict-mode, eftersom TypeScript inte var ett krav för uppgiften men vi inte ville lägga energi på att bygga en helt ny front end från grunden.
  
 
 - Skapa ett ER diagram och koddiagram, detta ska lämnas in vid idégodkännandet (G) :heavy_check_mark:
@@ -29,67 +29,67 @@ Uppfyllt ner till iphone 5
 
 - All data som programmet utnyttjar ska vara sparat i en Mongo-databas (produkter, beställningar, konton mm) (G) :heavy_check_mark: 
 
-Uppfylld (Cloud Atlas)
+  Uppfylld (Cloud Atlas)
 
 
 - Man ska kunna logga in som administratör i systemet (G) :heavy_check_mark: 
 
-Uppfylld!
- e-mail: **admin@email.se** lösenord: **password**
+  Uppfylld!
+   e-mail: **admin@email.se** lösenord: **password**
  
 
 - Man ska kunna registrera sig som administratör på sidan, nya användare ska sparas i databasen (VG) :x: :heavy_check_mark:  
 
-Man kan inte registrera sig som admin, men nya användare sparas i systemet
+  Man kan inte registrera sig som admin, men nya användare sparas i systemet
 
 
 - En administratör behöver godkännas av en tidigare administratör innan man kan logga in fösta gången (VG) :x:
 
 - Inga Lösenord får sparas i klartext i databasen (G) :heavy_check_mark:
 
- Uppfylld
+   Uppfylld
  
 
 - En besökare ska kunna beställa produkter från sidan, detta ska uppdatera lagersaldot i databasen (G) :heavy_check_mark: 
 
-När en order har godkänts och lagts uppdateras saldot. **En användare kan inte BESTÄLLA utöver lagersaldot**, ordern blir då inte godkänd.
+  När en order har godkänts och lagts uppdateras saldot. **En användare kan inte BESTÄLLA utöver lagersaldot**, ordern blir då inte godkänd.
 
 
 - Administratörer ska kunna uppdatera antalet produkter i lager från admin delen av sidan (G) :heavy_check_mark: 
 
-Kirrad! **Admin kan även uppdatera allt annat med produkten** (förutom sizes, vi har bara Small, Medium och Large)
+  Kirrad! **Admin kan även uppdatera allt annat med produkten** (förutom sizes, vi har bara Small, Medium och Large)
 
 
 - Administratörer ska kunna se en lista på alla gjorda beställningar (G) :heavy_check_mark: 
 
- Genomförd, **Admin kan även söka på specifikt order-id**
+   Genomförd, **Admin kan även söka på specifikt order-id**
  
 
 - Administratörer ska kunna markera beställningar som skickade (VG) :heavy_check_mark:
 
- Bemästrad, **Administratörer kan även avmarkera beställningar som inte skickade**
+   Bemästrad, **Administratörer kan även avmarkera beställningar som inte skickade**
  
 
 - Sidans produkter ska delas upp i kategorier, en produkt ska tillhöra minst en kategori, men kan tillhöra flera (G) :heavy_check_mark:
 
- Man kan även tillskriva produkter en ny kategori som inte redan finns, men de nya kategorierna dyker tyvärr inte upp i header-menyn.
+   Man kan även tillskriva produkter en ny kategori som inte redan finns, men de nya kategorierna dyker tyvärr inte upp i header-menyn.
 
 
 - Från hemsidan ska man kunna se en lista över alla produkter, och man ska kunna lista bara dom produkter som tillhör en kategori (G) :heavy_check_mark:
 
- SUPERDONE!
+   SUPERDONE!
 
 
 - Besökare ska kunna lägga produkterna i en kundkorg, som är sparad i local-storage på klienten (G) :heavy_check_mark:
 
 - En besökare som gör en beställning ska få möjligheten att registrera sig samt logga in och måste vara inloggad som kund innan beställningen skapas (G) :heavy_check_mark: 
 
-Uppfylld! Man kan öppna sin cart, men inte gå till kassan utan att gå via en inlogg/registrerings-modal (om man inte redan är inloggad, då slipper man modalen)
+  Uppfylld! Man kan öppna sin cart, men inte gå till kassan utan att gå via en inlogg/registrerings-modal (om man inte redan är inloggad, då slipper man modalen)
 
 
 - När man är inloggad som kund ska man kunna se sina gjorda beställning och om det är skickade eller inte (VG) :heavy_check_mark: 
 
-Kunden ser det i sin orderhistorik. **De kan även söka bland sina tidigare ordrar**
+  Kunden ser det i sin orderhistorik. **De kan även söka bland sina tidigare ordrar**
 
 
 - Besökare ska kunna välja ett av flera fraktalternativ (G) :heavy_check_mark:
@@ -98,23 +98,23 @@ Kunden ser det i sin orderhistorik. **De kan även söka bland sina tidigare ord
 
 - Administratörer ska kunna redigera vilka kategorier en produkt tillhör (VG) :heavy_check_mark:
 
-Görs på samma ställe som admin kan redigera produkter.
+  Görs på samma ställe som admin kan redigera produkter.
 
 
 - Administratörer ska kunna lägga till och ta bort produkter (VG) :heavy_check_mark:
 
-Görs under fliken "Edit Products". Där kan man lätt lägga till en produkt genom att klicka på plusset bredvid en av de färdiga kategorierna. Ta bort genom att trycka på minus för önskad produkt i produktöversikten.
+  Görs under fliken "Edit Products". Där kan man lätt lägga till en produkt genom att klicka på plusset bredvid en av de färdiga kategorierna. Ta bort genom att trycka på minus för önskad produkt i produktöversikten.
 
 
 
 - Backendapplikationen måste ha en fungerande global felhantering (VG) :heavy_check_mark: 
 
-definitivt!
+  definitivt!
 
 
 - Checkoutflödet i frontendapplikationen ska ha validering på samtliga fält (G) :heavy_check_mark: 
 
-definitivt
+  definitivt
 
 
 
