@@ -18,7 +18,7 @@ interface IOrder extends INewOrder {
   timeStamp: Date;
 }
 
-const orderAPI = "http://localhost:8080/api/orders/"
+const orderAPI = "http://localhost:8080/api/orders/";
 
 export const payWithApi = async (order: INewOrder) => {
   const options: RequestInit = {
@@ -42,10 +42,43 @@ export const updateOrderStatus = async (order: IOrder) => {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify(order)
+    body: JSON.stringify(order),
   };
 
   const res = await fetch(orderAPI + order._id, options);
   const json = await res.json();
-  return json
-}
+  return json;
+};
+
+export const getAllOrdersAdmin = async () => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include",
+  };
+
+  const res = await fetch(orderAPI, options);
+  const json = await res.json();
+  return json;
+};
+
+export const getAllOrdersUser = async (id: string) => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include",
+  };
+
+  const res = await fetch(`${orderAPI}/user/${id}`, options);
+  const json = await res.json();
+  return json;
+};
+
+export const findOrderById = async (id: string) => {
+  const options: RequestInit = {
+    method: "GET",
+    credentials: "include",
+  };
+
+  const res = await fetch(orderAPI + id, options);
+  const json = await res.json();
+  return json;
+};

@@ -1,15 +1,31 @@
 import React, { useContext } from "react";
-import { Box, Grid, ResponsiveContext, Heading } from "grommet";
+import { Box, Grid, ResponsiveContext, Heading, Button } from "grommet";
 import OrderList from "../components/orders-list";
+import SearchBar from "./search-bar";
+
+interface StatusResponse {
+  status: "hidden" | "error" | "success";
+  message: string;
+}
 
 interface IProps {
   orders: any | null;
   adminControls: boolean;
   updateStatus?: (order: any) => void;
+  searchLogic: (input: string, cb: (shouldClear: boolean) => void) => void;
+  searchStatus?: StatusResponse;
+  resetOrders: () => void;
 }
 
 const OrdersController = (props: IProps) => {
-  const { orders, adminControls, updateStatus } = props;
+  const {
+    orders,
+    adminControls,
+    updateStatus,
+    searchLogic,
+    searchStatus,
+    resetOrders,
+  } = props;
 
   const size = useContext(ResponsiveContext) as
     | "small"
@@ -73,19 +89,77 @@ const OrdersController = (props: IProps) => {
   return (
     <>
       {orders ? (
-        <Grid
-          fill
-          responsive={true}
-          rows={rows[size]}
-          columns={columns[size]}
-          gap="medium"
-          areas={areas[size]}
-          style={{
-            overflowY: "scroll",
-          }}
-        >
-          {components[size]}
-        </Grid>
+        <>
+          <Box
+            direction="row"
+            style={{
+              position: "relative",
+              marginBottom: "1rem",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Button
+              primary
+              style={{
+                padding: ".2rem .8rem",
+                margin: "0 .2rem 0 0",
+              }}
+              onClick={() => resetOrders()}
+            >
+              {size === "small" ? "X" : "Reset"}
+            </Button>
+            <SearchBar
+              searchLogic={searchLogic}
+              placeholder="Search by order-id"
+            />
+            {searchStatus && searchStatus.status === "error" ? (
+              <span
+                style={{
+                  position: "absolute",
+                  bottom: "-1rem",
+                  minWidth: "60%",
+                  textAlign: "center",
+                  backgroundColor: "#F55448",
+                  color: "white",
+                  borderRadius: ".2rem",
+                  padding: ".2rem 1rem",
+                  margin: "0",
+                }}
+              >
+                {searchStatus.message}
+              </span>
+            ) : searchStatus && searchStatus.status === "success" ? (
+              <span
+                style={{
+                  position: "absolute",
+                  bottom: "-1rem",
+                  textAlign: "center",
+                  backgroundColor: "#3CB371",
+                  color: "white",
+                  borderRadius: "1rem",
+                  padding: ".2rem 1rem",
+                  margin: "0",
+                }}
+              >
+                {searchStatus.message}
+              </span>
+            ) : null}
+          </Box>
+          <Grid
+            fill
+            responsive={true}
+            rows={rows[size]}
+            columns={columns[size]}
+            gap="medium"
+            areas={areas[size]}
+            style={{
+              overflowY: "scroll",
+            }}
+          >
+            {components[size]}
+          </Grid>
+        </>
       ) : (
         <Heading level="3" alignSelf="center">
           {" "}

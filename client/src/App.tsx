@@ -1,4 +1,5 @@
 import React from "react";
+import styled from "styled-components";
 
 import { Grommet, Box, grommet } from "grommet";
 import { deepMerge } from "grommet/utils";
@@ -28,13 +29,28 @@ const myTheme = {
   },
 };
 
+const FixedHeader = styled(Box)`
+  z-index: 1;
+  position: sticky;
+  top: 0;
+  right: 0;
+  left: 0;
+`;
+
 function App() {
   return (
     <ErrorBoundary>
       <Grommet theme={deepMerge(grommet, myTheme)} full>
-        <Header /> {/* height 8vh */}
-        <Menu /> {/* height 6.5vh */}
-        <Box height="85.5vh">
+        <FixedHeader>
+          <Header />
+          <Menu />
+        </FixedHeader>
+        <Box
+          pad="small"
+          margin={{
+            bottom: "1rem",
+          }}
+        >
           <AppRouter />
         </Box>
       </Grommet>

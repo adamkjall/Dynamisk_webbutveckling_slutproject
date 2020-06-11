@@ -9,9 +9,19 @@ import ContactFormField from "./contact-form-field";
 import PaymentForm from "./payment-form";
 import ShippingForm from "./shipping-form";
 import OrderConfirmation from "./order-confirmation";
+import OrderError from "./order-error";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
 import CartContext from "../contexts/cart-context/context";
+
+import styled from "styled-components";
+
+const StyledLayer = styled(Layer)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
 
 const MyCheckOut = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -20,6 +30,10 @@ const MyCheckOut = () => {
   const [isCardValid, setIsCardValid] = useState(false);
   const [isPayMailValid, setIsPayMailValid] = useState(true);
   const [isPayPhoneValid, setIsPayPhoneValid] = useState(true);
+  const [orderError, setOrderError] = useState({
+    status: false,
+    message: "",
+  });
   const { user } = useContext(AuthenticationContext);
   const { clearCart, paymentMethod, cart, shippingMethod } = useContext(
     CartContext
@@ -41,10 +55,18 @@ const MyCheckOut = () => {
     user.city.length > 1 &&
     user.zipCode.match(/^\d{5}$/);
 
-  const closeModal = () => {
-    history.push("/");
+  const closeModal = (error: boolean) => {
+    console.log(error);
+
+    if (!error) {
+      history.push("/");
+      clearCart();
+    }
+    setOrderError({
+      status: false,
+      message: "",
+    });
     setShowModal(false);
-    clearCart();
   };
 
   const pay = async () => {
@@ -63,14 +85,15 @@ const MyCheckOut = () => {
       toCity: user.city,
     };
 
-    await payWithApi(order);
-    setShowModal(true);
-
+    const response = await payWithApi(order);
     // setLoading(false);
-    // TODO handle error
-    // if (response.status === "error") {
-
-    // }
+    if (response.status === "error") {
+      setOrderError({
+        status: true,
+        message: response.message,
+      });
+    }
+    setShowModal(true);
   };
 
   const checkPaymentBool = () => {
@@ -129,13 +152,7 @@ const MyCheckOut = () => {
             />
           </Box>
         </AccordionPanel>
-        {activeIndex === 2 &&
-        // !loading &&
-        //isCardValid &&
-        //!isPayMailValid &&
-        //!isPayPhoneValid &&
-        validUserInformation() &&
-        checkPaymentBool() ? (
+        {activeIndex === 2 && validUserInformation() && checkPaymentBool() ? (
           <Button
             margin="medium"
             primary
@@ -148,9 +165,17 @@ const MyCheckOut = () => {
       </Accordion>
 
       {showModal && (
-        <Layer onEsc={closeModal} onClickOutside={closeModal}>
-          <OrderConfirmation closeModal={closeModal} />
-        </Layer>
+        <StyledLayer
+          position="center"
+          onEsc={() => closeModal(orderError.status)}
+          onClickOutside={() => closeModal(orderError.status)}
+        >
+          {orderError.status ? (
+            <OrderError closeModal={closeModal} error={orderError} />
+          ) : (
+            <OrderConfirmation closeModal={closeModal} error={orderError} />
+          )}
+        </StyledLayer>
       )}
     </Box>
   );

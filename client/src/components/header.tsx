@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { Box, Heading, Layer, Stack, Text, ResponsiveContext } from "grommet";
@@ -17,12 +17,20 @@ const StyledHeader = styled(Box)`
 const Header = () => {
   const { cart } = useContext(CartContext);
   const responsive = useContext(ResponsiveContext);
+  const history = useHistory();
 
   const [open, setOpen] = React.useState<boolean>();
 
   const onOpen = () => setOpen(true);
 
   const onClose = () => setOpen(false);
+
+  const handleSearch = (input: string, clearInput: (value: boolean) => void) => {
+    if(input) {
+      history.push("/shop/search/" + input);
+    }
+    clearInput(true)
+  }
 
   return (
     <StyledHeader
@@ -46,7 +54,7 @@ const Header = () => {
         </Link>
       </Heading>
       <Box direction="row">
-        <SearchBar />
+        <SearchBar searchLogic={handleSearch} />
         <Stack
           anchor="top-right"
           onClick={onOpen}

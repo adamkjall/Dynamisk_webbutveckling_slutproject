@@ -112,16 +112,16 @@ const checkProductStock = async (req, res, next) => {
         return doc
       })
       if (!dbProduct) {
-        throw new ErrorHandler(500, "Product is no longer available on site")
+        throw new ErrorHandler(500,  `${product.title} is no longer available on site`)
       }
       const indexOfSize = dbProduct.sizes.findIndex(
         el => el.size === product.selectedSize
       )
       if (indexOfSize === -1) {
-        throw new ErrorHandler(500, "Product size is no longer available on site")
+        throw new ErrorHandler(500,  `${product.title}'s chosen size is no longer available on site`)
       }
       if (dbProduct.sizes[indexOfSize].stock - product.quantity < 0) {
-        throw new ErrorHandler(500, "Product is no longer in stock")
+        throw new ErrorHandler(500,  `${product.title}'s available quantity can not cover your order, unfortunately`)
       }
     }
   } catch (error) {
@@ -129,28 +129,6 @@ const checkProductStock = async (req, res, next) => {
   }
 
   next()
-  /* 
-    TODO make sure we throw error if one of the products is out of stock
-  */
-  // try {
-  //   for await (const product of products) {
-  //     const res = await Product.findById(product._id, (error, doc) => {
-  //       if (error) next(error);
-
-  //       const indexOfSize = doc.sizes.findIndex(
-  //         (el) => el.size === product.selectedSize
-  //       );
-
-  //       // if product will be less than 0 after purchase throw error
-  //       if (doc.sizes[indexOfSize].stock - product.quantity < 0) {
-  //         throw new ErrorHandler(404, "Product is out of stock");
-  //       }
-  //     });
-  //   }
-  // } catch (error) {
-  //   next(error);
-  // }
-  // next();
 };
 
 const decrementProductStock = (products) => {

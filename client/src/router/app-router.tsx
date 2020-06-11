@@ -10,9 +10,9 @@ import Shop from "../pages/shop";
 import Checkout from "../pages/checkout";
 import Admin from "../pages/admin";
 import SignInSignUp from "../pages/sign-in-sign-up";
-import OrdersAll from "../pages/orders-all"
-import OrdersUser from "../pages/orders-user"
-import UserSettings from "../pages/user-settings"
+import OrdersAll from "../pages/orders-all";
+import OrdersUser from "../pages/orders-user";
+import UserSettings from "../pages/user-settings";
 
 /**
  * Main application router

@@ -4,14 +4,14 @@ import { Grid, Box, Image, ResponsiveContext, Main } from "grommet";
 
 import CheckoutForm from "../components/checkout-form";
 
-import CartContext from "../contexts/cart-context/context"
+import CartContext from "../contexts/cart-context/context";
 import CartItems from "../components/cart-items";
 
 import clothesOnRackImg from "../assets/images/clothesonrack.jpg";
 
 const Checkout = () => {
-  const { cart } = useContext(CartContext)
-  const noDuplicateProducts = Array.from(new Set(cart))
+  const { cart } = useContext(CartContext);
+  const noDuplicateProducts = Array.from(new Set(cart));
   const size = useContext(ResponsiveContext) as
     | "small"
     | "medium"
