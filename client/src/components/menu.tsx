@@ -11,6 +11,7 @@ const StyledGrommetMenu = styled(Menu)`
   min-width: 5.5rem;
 `
 const StyledBox = styled(Box)`
+  background-color: rgb(255, 255, 255);
   min-height: 3rem;
   max-height: 6.5vh;
 `

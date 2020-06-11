@@ -4,15 +4,21 @@ import { Box, Button } from "grommet";
 import { Close } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
-import { IProduct } from "./product";
 
 import styled from "styled-components";
 
+interface ErrorResponse {
+  status: boolean
+  message: string
+}
+
 interface IProps {
-  closeModal: () => void;
+  closeModal: (error: boolean) => void;
+  error: ErrorResponse
 }
 
 const OrderConfirmation = (props: IProps) => {
+  const { closeModal, error } = props
   const { cart, shippingMethod, paymentMethod, totalWithVat } = useContext(
     CartContext
   );
@@ -23,7 +29,7 @@ const OrderConfirmation = (props: IProps) => {
         primary
         alignSelf="end"
         icon={<Close />}
-        onClick={props.closeModal}
+        onClick={() => closeModal(error.status)}
         color="light-3"
       />
       <h1>Order confirmation</h1>
@@ -47,7 +53,7 @@ const OrderConfirmation = (props: IProps) => {
 
       <h4>Total: ${totalWithVat() + shippingMethod.price}</h4>
 
-      <Button primary margin="medium" onClick={props.closeModal} label="Okay" />
+      <Button primary margin="medium" onClick={() => closeModal(error.status)} label="Okay" />
     </Box>
   );
 };

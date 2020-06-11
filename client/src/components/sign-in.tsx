@@ -12,7 +12,10 @@ const SignIn = ({ toggleView }) => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
-  const [isLogInOK, setLogInOK] = useState(true)
+  const [loginError, setLoginError] = useState({
+    isOk: true,
+    message: ""
+  })
   const { login } = useContext(AuthenticationContext);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,29 +29,38 @@ const SignIn = ({ toggleView }) => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    try {
-      const validateInputs = email.length && password.length;
+    const validateInputs = email.length && password.length;
 
-      if (!validateInputs) {
-        setShakeComponent(true);
-        setLogInOK(false);
-        setTimeout(() => setShakeComponent(false), 820);
-        return;
-      }
+    if (!validateInputs) {
+      setShakeComponent(true);
+      // setLogInOK(false);
+      setLoginError({
+        isOk: false,
+        message: ""
+      })
+      setTimeout(() => setShakeComponent(false), 820);
+      return;
+    }
 
-      setLoading(true);
-      const message = await login(email, password);
-      if (message !== "Authenticated") {
-        setLogInOK(false)
-        setLoading(false);
-        setShakeComponent(true);
-        setTimeout(() => setShakeComponent(false), 820);
-        setEmail("");
-        setPassword("");
-      }
-    } catch (error) {
-      // TODO handle error
-      console.log("Error while sign in", error.message);
+    setLoading(true);
+    const message = await login(email, password);
+
+    if (message != "Authenticated") {
+      // setLogInOK(false)
+      setLoginError({
+        isOk: false,
+        message: "Email and/or password is incorrect"
+      })
+      setLoading(false);
+      setShakeComponent(true);
+      setTimeout(() => setShakeComponent(false), 820);
+      setEmail("");
+      setPassword("");
+    } else {
+      setLoginError({
+        isOk: true,
+        message: ""
+      })
     }
   };
 
@@ -62,6 +74,8 @@ const SignIn = ({ toggleView }) => {
           name="email"
           type="email"
           value={email}
+          validate={loginError.isOk}
+          validateText={loginError.message}
           required
         />
         <FormInput
@@ -70,6 +84,8 @@ const SignIn = ({ toggleView }) => {
           name="password"
           type="password"
           value={password}
+          validate={loginError.isOk}
+          validateText={loginError.message}
           required
         />
         <p>
@@ -78,7 +94,6 @@ const SignIn = ({ toggleView }) => {
             Register here
           </span>
         </p>
-        {isLogInOK? null: <p style = {{fontWeight:"bold"}}> Username and/or Password is wrong </p>}
         <div className="buttons">
           <CustomButton loading={loading} type="submit">
             Login
