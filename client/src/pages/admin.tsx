@@ -388,7 +388,6 @@ const Admin = () => {
                     />
                   </label>
                   <input
-                    required
                     id="imageUpload"
                     name="image"
                     type="file"
