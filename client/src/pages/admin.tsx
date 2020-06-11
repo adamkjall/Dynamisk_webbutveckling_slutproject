@@ -214,6 +214,11 @@ const Admin = () => {
     setInputs(productCopy);
   };
 
+  const closeModal = () => {
+    setFile(null);
+    setOpen(false);
+  };
+
   return (
     <Main pad={{ horizontal: "2rem" }}>
       <Box
@@ -324,10 +329,7 @@ const Admin = () => {
           <Layer
             style={{ overflow: "auto" }}
             position="center"
-            onClickOutside={() => {
-              setFile(null);
-              setOpen(false);
-            }}
+            onClickOutside={closeModal}
           >
             <Box>
               <Form validate="blur" style={{ overflowY: "scroll" }}>
@@ -340,7 +342,7 @@ const Admin = () => {
                   <Button
                     alignSelf="end"
                     icon={<Close />}
-                    onClick={() => setOpen(false)}
+                    onClick={closeModal}
                   />
                   <Heading size="xsmall">{category}</Heading>
 
