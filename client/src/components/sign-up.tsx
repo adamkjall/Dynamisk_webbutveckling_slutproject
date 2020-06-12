@@ -5,6 +5,8 @@ import AuthenticationContext from "../contexts/authentication-context/context";
 
 import FormInput from "./form-input";
 import CustomButton from "./custom-button";
+import { Button } from "grommet";
+import { Close } from "grommet-icons";
 
 interface IState {
   firstName: string;
@@ -30,7 +32,7 @@ const INITIAL_STATE = Object.freeze({
   confirmPassword: "",
 });
 
-const SignUp = ({ toggleView }) => {
+const SignUp = ({ toggleView, displayClose, setShowModal }) => {
   const [inputs, setInputs] = useState<IState>(INITIAL_STATE);
   const [loading, setLoading] = useState(false);
   const [shakeComponent, setShakeComponent] = useState(false);
@@ -61,6 +63,7 @@ const SignUp = ({ toggleView }) => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
 
     const handleValidationMessages = () => {
       if (inputs.firstName.length >= 2) {
@@ -159,6 +162,19 @@ const SignUp = ({ toggleView }) => {
 
   return (
     <StyledSignUp className={shakeComponent ? "shake" : ""}>
+      {displayClose &&
+        <Button
+          style={{
+            zIndex: 1,
+            position: "absolute",
+            top: "0",
+            right: "0",
+          }}
+          alignSelf="end"
+          icon={<Close style={{color: "white !important"}} />}
+          onClick={() => setShowModal(false)}
+        />
+      }
       <h2 className="title">Register</h2>
       <form className="sign-up-form" onSubmit={handleSubmit}>
         <FormInput
@@ -280,6 +296,7 @@ const SignUp = ({ toggleView }) => {
 export default SignUp;
 
 const StyledSignUp = styled.div`
+  position: relative;
   background: #a93535;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
     0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),

@@ -6,8 +6,10 @@ import AuthenticationContext from "../contexts/authentication-context/context";
 
 import FormInput from "./form-input";
 import CustomButton from "./custom-button";
+import { Button } from "grommet";
+import { Close } from "grommet-icons";
 
-const SignIn = ({ toggleView }) => {
+const SignIn = ({ toggleView, displayClose, setShowModal }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -66,6 +68,19 @@ const SignIn = ({ toggleView }) => {
 
   return (
     <StyledSignIn className={`${shakeComponent ? "shake" : ""} sign-in`}>
+      {displayClose &&
+        <Button
+          style={{
+            zIndex: 1,
+            position: "absolute",
+            top: "0",
+            right: "0",
+          }}
+          alignSelf="end"
+          icon={<Close style={{ color: "white !important" }} />}
+          onClick={() => setShowModal(false)}
+        />
+      }
       <h2 className="title">LOGIN</h2>
       <form className="sign-in-form" onSubmit={handleSubmit}>
         <FormInput
@@ -107,6 +122,7 @@ const SignIn = ({ toggleView }) => {
 export default SignIn;
 
 const StyledSignIn = styled.div`
+  position: relative;
   background: #a93535;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25), 0 2px 2px rgba(0, 0, 0, 0.2),
     0 4px 4px rgba(0, 0, 0, 0.15), 0 8px 8px rgba(0, 0, 0, 0.1),

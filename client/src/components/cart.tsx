@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -28,17 +28,17 @@ const MyCart = (props: Iprops) => {
   });
 
 
-  const checkSession = () => {  
-    if(!isAuthenticated){
+  const checkSession = () => {
+    if (!isAuthenticated) {
       setShowModal(true)
-    }else{
+    } else {
       setShowModal(false)
       props.closeCart()
     }
   }
 
   const checkCart = () => {
-    if(cart.length <= 0){
+    if (cart.length <= 0) {
       setDisableButton(true)
     }
   }
@@ -53,44 +53,51 @@ const MyCart = (props: Iprops) => {
           </Heading>
           <Box width="large" pad="medium">
             <CartItems locked={false} productsArray={noDuplicateProducts} />
-          </Box>         
-        </Box>       
-        {isAuthenticated? 
+          </Box>
+        </Box>
+        {isAuthenticated ?
           <>
-            {isDisableButton? <p style = {{margin: "0 0 0 3rem"}}>Your Cart is empty</p>:null}
-            <Link to="/Checkout">       
+            {isDisableButton ? <p style={{ margin: "0 0 0 3rem" }}>Your Cart is empty</p> : null}
+            <Link to="/Checkout">
               <Button
                 margin="medium"
                 primary
                 label="Proceed to checkout"
                 onClick={checkSession}
-                disabled = {isDisableButton}
+                disabled={isDisableButton}
               />
             </Link>
-          </>:
+          </> :
           <Button
-              margin="medium"
-              primary
-              label="Log in or register here to proceed to checkout"
-              onClick={checkSession}
-            />}
+            margin="medium"
+            primary
+            label="Log in or register here to proceed to checkout"
+            onClick={checkSession}
+          />}
       </Box>
       {showModal && !isAuthenticated && (
-      <Box >    
-        <Layer
-          style = {{overflow: "auto"}}
-          onEsc={() => setShowModal(false)}
-          onClickOutside={() => setShowModal(false)}
-        >
-        <Button 
-          alignSelf="end" 
-          icon={<Close />} 
-          onClick={() => setShowModal(false)} 
-        />        
-          <SignInSignUp/>
-        </Layer>
-      </Box>
-      )} 
+        <Box >
+          <Layer
+            style={{ overflow: "auto", backgroundColor: "rgba(255, 255, 255, 0)", position: "relative" }}
+            onEsc={() => setShowModal(false)}
+            onClickOutside={() => setShowModal(false)}
+          >
+            {/* <Button
+              style={{
+                zIndex: 1,
+                position: "fixed",
+                top: "0",
+                right: "0",
+                color: "white"
+              }}
+              alignSelf="end"
+              icon={<Close />}
+              onClick={() => setShowModal(false)}
+            /> */}
+            <SignInSignUp displayClose={true} setShowModal={setShowModal} />
+          </Layer>
+        </Box>
+      )}
     </>
   );
 };
