@@ -146,7 +146,7 @@ No :bug: only features
 1. Klona projektet från https://github.com/adamkjall/Dynamisk_webbutveckling_slutproject
 2. Öppna en terminal i mappen "Dynamisk_webbutveckling_slutproject/client" och kör kommandot "npm i"
 3. Efter installationen är klart kör "npm start"
-4. Öppna en terminal i mappen "server" och kör kommandor "npm i"
+4. Öppna en terminal i mappen "Dynamisk_webbutveckling_slutproject/server" och kör kommandor "npm i"
 5. Efter installationen är klart kör "npm start"
 6. Happy shopping :handbag:
 
