@@ -150,3 +150,7 @@ No :bug: only features
 5. Efter installationen är klart kör "npm start"
 6. Happy shopping :handbag:
 
+Adminkonto: 
+  e-mail: admin@email.se
+  lösenord: password
+
