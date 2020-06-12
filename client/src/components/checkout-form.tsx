@@ -34,6 +34,7 @@ const MyCheckOut = () => {
     status: false,
     message: ""
   });
+  const [ confirmOrder, setConfirmOrder] = useState(null);
   const { user } = useContext(AuthenticationContext);
   const { clearCart, paymentMethod, cart, shippingMethod } = useContext(
     CartContext
@@ -82,7 +83,6 @@ const MyCheckOut = () => {
       toZipCode: user.zipCode,
       toCity: user.city,
     };
-
     const response = await payWithApi(order);
     setLoading(false);
     if (response.status === "error") {
@@ -90,6 +90,8 @@ const MyCheckOut = () => {
         status: true,
         message: response.message
       })
+    } else {
+      setConfirmOrder(response)
     }
     setShowModal(true);
   };
@@ -172,7 +174,7 @@ const MyCheckOut = () => {
         <StyledLayer position="center" onEsc={() => closeModal(orderError.status)} onClickOutside={() => closeModal(orderError.status)}>
           {orderError.status
             ? <OrderError closeModal={closeModal} error={orderError} />
-            : <OrderConfirmation closeModal={closeModal} error={orderError} />
+            : <OrderConfirmation closeModal={closeModal} error={orderError} order={confirmOrder} />
           }
         </StyledLayer>
       )}

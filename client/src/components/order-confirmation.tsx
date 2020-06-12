@@ -15,10 +15,11 @@ interface ErrorResponse {
 interface IProps {
   closeModal: (error: boolean) => void;
   error: ErrorResponse
+  order: any
 }
 
 const OrderConfirmation = (props: IProps) => {
-  const { closeModal, error } = props
+  const { closeModal, error, order } = props
   const { cart, shippingMethod, paymentMethod, totalWithVat } = useContext(
     CartContext
   );
@@ -33,7 +34,7 @@ const OrderConfirmation = (props: IProps) => {
         color="light-3"
       />
       <h1>Order confirmation</h1>
-      <h3>Order nr: {Math.floor(new Date().getTime() / 10000)}</h3>
+      <h3>Order nr: {order._id}</h3>
       <StyledGrid>
         <span>Paying with: </span>
         <span>{paymentMethod.type}</span>
