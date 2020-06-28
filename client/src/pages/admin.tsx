@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Main,
   Text,
   Heading,
   Box,
@@ -11,16 +10,47 @@ import {
   Form,
   FormField,
   TextArea,
+  CheckBox,
 } from "grommet";
 import { AddCircle, Close, SubtractCircle, FormEdit } from "grommet-icons";
+import styled from "styled-components";
 
 import Loader from "react-loader-spinner";
 
 import useFetch from "../hooks/useFetch";
 import { IProduct } from "../components/product";
 import FormFieldLabel from "../components/form-field-label";
+import HomeCollection from "../components/home-boxes/home-collection";
+import { relative } from "path";
 
-const initialInputs: IProduct = {
+const StyledCheckBox = styled(Box)`
+  background-color: lightgray;
+  margin: 0.2rem 0.5rem;
+  width: 6rem;
+  padding: 0.2rem;
+  border-radius: 0.2rem;
+  & > label {
+    width: 100%;
+    height: 100%;
+    padding: 0 0.2rem 0 0.1rem;
+    & > div {
+      margin-right: 0.6rem;
+      width: 18px;
+      height: 18px;
+    }
+    & > span {
+      font-size: 1rem;
+    }
+  }
+`;
+
+const AddCategoryButton = styled(Button)`
+  position: absolute;
+  top: 2.2rem;
+  right: 0;
+`;
+
+const initialInputs = {
   title: "",
   image: "",
   price: 0,
@@ -38,13 +68,15 @@ const API_PRODUCTS_URL = "http://localhost:8080/api/products";
 const API_IMAGE_URL = "http://localhost:8080/api/files";
 
 const Admin = () => {
-  const [collections, setCollections] = useState<IProduct[][]>(null);
+  // const [collections, setCollections] = useState<IProduct[][]>(null);
   const [inputs, setInputs] = useState(initialInputs);
+  const [allProducts, setAllProducts] = useState(null);
   const [file, setFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [editOrAdd, setEditOrAdd] = useState<"edit" | "add">("add");
   const [itemToEdit, setItemToEdit] = useState<IProduct>(null);
-  const [category, setCategory] = useState(null);
+  const [allCategories, setAllCategories] = useState([]);
+  const [editCategories, setEditCategories] = useState(null);
   const [sizes, setSizes] = useState({
     small: 0,
     medium: 0,
@@ -80,25 +112,39 @@ const Admin = () => {
       .catch(console.log);
   }, [file]);
 
-  // converts fetched products in to collection matrix
+  // sets all current categories into state
   useEffect(() => {
     if (!products) return;
-
-    const collectionsObj = {};
-
-    products.forEach((product: IProduct) => {
-      if (!collectionsObj[product.category]) {
-        collectionsObj[product.category] = [product];
-      } else {
-        collectionsObj[product.category] = [
-          ...collectionsObj[product.category],
-          product,
-        ];
+    let categories = [];
+    for (const product of products) {
+      for (const category of product.category) {
+        const existing = categories.find((c) => c === category);
+        if (!existing) categories.push(category);
       }
-    });
+    }
+    // console.log(categories);
+    // console.log(editCategories);
+    setAllCategories(categories);
+    setAllProducts(products);
+    console.log("hello");
 
-    const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
-    setCollections(collectionsMatrix);
+    // const collectionsObj = {};
+
+    // products.forEach((product: IProduct) => {
+    //   if (!collectionsObj[product.category]) {
+    //     collectionsObj[product.category] = [product];
+    //   } else {
+    //     collectionsObj[product.category] = [
+    //       ...collectionsObj[product.category],
+    //       product,
+    //     ];
+    //   }
+    // });
+
+    // const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
+    // console.log(collectionsMatrix);
+
+    // setCollections(collectionsMatrix);
   }, [products]);
 
   // transforms inputs to an IProduct
@@ -110,39 +156,45 @@ const Admin = () => {
       }))
       .filter((sizeObj) => sizeObj.stock !== 0);
 
+    const transformedCategories = Object.entries(editCategories)
+      .map((category) => {
+        if (category[1]["active"]) return category[0];
+      })
+      .filter((categories) => categories != undefined);
+
     const completeProduct: IProduct = {
       ...inputs,
-      category: inputs.category.length ? inputs.category : category,
+      category: transformedCategories,
       sizes: transformedSizes,
     };
     return completeProduct;
   };
   // requests api to add new product to database and adds new product to the collection matrix
-  const addToCollection = async () => {
-    const product = transformInputsToProduct();
+  // const addToCollection = async () => {
+  //   const product = transformInputsToProduct();
 
-    const options: RequestInit = {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(product),
-    };
+  //   const options: RequestInit = {
+  //     method: "POST",
+  //     credentials: "include",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(product),
+  //   };
 
-    const res = await fetch(API_PRODUCTS_URL, options);
-    const data = await res.json();
+  //   const res = await fetch(API_PRODUCTS_URL, options);
+  //   const data = await res.json();
 
-    const updatedCollections = collections.map((collection) => {
-      if (collection[0].category === data.category) {
-        return [...collection, data];
-      }
-      return collection;
-    });
-    setCollections(updatedCollections);
-    setOpen(false);
-    setFile(null);
-  };
+  //   const updatedCollections = collections.map((collection) => {
+  //     if (collection[0].category === data.category) {
+  //       return [...collection, data];
+  //     }
+  //     return collection;
+  //   });
+  //   setCollections(updatedCollections);
+  //   setOpen(false);
+  //   setFile(null);
+  // };
 
   //  requests api to edit a product in the database and updated the edited product in the collection matrix
   const editItem = async () => {
@@ -157,32 +209,42 @@ const Admin = () => {
     };
     const res = await fetch(API_PRODUCTS_URL + "/" + itemToEdit._id, options);
     const data = await res.json();
-    const updatedCollections = collections.map((collection) => {
-      if (collection[0].category === data.category) {
-        return collection.map((item) =>
-          item._id === itemToEdit._id ? product : item
-        );
-      }
-      return collection;
-    });
-    setCollections(updatedCollections);
+    const tempArray = [...allProducts]
+    const productIndex = tempArray.findIndex((p) => p._id === data._id);
+    if (productIndex != -1) {
+      tempArray.splice(productIndex, 1, data);
+      setAllProducts(tempArray);
+    }
+    // const updatedCollections = collections.map((collection) => {
+    //   if (collection[0].category === data.category) {
+    //     return collection.map((item) =>
+    //       item._id === itemToEdit._id ? product : item
+    //     );
+    //   }
+    //   return collection;
+    // });
+    // setCollections(updatedCollections);
     setOpen(false);
     setFile(null);
   };
 
   //  requests api to remove a product in the database and updates the collection matrix
   const removeFromCollection = (productToRemove: IProduct) => {
-    const updatedCollection = collections.map((collection) =>
-      collection.filter((product) => product._id !== productToRemove._id)
+    const tempArray = [...allProducts]
+    const productIndex = tempArray.findIndex(
+      (p) => p._id === productToRemove._id
     );
-    setCollections(updatedCollection);
-    const options: RequestInit = {
-      method: "DELETE",
-      credentials: "include",
-    };
-    fetch(API_PRODUCTS_URL + "/" + productToRemove._id, options)
-      .then((res) => res.json)
-      .then(console.log);
+    if (productIndex != -1) {
+      tempArray.splice(productIndex, 1);
+      setAllProducts(tempArray);
+      const options: RequestInit = {
+        method: "DELETE",
+        credentials: "include",
+      };
+      fetch(API_PRODUCTS_URL + "/" + productToRemove._id, options)
+        .then((res) => res.json)
+        .then(console.log);
+    }
   };
 
   const handleInputs = (
@@ -192,15 +254,25 @@ const Admin = () => {
     setInputs((prev) => ({ ...prev, [name]: value }));
   };
 
-  const validateInputs = 
-  inputs.title.length >= 2 &&
-  inputs.price > 0 &&
-  inputs.category.length >= 1 &&
-  (editOrAdd === 'add'? file:true )
+  const validateCategories = () => {
+    for (const category of allCategories) {
+      if (editCategories[category].active) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const validateInputs =
+    inputs.title.length >= 2 &&
+    inputs.price > 0 &&
+    validateCategories() &&
+    (editOrAdd === "add" ? file : true);
 
   // takes the product data and sets the input state
-  const setInputsToItemData = (product: IProduct) => {
+  const setInputsToItemData = (product) => {
     const productCopy = Object.assign({}, product);
+    productCopy.category = "";
 
     setSizes({
       small: product.sizes.find((el) => el.size === "small")
@@ -216,22 +288,82 @@ const Admin = () => {
     setInputs(productCopy);
   };
 
+  const handleCategories = (product: IProduct) => {
+    let tempObj = {};
+    for (const category of allCategories) {
+      if (product.category.find((el) => el === category)) {
+        tempObj = {
+          ...tempObj,
+          [category]: {
+            title: category,
+            active: true,
+          },
+        };
+      } else {
+        tempObj = {
+          ...tempObj,
+          [category]: {
+            title: category,
+            active: false,
+          },
+        };
+      }
+    }
+    console.log(tempObj);
+    setEditCategories(tempObj);
+  };
+
+  const handleCategoryCheck = (category) => {
+    setEditCategories({
+      ...editCategories,
+      [category]: {
+        ...editCategories[category],
+        active: !editCategories[category].active,
+      },
+    });
+  };
+
+  const addNewCategory = () => {
+    if (inputs.category.length > 3 && inputs.category.length < 8) {
+      setAllCategories([...allCategories, inputs.category]);
+      setEditCategories({
+        ...editCategories,
+        [inputs.category]: {
+          title: inputs.category,
+          active: true,
+        },
+      });
+    } else {
+      console.log("validation failed: less than 3 or more than 8 chars");
+    }
+  };
+
   const closeModal = () => {
     setFile(null);
     setOpen(false);
   };
 
   return (
-    <Main pad={{ horizontal: "2rem" }}>
+    <Box
+      pad={{ horizontal: ".8rem" }}
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <Heading>Edit Products</Heading>
       <Box
         direction="row"
-        justify="center"
+        // justify="center"
         // wrap
         style={{
           minHeight: "unset",
+          maxWidth: "60rem",
+          width: "100%",
           display: "grid",
           gridTemplateColumns: "repeat( auto-fit, minmax(280px, 1fr))",
-          gap: "4rem",
+          gap: "2rem",
         }}
       >
         {loading ? (
@@ -245,10 +377,10 @@ const Admin = () => {
           />
         ) : (
           !error &&
-          collections &&
-          collections.map((collection, index) => (
+          allProducts &&
+          allProducts.map((product, index) => (
             <Box key={index} width="large" style={{ minHeight: "unset" }}>
-              <Heading size="small">
+              {/* <Heading size="small">
                 {collection[0].category}
                 <Button
                   icon={
@@ -266,63 +398,61 @@ const Admin = () => {
                     />
                   }
                 />
-              </Heading>
-
-              {!error &&
-                products &&
-                collection.map((product: IProduct) => (
-                  <Box
-                    key={product._id}
+              </Heading> */}
+              <Box
+                key={product._id}
+                style={{
+                  borderBottom: "1px solid gray",
+                  padding: "0.8rem 0",
+                }}
+              >
+                <Box
+                  direction="row"
+                  align="center"
+                  alignContent="between"
+                  fill="vertical"
+                >
+                  <Image
+                    src={product.imageURL}
                     style={{
-                      borderBottom: "1px solid gray",
-                      padding: "0.5rem 0",
-                      minHeight: "100px",
+                      width: "3rem",
+                      height: "4rem",
+                      objectFit: "cover",
                     }}
+                  ></Image>
+                  <Text
+                    weight="bold"
+                    margin={{ left: "small" }}
+                    style={{ minWidth: "45%" }}
                   >
-                    <Box
-                      direction="row"
-                      align="center"
-                      alignContent="between"
-                      fill="vertical"
-                    >
-                      <Image
-                        src={product.imageURL}
-                        style={{ width: "3rem", marginTop: "1rem" }}
-                      ></Image>
-                      <Text
-                        weight="bold"
-                        margin={{ left: "small" }}
-                        style={{ minWidth: "45%" }}
-                      >
-                        {product.title}
-                      </Text>
+                    {product.title}
+                  </Text>
 
-                      <Box
-                        direction="row"
-                        align="center"
-                        justify="end"
-                        fill="horizontal"
-                      >
-                        <Button
-                          icon={<SubtractCircle />}
-                          onClick={() => removeFromCollection(product)}
-                          style={{ padding: "0.4rem" }}
-                        />
-                        <Button
-                          icon={<FormEdit />}
-                          onClick={() => {
-                            setEditOrAdd("edit");
-                            setCategory(collection[0].category);
-                            setItemToEdit(product);
-                            setInputsToItemData(product);
-                            setOpen(true);
-                          }}
-                          style={{ padding: "0.4rem" }}
-                        />
-                      </Box>
-                    </Box>
+                  <Box
+                    direction="row"
+                    align="center"
+                    justify="end"
+                    fill="horizontal"
+                  >
+                    <Button
+                      icon={<SubtractCircle />}
+                      onClick={() => removeFromCollection(product)}
+                      style={{ padding: "0.4rem" }}
+                    />
+                    <Button
+                      icon={<FormEdit />}
+                      onClick={() => {
+                        setEditOrAdd("edit");
+                        handleCategories(product);
+                        setItemToEdit(product);
+                        setInputsToItemData(product);
+                        setOpen(true);
+                      }}
+                      style={{ padding: "0.4rem" }}
+                    />
                   </Box>
-                ))}
+                </Box>
+              </Box>
             </Box>
           ))
         )}
@@ -346,8 +476,6 @@ const Admin = () => {
                     icon={<Close />}
                     onClick={closeModal}
                   />
-                  <Heading size="xsmall">{category}</Heading>
-
                   <FormFieldLabel
                     name="title"
                     label="Product name"
@@ -356,19 +484,54 @@ const Admin = () => {
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <FormField
-                    name="category"
-                    label={
-                      <Box direction="row">
-                        <Text>Category</Text>
-                        <Text color="status-critical">*</Text>
-                      </Box>
-                    }
-                    required
-                    type="text"
-                    value={inputs.category}
-                    onChange={handleInputs}
-                  />
+                  <Box
+                    style={{
+                      position: "relative",
+                    }}
+                  >
+                    <FormField
+                      name="category"
+                      label={
+                        <Box direction="row">
+                          <Text>Add Category</Text>
+                        </Box>
+                      }
+                      type="text"
+                      value={inputs.category}
+                      onChange={handleInputs}
+                    />
+                    <AddCategoryButton
+                      icon={
+                        <AddCircle
+                          onClick={() => {
+                            addNewCategory();
+                          }}
+                        />
+                      }
+                    />
+                  </Box>
+                  <Box
+                    style={{
+                      display: "flex",
+                      marginBottom: "1rem",
+                      justifyContent: "space-evenly",
+                      alignItems: "center",
+                      flexDirection: "row",
+                      flexWrap: "wrap",
+                    }}
+                  >
+                    {editCategories &&
+                      allCategories &&
+                      allCategories.map((category) => (
+                        <StyledCheckBox key={`checkbox-${category}`}>
+                          <CheckBox
+                            checked={editCategories[category].active}
+                            label={editCategories[category].title}
+                            onChange={() => handleCategoryCheck(category)}
+                          />
+                        </StyledCheckBox>
+                      ))}
+                  </Box>
                   <FormField
                     name="price"
                     label={
@@ -386,7 +549,12 @@ const Admin = () => {
                   {inputs.price <= 0 ? (
                     <p style={{ color: "red" }}>Price can't be 0 or negative</p>
                   ) : null}
-                  <Heading level="3">Image{editOrAdd === 'add'? <span style = {{color:'red'}}>*</span> : null} </Heading>
+                  <Heading level="3">
+                    Image
+                    {editOrAdd === "add" ? (
+                      <span style={{ color: "red" }}>*</span>
+                    ) : null}{" "}
+                  </Heading>
                   <label
                     htmlFor="imageUpload"
                     style={{ width: "4rem", cursor: "pointer" }}
@@ -500,7 +668,7 @@ const Admin = () => {
                     <Button
                       primary
                       disabled={validateInputs ? false : true}
-                      onClick={() => addToCollection()}
+                      // onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (
@@ -517,7 +685,7 @@ const Admin = () => {
           </Layer>
         )}
       </Box>
-    </Main>
+    </Box>
   );
 };
 

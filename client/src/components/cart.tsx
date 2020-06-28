@@ -82,18 +82,6 @@ const MyCart = (props: Iprops) => {
             onEsc={() => setShowModal(false)}
             onClickOutside={() => setShowModal(false)}
           >
-            {/* <Button
-              style={{
-                zIndex: 1,
-                position: "fixed",
-                top: "0",
-                right: "0",
-                color: "white"
-              }}
-              alignSelf="end"
-              icon={<Close />}
-              onClick={() => setShowModal(false)}
-            /> */}
             <SignInSignUp displayClose={true} setShowModal={setShowModal} />
           </Layer>
         </Box>

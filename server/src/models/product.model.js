@@ -1,19 +1,5 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
-const sizesSubSchema = mongoose.Schema(
-  {
-    size: {
-      type: String,
-      required: true,
-    },
-    stock: {
-      type: Number,
-      required: true,
-    },
-  },
-  { _id: false }
-);
 
 const ProductSchema = new Schema(
   {
@@ -33,10 +19,12 @@ const ProductSchema = new Schema(
       type: Number,
       required: true,
     },
-    category: {
-      type: String,
-      required: true,
-    },
+    category: [
+      {
+        type: String,
+        required: true,
+      },
+    ], 
     sizes: {
       type: [
         {

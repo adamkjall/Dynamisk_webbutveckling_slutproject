@@ -9,7 +9,7 @@ import ProductDetails from "./product-details";
 
 export interface IProduct {
   _id?: string;
-  category: string;
+  category: string[];
   title: string;
   image: any;
   imageURL?: string;
