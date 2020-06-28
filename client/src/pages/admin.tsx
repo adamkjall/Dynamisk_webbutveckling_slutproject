@@ -19,7 +19,6 @@ import Loader from "react-loader-spinner";
 
 import useFetch from "../hooks/useFetch";
 import { IProduct } from "../components/product";
-import FormFieldLabel from "../components/form-field-label";
 import HomeCollection from "../components/home-boxes/home-collection";
 import { relative } from "path";
 
@@ -77,6 +76,7 @@ const Admin = () => {
   const [itemToEdit, setItemToEdit] = useState<IProduct>(null);
   const [allCategories, setAllCategories] = useState([]);
   const [editCategories, setEditCategories] = useState(null);
+  const [validNewCategory, setValidNewCategory] = useState(true)
   const [sizes, setSizes] = useState({
     small: 0,
     medium: 0,
@@ -324,7 +324,7 @@ const Admin = () => {
   };
 
   const addNewCategory = () => {
-    if (inputs.category.length > 3 && inputs.category.length < 8) {
+    if (inputs.category.length > 3 && inputs.category.length < 9) {
       setAllCategories([...allCategories, inputs.category]);
       setEditCategories({
         ...editCategories,
@@ -333,7 +333,9 @@ const Admin = () => {
           active: true,
         },
       });
+      setValidNewCategory(true)
     } else {
+      setValidNewCategory(false)
       console.log("validation failed: less than 3 or more than 8 chars");
     }
   };
@@ -353,6 +355,22 @@ const Admin = () => {
       }}
     >
       <Heading>Edit Products</Heading>
+      <div style = {{width: '100%', display:'flex', justifyContent: 'center', marginBottom: '2rem'}}>
+        <Button
+          primary
+          label = 'Add New Product'
+          icon={<AddCircle/>}
+          onClick={() => {
+            setEditOrAdd("add");
+            setItemToEdit(null);
+                setInputs({
+              ...initialInputs
+            });
+
+            setOpen(true);
+          }}
+        />
+      </div>
       <Box
         direction="row"
         // justify="center"
@@ -380,25 +398,6 @@ const Admin = () => {
           allProducts &&
           allProducts.map((product, index) => (
             <Box key={index} width="large" style={{ minHeight: "unset" }}>
-              {/* <Heading size="small">
-                {collection[0].category}
-                <Button
-                  icon={
-                    <AddCircle
-                      onClick={() => {
-                        setEditOrAdd("add");
-                        setCategory(collection[0].category);
-                        setItemToEdit(null);
-                        setInputs({
-                          ...initialInputs,
-                          category: collection[0].category,
-                        });
-                        setOpen(true);
-                      }}
-                    />
-                  }
-                />
-              </Heading> */}
               <Box
                 key={product._id}
                 style={{
@@ -488,7 +487,7 @@ const Admin = () => {
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <div style = {{margin: '2rem 0'}}>
+                  <div style = {{margin:'2rem 0'}}>
                     <Box
                       style={{
                         position: "relative",
@@ -515,6 +514,7 @@ const Admin = () => {
                         />
                       }
                     />
+                    {validNewCategory? null : <p style = {{color: 'red', margin: '0 0 0.5rem 0'}}>4-8 characters</p>}
                     </Box>
                     <Box
                       style={{
@@ -678,7 +678,7 @@ const Admin = () => {
                     <Button
                       primary
                       disabled={validateInputs ? false : true}
-                      // onClick={() => addToCollection()}
+                      //onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (
