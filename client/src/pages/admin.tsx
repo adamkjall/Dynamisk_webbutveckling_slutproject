@@ -476,27 +476,33 @@ const Admin = () => {
                     icon={<Close />}
                     onClick={closeModal}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="title"
-                    label="Product name"
+                    label={
+                      <Box direction="row">
+                        <Heading level="3" style = {{margin: 0}}>Product name <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
+                    }
                     required
                     type="text"
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <Box
-                    style={{
-                      position: "relative",
-                    }}
-                  >
+                  <div style = {{margin: '2rem 0'}}>
+                    <Box
+                      style={{
+                        position: "relative",
+                      }}
+                    >
                     <FormField
                       name="category"
                       label={
                         <Box direction="row">
-                          <Text>Add Category</Text>
-                        </Box>
+                        <Heading level="3" style = {{margin: 0}}>Category <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
                       }
                       type="text"
+                      placeholder = "Add new category"
                       value={inputs.category}
                       onChange={handleInputs}
                     />
@@ -509,17 +515,17 @@ const Admin = () => {
                         />
                       }
                     />
-                  </Box>
-                  <Box
-                    style={{
-                      display: "flex",
-                      marginBottom: "1rem",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      flexWrap: "wrap",
-                    }}
-                  >
+                    </Box>
+                    <Box
+                      style={{
+                        display: "flex",
+                        marginBottom: "1rem",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                      }}
+                    >
                     {editCategories &&
                       allCategories &&
                       allCategories.map((category) => (
@@ -531,13 +537,15 @@ const Admin = () => {
                           />
                         </StyledCheckBox>
                       ))}
-                  </Box>
+                    </Box>
+                  </div>
                   <FormField
                     name="price"
                     label={
                       <Box direction="row">
-                        <Text>Price</Text>
-                        <Text color="status-critical">*</Text>
+                      <Box direction="row">
+                        <Heading level="3" style = {{margin: 0}}>Price <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
                       </Box>
                     }
                     required
@@ -549,36 +557,38 @@ const Admin = () => {
                   {inputs.price <= 0 ? (
                     <p style={{ color: "red" }}>Price can't be 0 or negative</p>
                   ) : null}
-                  <Heading level="3">
-                    Image
-                    {editOrAdd === "add" ? (
-                      <span style={{ color: "red" }}>*</span>
-                    ) : null}{" "}
-                  </Heading>
-                  <label
-                    htmlFor="imageUpload"
-                    style={{ width: "4rem", cursor: "pointer" }}
-                  >
-                    <Image
-                      margin={{ bottom: "small" }}
-                      src={
-                        file
-                          ? URL.createObjectURL(file)
-                          : itemToEdit
-                          ? itemToEdit.imageURL
-                          : ""
-                      }
-                      alt=""
-                      style={{ width: "4rem" }}
+                  <div style = {{margin: '2rem 0', display: 'flex', flexDirection: 'column'}}>
+                    <Heading level="3">
+                      Image
+                      {editOrAdd === "add" ? (
+                        <span style={{ color: "red" }}>*</span>
+                      ) : null}{" "}
+                    </Heading>
+                    <label
+                      htmlFor="imageUpload"
+                      style={{ width: "4rem", cursor: "pointer" }}
+                    >
+                      <Image
+                        margin={{ bottom: "small" }}
+                        src={
+                          file
+                            ? URL.createObjectURL(file)
+                            : itemToEdit
+                            ? itemToEdit.imageURL
+                            : ""
+                        }
+                        alt=""
+                        style={{ width: "4rem" }}
+                      />
+                    </label>
+                    <input
+                      id="imageUpload"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setFile(e.target.files[0])}
                     />
-                  </label>
-                  <input
-                    id="imageUpload"
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files[0])}
-                  />
+                  </div>
                   <Heading level="3">Sizes</Heading>
                   <Box direction="row" align="center">
                     <Box direction="column">
