@@ -16,7 +16,6 @@ interface StatusResponse {
 const OrdersAll = () => {
     let {
         response: orders,
-        loading,
     } = useFetch(
         `http://localhost:8080/api/orders`,
         { credentials: "include" },

@@ -13,8 +13,7 @@ interface StatusResponse {
 const OrdersUser = () => {
     const { user } = useContext(AuthenticationContext)
     let {
-        response: orders,
-        loading,
+        response: orders
     } = useFetch(
         `http://localhost:8080/api/orders/user/${user._id}`,
         { credentials: "include" },
@@ -34,7 +33,7 @@ const OrdersUser = () => {
     const searchForOrders = (input, clear) => {
         if (input) {
             const findOrder = orders.filter(order => order._id === input);
-            if (findOrder.length != 0) {
+            if (findOrder.length !== 0) {
                 setAllOrders(findOrder)
                 clear(true)
                 setSearchStatus({

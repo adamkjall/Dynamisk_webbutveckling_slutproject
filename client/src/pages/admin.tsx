@@ -19,8 +19,6 @@ import Loader from "react-loader-spinner";
 
 import useFetch from "../hooks/useFetch";
 import { IProduct } from "../components/product";
-import HomeCollection from "../components/home-boxes/home-collection";
-import { relative } from "path";
 
 const StyledCheckBox = styled(Box)`
   background-color: lightgray;
@@ -76,7 +74,7 @@ const Admin = () => {
   const [itemToEdit, setItemToEdit] = useState<IProduct>(null);
   const [allCategories, setAllCategories] = useState([]);
   const [editCategories, setEditCategories] = useState(null);
-  const [validNewCategory, setValidNewCategory] = useState(true)
+  const [validNewCategory, setValidNewCategory] = useState(true);
   const [sizes, setSizes] = useState({
     small: 0,
     medium: 0,
@@ -109,7 +107,6 @@ const Admin = () => {
           setInputs((prev) => ({ ...prev, image: data.id }));
         }
       })
-      .catch(console.log);
   }, [file]);
 
   // sets all current categories into state
@@ -122,29 +119,8 @@ const Admin = () => {
         if (!existing) categories.push(category);
       }
     }
-    // console.log(categories);
-    // console.log(editCategories);
     setAllCategories(categories);
     setAllProducts(products);
-    console.log("hello");
-
-    // const collectionsObj = {};
-
-    // products.forEach((product: IProduct) => {
-    //   if (!collectionsObj[product.category]) {
-    //     collectionsObj[product.category] = [product];
-    //   } else {
-    //     collectionsObj[product.category] = [
-    //       ...collectionsObj[product.category],
-    //       product,
-    //     ];
-    //   }
-    // });
-
-    // const collectionsMatrix = Object.values(collectionsObj) as [IProduct[]];
-    // console.log(collectionsMatrix);
-
-    // setCollections(collectionsMatrix);
   }, [products]);
 
   // transforms inputs to an IProduct
@@ -158,9 +134,13 @@ const Admin = () => {
 
     const transformedCategories = Object.entries(editCategories)
       .map((category) => {
-        if (category[1]["active"]) return category[0];
+        if (category[1]["active"]) {
+          return category[0];
+        } else {
+          return undefined
+        }
       })
-      .filter((categories) => categories != undefined);
+      .filter((categories) => categories !== undefined);
 
     const completeProduct: IProduct = {
       ...inputs,
@@ -170,31 +150,25 @@ const Admin = () => {
     return completeProduct;
   };
   // requests api to add new product to database and adds new product to the collection matrix
-  // const addToCollection = async () => {
-  //   const product = transformInputsToProduct();
+  const addToCollection = async () => {
+    const product = transformInputsToProduct();
 
-  //   const options: RequestInit = {
-  //     method: "POST",
-  //     credentials: "include",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(product),
-  //   };
+    const options: RequestInit = {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(product),
+    };
 
-  //   const res = await fetch(API_PRODUCTS_URL, options);
-  //   const data = await res.json();
-
-  //   const updatedCollections = collections.map((collection) => {
-  //     if (collection[0].category === data.category) {
-  //       return [...collection, data];
-  //     }
-  //     return collection;
-  //   });
-  //   setCollections(updatedCollections);
-  //   setOpen(false);
-  //   setFile(null);
-  // };
+    const res = await fetch(API_PRODUCTS_URL, options);
+    const data = await res.json();
+    const tempArray = [data, ...allProducts];
+    setAllProducts(tempArray);
+    setOpen(false);
+    setFile(null);
+  };
 
   //  requests api to edit a product in the database and updated the edited product in the collection matrix
   const editItem = async () => {
@@ -209,32 +183,23 @@ const Admin = () => {
     };
     const res = await fetch(API_PRODUCTS_URL + "/" + itemToEdit._id, options);
     const data = await res.json();
-    const tempArray = [...allProducts]
+    const tempArray = [...allProducts];
     const productIndex = tempArray.findIndex((p) => p._id === data._id);
-    if (productIndex != -1) {
+    if (productIndex !== -1) {
       tempArray.splice(productIndex, 1, data);
       setAllProducts(tempArray);
     }
-    // const updatedCollections = collections.map((collection) => {
-    //   if (collection[0].category === data.category) {
-    //     return collection.map((item) =>
-    //       item._id === itemToEdit._id ? product : item
-    //     );
-    //   }
-    //   return collection;
-    // });
-    // setCollections(updatedCollections);
     setOpen(false);
     setFile(null);
   };
 
   //  requests api to remove a product in the database and updates the collection matrix
   const removeFromCollection = (productToRemove: IProduct) => {
-    const tempArray = [...allProducts]
+    const tempArray = [...allProducts];
     const productIndex = tempArray.findIndex(
       (p) => p._id === productToRemove._id
     );
-    if (productIndex != -1) {
+    if (productIndex !== -1) {
       tempArray.splice(productIndex, 1);
       setAllProducts(tempArray);
       const options: RequestInit = {
@@ -243,7 +208,6 @@ const Admin = () => {
       };
       fetch(API_PRODUCTS_URL + "/" + productToRemove._id, options)
         .then((res) => res.json)
-        .then(console.log);
     }
   };
 
@@ -288,7 +252,8 @@ const Admin = () => {
     setInputs(productCopy);
   };
 
-  const handleCategories = (product: IProduct) => {
+  const handleCategories = (product?: IProduct) => {
+    if (!product) product = { ...initialInputs, category: [""] };
     let tempObj = {};
     for (const category of allCategories) {
       if (product.category.find((el) => el === category)) {
@@ -309,7 +274,6 @@ const Admin = () => {
         };
       }
     }
-    console.log(tempObj);
     setEditCategories(tempObj);
   };
 
@@ -333,9 +297,9 @@ const Admin = () => {
           active: true,
         },
       });
-      setValidNewCategory(true)
+      setValidNewCategory(true);
     } else {
-      setValidNewCategory(false)
+      setValidNewCategory(false);
       console.log("validation failed: less than 3 or more than 8 chars");
     }
   };
@@ -355,16 +319,24 @@ const Admin = () => {
       }}
     >
       <Heading>Edit Products</Heading>
-      <div style = {{width: '100%', display:'flex', justifyContent: 'center', marginBottom: '2rem'}}>
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          marginBottom: "2rem",
+        }}
+      >
         <Button
           primary
-          label = 'Add New Product'
-          icon={<AddCircle/>}
+          label="Add New Product"
+          icon={<AddCircle />}
           onClick={() => {
             setEditOrAdd("add");
+            handleCategories();
             setItemToEdit(null);
-                setInputs({
-              ...initialInputs
+            setInputs({
+              ...initialInputs,
             });
 
             setOpen(true);
@@ -479,7 +451,9 @@ const Admin = () => {
                     name="title"
                     label={
                       <Box direction="row">
-                        <Heading level="3" style = {{margin: 0}}>Product name <span style = {{color: 'red'}}>*</span></Heading>
+                        <Heading level="3" style={{ margin: 0 }}>
+                          Product name <span style={{ color: "red" }}>*</span>
+                        </Heading>
                       </Box>
                     }
                     required
@@ -487,34 +461,40 @@ const Admin = () => {
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <div style = {{margin:'2rem 0'}}>
+                  <div style={{ margin: "2rem 0" }}>
                     <Box
                       style={{
                         position: "relative",
                       }}
                     >
-                    <FormField
-                      name="category"
-                      label={
-                        <Box direction="row">
-                        <Heading level="3" style = {{margin: 0}}>Category <span style = {{color: 'red'}}>*</span></Heading>
-                      </Box>
-                      }
-                      type="text"
-                      placeholder = "Add new category"
-                      value={inputs.category}
-                      onChange={handleInputs}
-                    />
-                    <AddCategoryButton
-                      icon={
-                        <AddCircle
-                          onClick={() => {
-                            addNewCategory();
-                          }}
-                        />
-                      }
-                    />
-                    {validNewCategory? null : <p style = {{color: 'red', margin: '0 0 0.5rem 0'}}>4-8 characters</p>}
+                      <FormField
+                        name="category"
+                        label={
+                          <Box direction="row">
+                            <Heading level="3" style={{ margin: 0 }}>
+                              Category <span style={{ color: "red" }}>*</span>
+                            </Heading>
+                          </Box>
+                        }
+                        type="text"
+                        placeholder="Add new category"
+                        value={inputs.category}
+                        onChange={handleInputs}
+                      />
+                      <AddCategoryButton
+                        icon={
+                          <AddCircle
+                            onClick={() => {
+                              addNewCategory();
+                            }}
+                          />
+                        }
+                      />
+                      {validNewCategory ? null : (
+                        <p style={{ color: "red", margin: "0 0 0.5rem 0" }}>
+                          4-8 characters
+                        </p>
+                      )}
                     </Box>
                     <Box
                       style={{
@@ -526,26 +506,28 @@ const Admin = () => {
                         flexWrap: "wrap",
                       }}
                     >
-                    {editCategories &&
-                      allCategories &&
-                      allCategories.map((category) => (
-                        <StyledCheckBox key={`checkbox-${category}`}>
-                          <CheckBox
-                            checked={editCategories[category].active}
-                            label={editCategories[category].title}
-                            onChange={() => handleCategoryCheck(category)}
-                          />
-                        </StyledCheckBox>
-                      ))}
+                      {editCategories &&
+                        allCategories &&
+                        allCategories.map((category) => (
+                          <StyledCheckBox key={`checkbox-${category}`}>
+                            <CheckBox
+                              checked={editCategories[category].active}
+                              label={editCategories[category].title}
+                              onChange={() => handleCategoryCheck(category)}
+                            />
+                          </StyledCheckBox>
+                        ))}
                     </Box>
                   </div>
                   <FormField
                     name="price"
                     label={
                       <Box direction="row">
-                      <Box direction="row">
-                        <Heading level="3" style = {{margin: 0}}>Price <span style = {{color: 'red'}}>*</span></Heading>
-                      </Box>
+                        <Box direction="row">
+                          <Heading level="3" style={{ margin: 0 }}>
+                            Price <span style={{ color: "red" }}>*</span>
+                          </Heading>
+                        </Box>
                       </Box>
                     }
                     required
@@ -557,7 +539,13 @@ const Admin = () => {
                   {inputs.price <= 0 ? (
                     <p style={{ color: "red" }}>Price can't be 0 or negative</p>
                   ) : null}
-                  <div style = {{margin: '2rem 0', display: 'flex', flexDirection: 'column'}}>
+                  <div
+                    style={{
+                      margin: "2rem 0",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
                     <Heading level="3">
                       Image
                       {editOrAdd === "add" ? (
@@ -678,7 +666,7 @@ const Admin = () => {
                     <Button
                       primary
                       disabled={validateInputs ? false : true}
-                      //onClick={() => addToCollection()}
+                      onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (

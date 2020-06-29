@@ -14,7 +14,7 @@ import {
 import { Close, AddCircle, SubtractCircle } from "grommet-icons";
 
 import CartContext from "../contexts/cart-context/context";
-import product, { IProduct } from "./product";
+import { IProduct } from "./product";
 
 interface Props {
   productsArray: IProduct[]
