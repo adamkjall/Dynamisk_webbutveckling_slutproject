@@ -19,7 +19,6 @@ import Loader from "react-loader-spinner";
 
 import useFetch from "../hooks/useFetch";
 import { IProduct } from "../components/product";
-import FormFieldLabel from "../components/form-field-label";
 import HomeCollection from "../components/home-boxes/home-collection";
 import { relative } from "path";
 
@@ -77,6 +76,7 @@ const Admin = () => {
   const [itemToEdit, setItemToEdit] = useState<IProduct>(null);
   const [allCategories, setAllCategories] = useState([]);
   const [editCategories, setEditCategories] = useState(null);
+  const [validNewCategory, setValidNewCategory] = useState(true)
   const [sizes, setSizes] = useState({
     small: 0,
     medium: 0,
@@ -324,7 +324,7 @@ const Admin = () => {
   };
 
   const addNewCategory = () => {
-    if (inputs.category.length > 3 && inputs.category.length < 8) {
+    if (inputs.category.length > 3 && inputs.category.length < 9) {
       setAllCategories([...allCategories, inputs.category]);
       setEditCategories({
         ...editCategories,
@@ -333,7 +333,9 @@ const Admin = () => {
           active: true,
         },
       });
+      setValidNewCategory(true)
     } else {
+      setValidNewCategory(false)
       console.log("validation failed: less than 3 or more than 8 chars");
     }
   };
@@ -353,6 +355,22 @@ const Admin = () => {
       }}
     >
       <Heading>Edit Products</Heading>
+      <div style = {{width: '100%', display:'flex', justifyContent: 'center', marginBottom: '2rem'}}>
+        <Button
+          primary
+          label = 'Add New Product'
+          icon={<AddCircle/>}
+          onClick={() => {
+            setEditOrAdd("add");
+            setItemToEdit(null);
+                setInputs({
+              ...initialInputs
+            });
+
+            setOpen(true);
+          }}
+        />
+      </div>
       <Box
         direction="row"
         // justify="center"
@@ -380,25 +398,6 @@ const Admin = () => {
           allProducts &&
           allProducts.map((product, index) => (
             <Box key={index} width="large" style={{ minHeight: "unset" }}>
-              {/* <Heading size="small">
-                {collection[0].category}
-                <Button
-                  icon={
-                    <AddCircle
-                      onClick={() => {
-                        setEditOrAdd("add");
-                        setCategory(collection[0].category);
-                        setItemToEdit(null);
-                        setInputs({
-                          ...initialInputs,
-                          category: collection[0].category,
-                        });
-                        setOpen(true);
-                      }}
-                    />
-                  }
-                />
-              </Heading> */}
               <Box
                 key={product._id}
                 style={{
@@ -476,27 +475,33 @@ const Admin = () => {
                     icon={<Close />}
                     onClick={closeModal}
                   />
-                  <FormFieldLabel
+                  <FormField
                     name="title"
-                    label="Product name"
+                    label={
+                      <Box direction="row">
+                        <Heading level="3" style = {{margin: 0}}>Product name <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
+                    }
                     required
                     type="text"
                     value={inputs.title}
                     onChange={handleInputs}
                   />
-                  <Box
-                    style={{
-                      position: "relative",
-                    }}
-                  >
+                  <div style = {{margin:'2rem 0'}}>
+                    <Box
+                      style={{
+                        position: "relative",
+                      }}
+                    >
                     <FormField
                       name="category"
                       label={
                         <Box direction="row">
-                          <Text>Add Category</Text>
-                        </Box>
+                        <Heading level="3" style = {{margin: 0}}>Category <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
                       }
                       type="text"
+                      placeholder = "Add new category"
                       value={inputs.category}
                       onChange={handleInputs}
                     />
@@ -509,17 +514,18 @@ const Admin = () => {
                         />
                       }
                     />
-                  </Box>
-                  <Box
-                    style={{
-                      display: "flex",
-                      marginBottom: "1rem",
-                      justifyContent: "space-evenly",
-                      alignItems: "center",
-                      flexDirection: "row",
-                      flexWrap: "wrap",
-                    }}
-                  >
+                    {validNewCategory? null : <p style = {{color: 'red', margin: '0 0 0.5rem 0'}}>4-8 characters</p>}
+                    </Box>
+                    <Box
+                      style={{
+                        display: "flex",
+                        marginBottom: "1rem",
+                        justifyContent: "space-evenly",
+                        alignItems: "center",
+                        flexDirection: "row",
+                        flexWrap: "wrap",
+                      }}
+                    >
                     {editCategories &&
                       allCategories &&
                       allCategories.map((category) => (
@@ -531,13 +537,15 @@ const Admin = () => {
                           />
                         </StyledCheckBox>
                       ))}
-                  </Box>
+                    </Box>
+                  </div>
                   <FormField
                     name="price"
                     label={
                       <Box direction="row">
-                        <Text>Price</Text>
-                        <Text color="status-critical">*</Text>
+                      <Box direction="row">
+                        <Heading level="3" style = {{margin: 0}}>Price <span style = {{color: 'red'}}>*</span></Heading>
+                      </Box>
                       </Box>
                     }
                     required
@@ -549,36 +557,38 @@ const Admin = () => {
                   {inputs.price <= 0 ? (
                     <p style={{ color: "red" }}>Price can't be 0 or negative</p>
                   ) : null}
-                  <Heading level="3">
-                    Image
-                    {editOrAdd === "add" ? (
-                      <span style={{ color: "red" }}>*</span>
-                    ) : null}{" "}
-                  </Heading>
-                  <label
-                    htmlFor="imageUpload"
-                    style={{ width: "4rem", cursor: "pointer" }}
-                  >
-                    <Image
-                      margin={{ bottom: "small" }}
-                      src={
-                        file
-                          ? URL.createObjectURL(file)
-                          : itemToEdit
-                          ? itemToEdit.imageURL
-                          : ""
-                      }
-                      alt=""
-                      style={{ width: "4rem" }}
+                  <div style = {{margin: '2rem 0', display: 'flex', flexDirection: 'column'}}>
+                    <Heading level="3">
+                      Image
+                      {editOrAdd === "add" ? (
+                        <span style={{ color: "red" }}>*</span>
+                      ) : null}{" "}
+                    </Heading>
+                    <label
+                      htmlFor="imageUpload"
+                      style={{ width: "4rem", cursor: "pointer" }}
+                    >
+                      <Image
+                        margin={{ bottom: "small" }}
+                        src={
+                          file
+                            ? URL.createObjectURL(file)
+                            : itemToEdit
+                            ? itemToEdit.imageURL
+                            : ""
+                        }
+                        alt=""
+                        style={{ width: "4rem" }}
+                      />
+                    </label>
+                    <input
+                      id="imageUpload"
+                      name="image"
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setFile(e.target.files[0])}
                     />
-                  </label>
-                  <input
-                    id="imageUpload"
-                    name="image"
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setFile(e.target.files[0])}
-                  />
+                  </div>
                   <Heading level="3">Sizes</Heading>
                   <Box direction="row" align="center">
                     <Box direction="column">
@@ -668,7 +678,7 @@ const Admin = () => {
                     <Button
                       primary
                       disabled={validateInputs ? false : true}
-                      // onClick={() => addToCollection()}
+                      //onClick={() => addToCollection()}
                       label="Add to collection"
                     />
                   ) : (

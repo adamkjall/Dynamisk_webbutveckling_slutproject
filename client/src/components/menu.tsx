@@ -50,7 +50,7 @@ const MyMenu = () => {
       onClick: () => history.push("/shop/jackets")
     },
     {
-      label: "Sneakers",
+      label: "Shoes",
       route: "/shop/shoes",
       onClick: () => history.push("/shop/shoes")
     },
