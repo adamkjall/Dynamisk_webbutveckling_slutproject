@@ -134,9 +134,13 @@ const Admin = () => {
 
     const transformedCategories = Object.entries(editCategories)
       .map((category) => {
-        if (category[1]["active"]) return category[0];
+        if (category[1]["active"]) {
+          return category[0];
+        } else {
+          return undefined
+        }
       })
-      .filter((categories) => categories != undefined);
+      .filter((categories) => categories !== undefined);
 
     const completeProduct: IProduct = {
       ...inputs,
@@ -181,7 +185,7 @@ const Admin = () => {
     const data = await res.json();
     const tempArray = [...allProducts];
     const productIndex = tempArray.findIndex((p) => p._id === data._id);
-    if (productIndex != -1) {
+    if (productIndex !== -1) {
       tempArray.splice(productIndex, 1, data);
       setAllProducts(tempArray);
     }
@@ -195,7 +199,7 @@ const Admin = () => {
     const productIndex = tempArray.findIndex(
       (p) => p._id === productToRemove._id
     );
-    if (productIndex != -1) {
+    if (productIndex !== -1) {
       tempArray.splice(productIndex, 1);
       setAllProducts(tempArray);
       const options: RequestInit = {

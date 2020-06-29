@@ -47,7 +47,7 @@ const SignIn = ({ toggleView, displayClose, setShowModal }) => {
     setLoading(true);
     const message = await login(email, password);
 
-    if (message != "Authenticated") {
+    if (message !== "Authenticated") {
       // setLogInOK(false)
       setLoginError({
         isOk: false,

@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Form, FormField, RadioButtonGroup, Text, ResponsiveContext } from "grommet";
 
 import AuthenticationContext from "../contexts/authentication-context/context";
-import CartContext, { PaymentMethod } from "../contexts/cart-context/context";
+import CartContext from "../contexts/cart-context/context";
 
 interface IProps {
   setIsCardValid;
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 const PaymentForm = (props: IProps) => {
-  const { user, updateUser } = useContext(AuthenticationContext);
+  const { user } = useContext(AuthenticationContext);
   const { paymentMethod, paymentMethods, setPayment } = useContext(CartContext);
 
   const [cardNumber, setCardNumber] = useState("");
@@ -80,7 +80,7 @@ const PaymentForm = (props: IProps) => {
         <RadioButtonGroup
           margin={{ vertical: "medium" }}
           direction={
-            size === "small" || size == "medium"
+            size === "small" || size === "medium"
             ? "column"
             : "row"
           }

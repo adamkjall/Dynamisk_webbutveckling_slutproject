@@ -12,7 +12,7 @@ import {
   ResponsiveContext,
 } from "grommet";
 
-import CartContext, { ShippingMethod } from "../contexts/cart-context/context";
+import CartContext from "../contexts/cart-context/context";
 
 interface IProps {}
 
